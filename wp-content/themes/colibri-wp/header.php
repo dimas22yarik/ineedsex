@@ -7,7 +7,7 @@
 	<?php wp_head(); ?>
 	<?php colibriwp_theme()->get( 'css' )->render(); ?>
 </head>
-
+<meta name="google-site-verification" content="TlnCxab3-S_K_W732zKwXSRvhFoHztsDL9Y9WuKpGMc" />
 <body id="colibri" <?php body_class(); ?>>
 <?php
 if ( function_exists( 'wp_body_open' ) ) {
