@@ -2,7 +2,9 @@
 
 namespace ExtendBuilder;
 
-add_filter('colibriwp_theme_theme_plugins', function ($plugins) {
+use ColibriWP\PageBuilder\ThemeHooks;
+
+ThemeHooks::prefixed_add_filter('theme_plugins', function ($plugins) {
     $mailchimp_slug = 'mailchimp-for-wp';
     $plugins = array_merge($plugins, array(
             $mailchimp_slug => array(

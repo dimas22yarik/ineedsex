@@ -9,7 +9,11 @@ use ColibriWP\PageBuilder\DemoImport\DemoImport;
 use ColibriWP\PageBuilder\License\License;
 use ColibriWP\PageBuilder\License\Updater;
 use ColibriWP\PageBuilder\Notify\NotificationsManager;
+use ColibriWP\PageBuilder\OCDI\OCDI;
+use ColibriWP\PageBuilder\OCDI\OneClickDemoImport;
+use function ExtendBuilder\array_get_value;
 use function ExtendBuilder\colibri_user_can_customize;
+use function ExtendBuilder\get_current_theme_data;
 
 class PageBuilder {
 
@@ -48,8 +52,8 @@ class PageBuilder {
 
 		}
 
-		if ( file_exists( $this->themeDataPath( "/functions.php" ) ) ) {
-			require_once $this->themeDataPath( "/functions.php" );
+		if ( file_exists( $this->utilsPath( "/functions.php" ) ) ) {
+			require_once $this->utilsPath( "/functions.php" );
 		}
 
 		$self = $this;
@@ -105,6 +109,10 @@ class PageBuilder {
 			'Name'       => $name,
 		);
 	}
+
+	    public function utilsPath( $rel = "" ) {
+	        return $this->rootPath() . "/utils/". $rel;
+	    }
 
 	public function themeDataPath( $rel = "" ) {
 
@@ -185,7 +193,7 @@ class PageBuilder {
 					),
 					admin_url( 'themes.php' ) );
 
-				$icon_url = colibriwp_theme()->getAssetsManager()->getBaseURL() . "/images/colibri-logo.png";
+				$icon_url = \ColibriWP\PageBuilder\PageBuilder::instance()->assetsRootURL() . "/colibri-logo.png";
 
 				/** @var \WP_Admin_Bar $wp_admin_bar */
 				$wp_admin_bar->add_menu( array(
@@ -273,6 +281,8 @@ class PageBuilder {
 		Template::load();
 		ThemeSupport::load();
 		DemoImport::load();
+        	OneClickDemoImport::get_instance();
+
 
 		add_action( 'wp_ajax_create_home_page', array( $this, 'createFrontPage' ) );
 
@@ -297,8 +307,7 @@ class PageBuilder {
 		add_filter( 'the_editor', array( $this, 'maintainablePageEditor' ) );
 		do_action( 'colibri_page_builder/ready', $this );
 
-
-		add_filter( 'colibriwp_theme_theme_plugins', function ( $plugins ) {
+		ThemeHooks::prefixed_add_filter('theme_plugins', function ( $plugins ) {
 
 			if ( $this->isPRO() || file_exists( WP_PLUGIN_DIR . "/colibri-page-builder-pro/colibri-page-builder-pro.php" ) ) {
 				$description                         = isset( $plugins['colibri-page-builder'] ) ? $plugins['colibri-page-builder']['description'] : '';
@@ -332,7 +341,7 @@ class PageBuilder {
 			return;
 		}
 
-		$notifications = $this->themeDataPath( "/notifications.php" );
+		$notifications = $this->utilsPath( "/notifications.php" );
 		if ( file_exists( $notifications ) ) {
 			$notifications = require_once $notifications;
 		} else {
@@ -355,6 +364,13 @@ class PageBuilder {
 	public static function instance() {
 		return self::$instance;
 	}
+
+	public function theme() {
+      $theme_fct = ThemeHooks::prefix();
+      if (function_exists($theme_fct)) {
+          return call_user_func($theme_fct);
+      }
+  }
 
 	public function addMaintainableMetaToRevision() {
 		$keys = $this->getMaintainableMetaKeys();
@@ -454,11 +470,11 @@ class PageBuilder {
 		$self = $this;
 
 		register_activation_hook( $this->path, function () use ( $self ) {
-			do_action( 'colibri_page_builder/activated/' . $self->getThemeSlug(), $self );
+			do_action( 'colibri_page_builder/activated', $self );
 		} );
 
 		register_deactivation_hook( $this->path, function () use ( $self ) {
-			do_action( 'colibri_page_builder/deactivated/' . $self->getThemeSlug(), $self );
+			do_action( 'colibri_page_builder/deactivated', $self );
 		} );
 	}
 
@@ -473,11 +489,14 @@ class PageBuilder {
 	}
 
 	public static function load( $pluginFile ) {
-		$currentMemoryLimit = @ini_get( 'memory_limit' );
-		$desiredMemory      = '256M';
-		if ( $currentMemoryLimit ) {
-			if ( self::letToNum( $currentMemoryLimit ) && self::letToNum( $desiredMemory ) ) {
-				@ini_set( 'memory_limit', $desiredMemory );
+		$memory_limit  = @ini_get( 'memory_limit' );
+		$needed_memory = '256M';
+		if ( $memory_limit ) {
+			$current_memory_value = self::letToNum( $memory_limit );
+			$desired_value        = self::letToNum( $needed_memory );
+
+			if ( $current_memory_value < $desired_value ) {
+				@ini_set( 'memory_limit', $needed_memory );
 			}
 		}
 		self::$instance = new PageBuilder( $pluginFile );
@@ -772,25 +791,6 @@ class PageBuilder {
 
 		return true;
 
-//		return true;
-//		if ( ! $post_id ) {
-//			global $post;
-//			$post_id = ( $post && property_exists( $post, "ID" ) ) ? $post->ID : false;
-//		}
-//
-//		if ( ! $post_id ) {
-//			return false;
-//		}
-//
-//
-//		$result = (
-//			( '1' === get_post_meta( $post_id, 'is_' . $this->themeSlug . '_front_page', true ) )
-//			|| ( '1' === get_post_meta( $post_id, 'is_' . $this->themeSlug . '_maintainable_page', true ) )
-//		);
-//
-//		$result = $result || $this->applyOnPrimaryLanguage( $post_id, array( $this, 'isMaintainable' ) );
-//
-//		return $result;
 	}
 
 	public function wpEditorSettings( $settings ) {
@@ -807,7 +807,7 @@ class PageBuilder {
 			$editor_id_attr = "content";
 			if ( strpos( $editor, 'wp-' . $editor_id_attr . '-editor-container' ) !== false ) {
 				ob_start();
-				require $this->themeDataPath( "/editor-overlay.php" );
+				require $this->utilsPath( "editor-overlay.php" );
 				$content = ob_get_clean();
 				$content = str_replace( "%", "%%", $content );
 				$editor  .= $content;
@@ -1279,11 +1279,15 @@ class PageBuilder {
 
 		$query      = isset( $context['query'] ) ? $context['query'] : array();
 		$main_query = isset( $context['main_query'] ) ? $context['main_query'] : array();
+        $post_type  = array_get_value( $main_query, 'post_type',
+            array_get_value( $query, 'post_type',
+                'post'
+            )
+        );
 
-		global $wp_query;
+        global $wp_query, $wp;
 		$wp_query = new \WP_Query( $query );
 
-		global $wp;
 		foreach ( $main_query as $query_var_key => $query_var_value ) {
 			$wp->set_query_var( $query_var_key, $query_var_value );
 
@@ -1291,6 +1295,12 @@ class PageBuilder {
 				$_GET[ $query_var_key ] = $query_var_value;
 			}
 		}
+        if ( $post_type === "product" && function_exists( "\WC" ) ) {
+            global $wp_the_query;
+            $wp_the_query = $wp_query;
+            WC()->query   = new \WC_Query();
+            WC()->query->pre_get_posts( $wp_query );
+        }
 		global $wp_embed;
 		do_action( 'colibri_page_builder/customizer/before_render_shortcode', $shortcode );
 		$post_embed = $wp_embed->run_shortcode( $shortcode );

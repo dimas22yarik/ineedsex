@@ -5,9 +5,9 @@ namespace ColibriWP\PageBuilder\DemoImport\Hooks;
 
 
 use ColibriWP\PageBuilder\DemoImport\DemoImport;
-use OCDI\Helpers;
-use OCDI\Importer;
-use OCDI\OneClickDemoImport;
+use ColibriWP\PageBuilder\OCDI\Helpers;
+use ColibriWP\PageBuilder\OCDI\Importer;
+use ColibriWP\PageBuilder\OCDI\OneClickDemoImport;
 use Plugin_Upgrader;
 use ProteusThemes\WPContentImporter2\WXRImporter;
 use function ExtendBuilder\array_get_value;
@@ -23,6 +23,7 @@ class PreparationHook extends ImportHook {
 	public function run() {
 		$self = $this;
 		add_filter( 'wxr_importer.pre_process.post', function ( $data ) use ( $self ) {
+            update_option( 'colibriwp_predesign_front_page_index', 0 );
 			if ( ! $self->getTransient( 'plugins_installed', false ) ) {
 				$self->setTransient( 'plugins_installed', true );
 				$self->installPlugins( $data );
@@ -30,9 +31,12 @@ class PreparationHook extends ImportHook {
 
 			return $data;
 		}, 0 );
-		add_action( 'pt-ocdi/before_content_import_execution', array( $this, 'clear' ), 1, 3 );
-		add_action( 'pt-ocdi/before_content_import_execution', array( $this, 'beforeImportContent' ), 10, 3 );
-		add_action( 'pt-ocdi/after_all_import_execution', array( $this, 'emptyGlobalTransient' ), PHP_INT_MAX );
+        add_action( 'extendthemes-ocdi/before_content_import_execution', array( $this, 'clear' ), 1, 3 );
+        add_action( 'extendthemes-ocdi/before_content_import_execution', array( $this, 'beforeImportContent' ), 10, 3 );
+        add_action( 'extendthemes-ocdi/after_all_import_execution', array(
+            $this,
+            'emptyGlobalTransient'
+        ), PHP_INT_MAX );
 	}
 
 	public function installPlugins( $pre_process_data ) {
@@ -133,7 +137,7 @@ class PreparationHook extends ImportHook {
 	}
 
 	private function requestAnotherJSCall( $pre_process_data ) {
-		add_filter( 'pt-ocdi/time_for_one_ajax_call', "__return_zero" );
+        add_filter( 'extendthemes-ocdi/time_for_one_ajax_call', "__return_zero" );
 		/** @var Importer $importer */
 		$importer = OneClickDemoImport::get_instance()->importer;
 		$importer->new_ajax_request_maybe( $pre_process_data );
@@ -154,7 +158,7 @@ class PreparationHook extends ImportHook {
 		$data         = OneClickDemoImport::get_instance()->get_current_importer_data();
 		$content_file = array_get_value( $data, 'selected_import_files.content', false );
 
-		$importer_options = apply_filters( 'pt-ocdi/importer_options', array(
+        $importer_options = apply_filters( 'extendthemes-ocdi/importer_options', array(
 			'fetch_attachments' => true,
 		) );
 

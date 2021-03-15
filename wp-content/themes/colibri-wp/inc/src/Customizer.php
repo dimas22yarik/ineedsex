@@ -81,19 +81,10 @@ class Customizer {
 
         // additional elements
         add_action( 'customize_register', array( $this, 'registerPartialRefresh' ), 5, 1 );
-        $this->inPreview( function () {
-            add_action( 'wp_print_footer_scripts', function () {
 
-                ?>
-                <script data-name="colibri-preview-options">
-                    var colibri_CSS_OUTPUT_CONTROLS = <?php echo wp_json_encode( ControlFactory::getCssOutputControls() ); ?>;
-                    var colibri_JS_OUTPUT_CONTROLS = <?php echo wp_json_encode( ControlFactory::getJsOutputControls() ); ?>;
-                    var colibri_CONTROLS_ACTIVE_RULES = <?php echo wp_json_encode( ControlFactory::getActiveRules() ); ?>;
-                    var colibri_ADDITIONAL_JS_DATA = <?php echo wp_json_encode( (object) Hooks::colibri_apply_filters( 'customizer_additional_js_data',
-                        array() ) ); ?>;
-                </script>
-                <?php
-            }, PHP_INT_MAX );
+        $self = $this;
+        $this->inPreview( function () use ( $self ) {
+            add_action( 'wp_print_footer_scripts', array( $self, 'printPreviewOptions' ), PHP_INT_MAX );
         } );
 
         // rearrange customizer components
@@ -117,6 +108,18 @@ class Customizer {
     public function onPreviewInit( $callback, $priorty = 10 ) {
 
         add_action( 'customize_preview_init', $callback, $priorty );
+    }
+
+    public function printPreviewOptions() {
+        ?>
+        <script data-name="colibri-preview-options">
+            var colibri_CSS_OUTPUT_CONTROLS = <?php echo wp_json_encode( ControlFactory::getCssOutputControls() ); ?>;
+            var colibri_JS_OUTPUT_CONTROLS = <?php echo wp_json_encode( ControlFactory::getJsOutputControls() ); ?>;
+            var colibri_CONTROLS_ACTIVE_RULES = <?php echo wp_json_encode( ControlFactory::getActiveRules() ); ?>;
+            var colibri_ADDITIONAL_JS_DATA = <?php echo wp_json_encode( (object) Hooks::colibri_apply_filters( 'customizer_additional_js_data',
+                array() ) ); ?>;
+        </script>
+        <?php
     }
 
     public function getSettingQuickLink( $value ) {

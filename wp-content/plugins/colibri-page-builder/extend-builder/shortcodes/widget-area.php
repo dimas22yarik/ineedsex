@@ -79,6 +79,8 @@ function colibri_print_widget_area( $atts ) {
 
 	$id = "colibri-" . $atts['id'];
 
+  	$id = \apply_filters('colibri_page_builder/widget_id', $id);
+
 	ob_start();
 	dynamic_sidebar( $id );
 	$content = ob_get_clean();

@@ -32,14 +32,13 @@ function extend_builder_path() {
 }
 
 require_once __DIR__ . '/utils.php';
-require_once __DIR__ . '/multilanguage.php';
+require_once __DIR__ . '/updates.php';
+
 require_once __DIR__ . '/custom-posts.php';
 require_once __DIR__ . '/data/index.php';
 
 require_once __DIR__ . '/save.php';
-if ( file_exists( __DIR__ . '/../pro/index.php' ) ) {
-	require_once __DIR__ . '/../pro/index.php';
-}
+
 require_once __DIR__ . '/assets.php';
 require_once __DIR__ . '/fonts.php';
 
@@ -54,7 +53,13 @@ require_once __DIR__ . '/gutenberg.php';
 require_once __DIR__ . '/import.php';
 require_once __DIR__ . '/customizer/index.php';
 require_once __DIR__ . '/admin/index.php';
+require_once __DIR__ . '/features/index.php';
 require_once __DIR__ . '/integrations/index.php';
+
+
+if ( file_exists( __DIR__ . '/../pro/index.php' ) ) {
+    require_once __DIR__ . '/../pro/index.php';
+}
 
 function colibri_editor_add_editor_role() {
 
@@ -96,10 +101,8 @@ add_action( 'colibri_page_builder/default_theme_data', 'ExtendBuilder\colibri_th
 
 add_filter( 'colibri_page_builder/plugin-activated', function ( $response, $slug, $plugin_data ) {
 	if ( $slug === 'mailchimp-for-wp' ) {
-
 		$response[ $slug ] = get_mailchimp_form_shortcode();
 	}
-
 	return $response;
 }, 10, 3 );
 
@@ -250,6 +253,10 @@ add_action( 'init', function () {
 	// remove the filter added by third party plugin 'Colibri alt text' to reduce overhead
 	remove_filter( 'the_content', 'colibri_add_images_alts', 1 );
 	remove_filter( 'colibri_dynamic_content', 'colibri_add_images_alts', 1 );
+	$activate_theme_name = get_option( 'colibriwp_activate_theme_name', 0 );
+	if ( $activate_theme_name === 0 ) {
+		add_option( 'colibriwp_activate_theme_name', get_stylesheet() );
+	}	
 } );
 
 add_filter( 'the_content', 'ExtendBuilder\colibri_add_images_alts' );

@@ -67,11 +67,19 @@ class Regenerate {
                         <img src="<?php echo \ColibriWP\PageBuilder\PageBuilder::instance()->rootURL(); ?>/assets/logo.jpg">
                     </div>
                     <div class="colibri-display-table-cell">
-                        <h2>Colibri design has been successfully imported!</h2>
-                        <p>Your Colibri design has been successfully imported! You can take a look at your
-                            new design
-                            or
-                            start customizing it.</p>
+						<?php if ( get_template() === "teluro" ): ?>
+                            <h2>Teluro design has been successfully imported!</h2>
+                            <p>Your Teluro design has been successfully imported! You can take a look at your
+                                new design
+                                or
+                                start customizing it.</p>
+						<?php else: ?>
+                            <h2>Colibri design has been successfully imported!</h2>
+                            <p>Your Colibri design has been successfully imported! You can take a look at your
+                                new design
+                                or
+                                start customizing it.</p>
+						<?php endif; ?>
                     </div>
                     <div class="colibri-display-table-cell">
                         <a style="margin-right: 10px"
@@ -148,7 +156,9 @@ class Regenerate {
                     try {
                         var generatorCallback = <?php echo json_encode( static::getGeneratorCallback() ); ?>;
                         if (generatorCallback === 'customizer') {
-                            window.location = <?php echo json_encode( admin_url( "/customize.php" ) ); ?>;
+                            setTimeout(function () {
+                                window.location = <?php echo json_encode( admin_url( "/customize.php" ) ); ?>;
+                            }, 2000);
                             return;
                         }
 

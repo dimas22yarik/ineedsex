@@ -7,6 +7,10 @@ namespace Composer\Autoload;
 class ComposerStaticInit_ColibriWP_Page_Builder
 {
     public static $prefixLengthsPsr4 = array (
+        'P' => 
+        array (
+            'ProteusThemes\\WPContentImporter2\\' => 33,
+        ),
         'C' => 
         array (
             'ColibriWP\\PageBuilder\\' => 22,
@@ -14,6 +18,10 @@ class ComposerStaticInit_ColibriWP_Page_Builder
     );
 
     public static $prefixDirsPsr4 = array (
+        'ProteusThemes\\WPContentImporter2\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/proteusthemes/wp-content-importer-v2/src',
+        ),
         'ColibriWP\\PageBuilder\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',

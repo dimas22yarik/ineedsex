@@ -11,252 +11,255 @@ use ColibriWP\Theme\View;
 
 class MainContent extends ComponentBase {
 
-	public static function selectiveRefreshSelector() {
-		return ".colibri-main-content-archive,.colibri-main-content-single";
-	}
+    public static function selectiveRefreshSelector() {
+        return ".colibri-main-content-archive,.colibri-main-content-single";
+    }
 
-	protected static function getOptions() {
-		$prefix = 'content.';
+    protected static function getOptions() {
+        $prefix = 'content.';
 
-		return array(
-			"settings" => array(
-				"blog_posts.pen" => array(
-					'control' => array(
-						'type'        => 'pen',
-						'section'     => "content",
-						'colibri_tab' => 'content',
-					),
-				),
+        return array(
+            "settings" => array(
+                "blog_posts.pen" => array(
+                    'control' => array(
+                        'type'        => 'pen',
+                        'section'     => "content",
+                        'colibri_tab' => 'content',
+                    ),
+                ),
 
-				"blog_posts_per_row" => array(
-					'transport' => 'refresh',
-					'default'   => Defaults::get( "blog_posts_per_row" ),
-					'control'   => array(
-						'label'       => Translations::get( 'posts_per_row' ),
-						'section'     => "content",
-						'colibri_tab' => 'content',
-						'type'        => 'button-group',
-						'button_size' => 'medium',
-						'choices'     => array(
-							1 => '1',
-							2 => '2',
-							3 => '3',
-							4 => '4',
-						),
-						'none_value'  => '',
-					)
-				),
+                "blog_posts_per_row" => array(
+                    'transport' => 'refresh',
+                    'default'   => Defaults::get( "blog_posts_per_row" ),
+                    'control'   => array(
+                        'label'       => Translations::get( 'posts_per_row' ),
+                        'section'     => "content",
+                        'colibri_tab' => 'content',
+                        'type'        => 'button-group',
+                        'button_size' => 'medium',
+                        'choices'     => array(
+                            1 => '1',
+                            2 => '2',
+                            3 => '3',
+                            4 => '4',
+                        ),
+                        'none_value'  => '',
+                    )
+                ),
 
-				"{$prefix}separator1" => array(
-					'transport' => 'refresh',
-					'default'   => '',
-					'control'   => array(
-						'label'       => '',
-						'type'        => 'separator',
-						'section'     => 'content',
-						'colibri_tab' => 'content',
-					),
-				),
+                "{$prefix}separator1" => array(
+                    'transport' => 'refresh',
+                    'default'   => '',
+                    'control'   => array(
+                        'label'       => '',
+                        'type'        => 'separator',
+                        'section'     => 'content',
+                        'colibri_tab' => 'content',
+                    ),
+                ),
 
-				"blog_sidebar_enabled" => array(
-					'transport' => 'refresh',
-					'default'   => Defaults::get( "blog_sidebar_enabled" ),
-					'control'   => array(
-						'label'       => Translations::get( 'show_blog_sidebar' ),
-						'type'        => 'switch',
-						'section'     => "content",
-						'colibri_tab' => 'content',
-					)
-				),
+                "blog_sidebar_enabled" => array(
+                    'transport' => 'refresh',
+                    'default'   => Defaults::get( "blog_sidebar_enabled" ),
+                    'control'   => array(
+                        'label'       => Translations::get( 'show_blog_sidebar' ),
+                        'type'        => 'switch',
+                        'section'     => "content",
+                        'colibri_tab' => 'content',
+                    )
+                ),
 
-				"blog_enable_masonry" => array(
-					'transport' => 'refresh',
-					'default'   => Defaults::get( "blog_enable_masonry" ),
-					'control'   => array(
-						'label'       => Translations::get( 'enable_masonry' ),
-						'type'        => 'switch',
-						'section'     => "content",
-						'colibri_tab' => 'content',
-					),
+                "blog_enable_masonry" => array(
+                    'transport' => 'refresh',
+                    'default'   => Defaults::get( "blog_enable_masonry" ),
+                    'control'   => array(
+                        'label'       => Translations::get( 'enable_masonry' ),
+                        'type'        => 'switch',
+                        'section'     => "content",
+                        'colibri_tab' => 'content',
+                    ),
 
-				),
+                ),
 
-				"{$prefix}separator3"               => array(
-					'default' => '',
-					'control' => array(
-						'label'       => '',
-						'type'        => 'separator',
-						'section'     => 'content',
-						'colibri_tab' => 'content',
-					),
-				),
-				"blog_show_post_thumb_placeholder"  => array(
-					'transport' => 'refresh',
-					'default'   => Defaults::get( "blog_show_post_thumb_placeholder" ),
-					'control'   => array(
-						'label'       => Translations::get( 'show_thumbnail_placeholder' ),
-						'type'        => 'switch',
-						'section'     => "content",
-						'colibri_tab' => 'content',
-					)
-				),
-				"blog_post_thumb_placeholder_color" => array(
-					'transport'  => 'refresh',
-					'default'    => Defaults::get( "blog_post_thumb_placeholder_color" ),
-					'control'    => array(
-						'label'       => Translations::get( 'thumbnail_placeholder_color' ),
-						'type'        => 'color',
-						'section'     => "content",
-						'colibri_tab' => 'content',
-					),
-					'css_output' => array(
-						array(
-							'selector' => '.colibri-post-has-no-thumbnail.colibri-post-thumbnail-has-placeholder .colibri-post-thumbnail-content',
-							'media'    => CSSOutput::NO_MEDIA,
-							'property' => 'background-color',
-						),
-					),
-				),
+                "{$prefix}separator3"               => array(
+                    'default' => '',
+                    'control' => array(
+                        'label'       => '',
+                        'type'        => 'separator',
+                        'section'     => 'content',
+                        'colibri_tab' => 'content',
+                    ),
+                ),
+                "blog_show_post_thumb_placeholder"  => array(
+                    'transport' => 'refresh',
+                    'default'   => Defaults::get( "blog_show_post_thumb_placeholder" ),
+                    'control'   => array(
+                        'label'       => Translations::get( 'show_thumbnail_placeholder' ),
+                        'type'        => 'switch',
+                        'section'     => "content",
+                        'colibri_tab' => 'content',
+                    )
+                ),
+                "blog_post_thumb_placeholder_color" => array(
+                    'transport'  => 'refresh',
+                    'default'    => Defaults::get( "blog_post_thumb_placeholder_color" ),
+                    'control'    => array(
+                        'label'       => Translations::get( 'thumbnail_placeholder_color' ),
+                        'type'        => 'color',
+                        'section'     => "content",
+                        'colibri_tab' => 'content',
+                    ),
+                    'css_output' => array(
+                        array(
+                            'selector' => '.colibri-post-has-no-thumbnail.colibri-post-thumbnail-has-placeholder .colibri-post-thumbnail-content',
+                            'media'    => CSSOutput::NO_MEDIA,
+                            'property' => 'background-color',
+                        ),
+                    ),
+                ),
 
-			),
-			"sections" => array(
+            ),
+            "sections" => array(
 
-				"content" => array(
-					'title'    => Translations::get( 'blog_settings' ),
-					'priority' => 2,
-					'panel'    => 'content_panel',
-					'type'     => 'colibri_section',
+                "content" => array(
+                    'title'    => Translations::get( 'blog_settings' ),
+                    'priority' => 2,
+                    'panel'    => 'content_panel',
+                    'type'     => 'colibri_section',
 
-				),
-			),
+                ),
+            ),
 
-			"panels" => array(
-				"content_panel" => array(
-					'priority'       => 2,
-					'title'          => Translations::get( 'content_sections' ),
-					'type'           => 'colibri_panel',
-					'footer_buttons' => array(
-						'change_header' => array(
-							'label'   => Translations::get( 'add_section' ),
-							'name'    => 'colibriwp_add_section',
-							'classes' => array( 'colibri-button-large', 'button-primary' ),
-							'icon'    => 'dashicons-plus-alt',
-						)
-					)
-				),
-			),
-		);
-	}
+            "panels" => array(
+                "content_panel" => array(
+                    'priority'       => 2,
+                    'title'          => Translations::get( 'content_sections' ),
+                    'type'           => 'colibri_panel',
+                    'footer_buttons' => array(
+                        'change_header' => array(
+                            'label'   => Translations::get( 'add_section' ),
+                            'name'    => 'colibriwp_add_section',
+                            'classes' => array( 'colibri-button-large', 'button-primary' ),
+                            'icon'    => 'dashicons-plus-alt',
+                        )
+                    )
+                ),
+            ),
+        );
+    }
 
 
-	public function printMasonryFlag() {
-		$value = $this->mod( "blog_enable_masonry", false );
-		if ( $value ) {
-			wp_enqueue_script( 'jquery-masonry' );
-			$value = 'true';
-		} else {
-			$value = 'false';
-		}
-		echo $value;
-	}
+    public function printMasonryFlag() {
+        $value = $this->mod( "blog_enable_masonry", false );
 
-	public function renderContent() {
+        if ( $value ) {
+            wp_enqueue_script( 'jquery-masonry' );
+            $value = 'true';
+        } else {
+            $value = 'false';
+        }
 
-		$self = $this;
-		View::printIn( View::CONTENT_ELEMENT, function () use ( $self ) {
-			/** SECTION START */
-			View::printIn( View::SECTION_ELEMENT, function () use ( $self ) {
-				/** ROW START */
-				View::printIn( View::ROW_ELEMENT, function () use ( $self ) {
 
-					/** COLUMN START */
-					View::printIn( View::COLUMN_ELEMENT, function () use ( $self ) {
+        echo $value;
+    }
 
-						View::partial( 'main', 'archive', array(
-							"component" => $self,
-						) );
-					} );
+    public function renderContent() {
 
-					$self->printRightSidebarColumn();
+        $self = $this;
+        View::printIn( View::CONTENT_ELEMENT, function () use ( $self ) {
+            /** SECTION START */
+            View::printIn( View::SECTION_ELEMENT, function () use ( $self ) {
+                /** ROW START */
+                View::printIn( View::ROW_ELEMENT, function () use ( $self ) {
 
-				}, $self->getMainRowClass() );
-				/** ROW END */
-			}, $self->getMainSectionClass() );
-			/** SECTION END */
-		}, array(
-			'class' => $self->getContentClass()
-		) );
-	}
+                    /** COLUMN START */
+                    View::printIn( View::COLUMN_ELEMENT, function () use ( $self ) {
 
-	public function printRightSidebarColumn() {
-		$self = $this;
+                        View::partial( 'main', 'archive', array(
+                            "component" => $self,
+                        ) );
+                    } );
 
-		$display_sidebar = Hooks::colibri_apply_filters( 'blog_sidebar_enabled', true, 'right' );
+                    $self->printRightSidebarColumn();
 
-		if ( $display_sidebar && is_active_sidebar( 'colibri-sidebar-1' ) ) {
-			View::printIn( View::COLUMN_ELEMENT, function () use ( $self ) {
-				get_sidebar();
-			}, array(
-				'data-colibri-main-sidebar-col' => 1,
-				'class'                         => $self->getSidebarColumnClass( 'right' )
-			) );
-		}
+                }, $self->getMainRowClass() );
+                /** ROW END */
+            }, $self->getMainSectionClass() );
+            /** SECTION END */
+        }, array(
+            'class' => $self->getContentClass()
+        ) );
+    }
 
-	}
+    public function printRightSidebarColumn() {
+        $self = $this;
 
-	private function getSidebarColumnClass( $side ) {
+        $display_sidebar = Hooks::colibri_apply_filters( 'blog_sidebar_enabled', true, 'right' );
 
-		$classes = (array) Hooks::colibri_apply_filters( 'blog_sidebar_column_class',
-			array( 'h-col-12','h-col-lg-3', 'h-col-md-4' ), $side
-		);
+        if ( $display_sidebar && is_active_sidebar( 'colibri-sidebar-1' ) ) {
+            View::printIn( View::COLUMN_ELEMENT, function () use ( $self ) {
+                get_sidebar();
+            }, array(
+                'data-colibri-main-sidebar-col' => 1,
+                'class'                         => $self->getSidebarColumnClass( 'right' )
+            ) );
+        }
 
-		$classes = array_merge( $classes, array( 'colibri-sidebar', "blog-sidebar-{$side}" ) );
+    }
 
-		return array_unique( $classes );
-	}
+    private function getSidebarColumnClass( $side ) {
 
-	private function getMainRowClass() {
-		$classes = Hooks::colibri_apply_filters( 'main_row_class', array(
-			'outer_class' => array(),
-			'inner_class' => array( 'gutters-col-0' )
-		) );
+        $classes = (array) Hooks::colibri_apply_filters( 'blog_sidebar_column_class',
+            array( 'h-col-12', 'h-col-lg-3', 'h-col-md-4' ), $side
+        );
 
-		$classes = array_merge_recursive( $classes, array(
-			'outer_class' => array( 'main-row' ),
-			'inner_class' => array( 'main-row-inner' )
-		) );
+        $classes = array_merge( $classes, array( 'colibri-sidebar', "blog-sidebar-{$side}" ) );
 
-		return $classes;
-	}
+        return array_unique( $classes );
+    }
 
-	private function getMainSectionClass() {
+    private function getMainRowClass() {
+        $classes = Hooks::colibri_apply_filters( 'main_row_class', array(
+            'outer_class' => array(),
+            'inner_class' => array( 'gutters-col-0' )
+        ) );
 
-		$classes = Hooks::colibri_apply_filters( 'main_section_class', array(
-			'outer_class' => array(),
-			'inner_class' => array( 'h-section-boxed-container' )
-		) );
+        $classes = array_merge_recursive( $classes, array(
+            'outer_class' => array( 'main-row' ),
+            'inner_class' => array( 'main-row-inner' )
+        ) );
 
-		$classes = array_merge_recursive( $classes, array(
-			'outer_class' => array( 'main-section' ),
-			'inner_class' => array( 'main-section-inner' ),
-		) );
+        return $classes;
+    }
 
-		return $classes;
-	}
+    private function getMainSectionClass() {
 
-	private function getContentClass() {
-		$class = Hooks::colibri_apply_filters( 'main_content_class', array() );
+        $classes = Hooks::colibri_apply_filters( 'main_section_class', array(
+            'outer_class' => array(),
+            'inner_class' => array( 'h-section-boxed-container' )
+        ) );
 
-		if ( ! is_array( $class ) ) {
-			$class = (array) $class;
-		}
+        $classes = array_merge_recursive( $classes, array(
+            'outer_class' => array( 'main-section' ),
+            'inner_class' => array( 'main-section-inner' ),
+        ) );
 
-		array_push( $class, 'colibri-main-content-archive' );
+        return $classes;
+    }
 
-		return $class;
-	}
+    private function getContentClass() {
+        $class = Hooks::colibri_apply_filters( 'main_content_class', array() );
 
-	public function parentRender() {
-		parent::render();
-	}
+        if ( ! is_array( $class ) ) {
+            $class = (array) $class;
+        }
+
+        array_push( $class, 'colibri-main-content-archive' );
+
+        return $class;
+    }
+
+    public function parentRender() {
+        parent::render();
+    }
 }

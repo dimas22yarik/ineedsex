@@ -4,10 +4,15 @@
 namespace ColibriWP\Theme\Customizer\Controls;
 
 
+use ColibriWP\Theme\Core\Utils;
 use ColibriWP\Theme\Translations;
 
 class SelectControl extends VueControl {
     public $type = 'colibri-select';
+
+    public static function sanitize( $value, $control_data, $default = '' ) {
+        return Utils::sanitizeSelectControl( $control_data, $value );
+    }
 
     protected function printVueContent() {
         ?>

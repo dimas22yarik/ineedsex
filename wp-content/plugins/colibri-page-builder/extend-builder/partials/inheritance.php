@@ -48,6 +48,9 @@ function get_page_default_types()
         }
     }
 
+	if ( is_woocommerce_page() ) {
+		$defaults[] = 'archive_product';
+	}
     return $defaults;
 }
 
@@ -79,7 +82,7 @@ add_filter(prefix("default_partial"), function ($value, $type) {
 
 add_filter(prefix("default_partial"), function ($value, $type) {
     // front page default//
-    if ($value == -1 && $type == "header" && \is_front_page()) {
+    if ($value == -1  && \is_front_page()) {
         $default = get_default_partial_id($type, 'front_page');
         return $default;
     }
@@ -87,6 +90,16 @@ add_filter(prefix("default_partial"), function ($value, $type) {
 }, 10, 2);
 
 // singular defaults//
+// use woo cart / account / checkout pages
+add_filter( prefix( "default_partial" ), function ( $value, $type ) {
+	$post_type = get_post_type();
+	// archive default//
+	if ( $value == - 1 && is_woocommerce_page() ) {
+		$default = get_default_partial_id( $type, 'archive_product' );
+		return $default;
+	}
+	return $value;
+}, 11, 2 );
 
 // use [post_type] if any is defined
 add_filter(prefix("default_partial"), function ($value, $type) {
@@ -108,7 +121,7 @@ add_filter(prefix("default_partial"), function ($value, $type) {
     $post_type = get_post_type();
 
     // archive default//
-    if ($value == -1 && \is_archive()) {
+    if ($value == -1 && (\is_archive() || is_blog_posts())) {
         if ($post_type !== "page") {
             $default = get_default_partial_id($type, 'archive_' . $post_type);
             return $default;

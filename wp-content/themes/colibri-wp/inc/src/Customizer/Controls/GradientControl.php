@@ -4,9 +4,15 @@
 namespace ColibriWP\Theme\Customizer\Controls;
 
 
+use ColibriWP\Theme\Core\Utils;
+
 class GradientControl extends VueControl {
 
     public $type = 'colibri-gradient';
+
+    public static function sanitize( $value, $control_data, $default = '' ) {
+        return Utils::sanitizeEscapedJSON( $value );
+    }
 
     protected function printVueContent() {
         ?>

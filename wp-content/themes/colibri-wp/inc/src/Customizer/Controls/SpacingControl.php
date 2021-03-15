@@ -6,18 +6,23 @@ namespace ColibriWP\Theme\Customizer\Controls;
 
 class SpacingControl extends VueControl {
 
-	public $type = "colibri-spacing";
+    public $type = "colibri-spacing";
 
-	protected function content_template() {
-		$this->printVueMountPoint();
+    public static function sanitize( $value, $control_data, $default = '' ) {
+        //@TODO proper sanitization
+        return $value;
+    }
 
-		?>
+    protected function content_template() {
+        $this->printVueMountPoint();
+
+        ?>
         <div class="customize-control-notifications-container"></div>
-		<?php
-	}
+        <?php
+    }
 
-	protected function printVueContent() {
-		?>
+    protected function printVueContent() {
+        ?>
         <div class="colibri-fullwidth">
 
             <div class="inline-elements-container">
@@ -59,6 +64,6 @@ class SpacingControl extends VueControl {
             </div>
 
         </div>
-		<?php
-	}
+        <?php
+    }
 }

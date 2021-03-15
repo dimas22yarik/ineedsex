@@ -104,22 +104,28 @@ add_action( 'customize_controls_enqueue_scripts',
     '\ExtendBuilder\registerCustomizerAssets' );
 
 
-
 // colibri Advanced Editor ( SIMPLE UI CUSTOMIZER )
 add_action( 'customize_controls_init', function () {
-    $user  = wp_get_current_user();
-    $roles = $user->roles;
+	$user  = wp_get_current_user();
+	$roles = $user->roles;
 
-    if ( in_array( "colibri_content_editor", $roles ) ) {
-        ?>
-      <script type="text/javascript">
-        window.COLIBRI_USE_SIMPLIFIED_UI = true;
-      </script>
-        <?php
-    }
-
-
+	$is_super_admin = is_super_admin($user->ID);
+	if ( in_array( "colibri_content_editor", $roles ) && !$is_super_admin) {
+		add_action( 'customize_controls_enqueue_scripts', function () {
+			wp_add_inline_script( 'jquery', \ExtendBuilder\colibri_get_colibri_content_editor_script(), 'before' );
+		} );
+	}
 } );
+
+function colibri_get_colibri_content_editor_script() {
+	ob_start();
+	?>
+    <script type="text/javascript">
+        window.COLIBRI_USE_SIMPLIFIED_UI = true;
+    </script>
+	<?php
+	return strip_tags( ob_get_clean() );
+}
 
 add_action( 'customize_controls_print_footer_scripts', function() {
     ?>
@@ -149,6 +155,25 @@ add_action( 'customize_register', function ( $wp_customize ) {
         'type'     => 'checkbox',
     ) );
 
+    $multilanguage_on = colibri_multilanguage_is_active();
+    if ( $multilanguage_on ) {
+        $wp_customize->add_section( 'general_site_multilanguage', array(
+            'priority' => 2,
+            'title'    => __( 'Multi Language', 'colibri' ),
+            'panel'    => 'general_settings',
+        ) );
+
+        $wp_customize->add_setting( 'dummy_control_multilanguage', array(
+            'default' => true,
+        ) );
+
+        $wp_customize->add_control( 'dummy_control_multilanguage', array(
+            'label'    => esc_html__( '', 'colibri' ),
+            'section'  => 'general_site_multilanguage',
+            'priority' => 9,
+            'type'     => 'checkbox',
+        ) );
+    }
     $wp_customize->add_section( 'templates', array(
         'priority' => 2,
         'title'    => __( 'Templates', 'colibri' ),

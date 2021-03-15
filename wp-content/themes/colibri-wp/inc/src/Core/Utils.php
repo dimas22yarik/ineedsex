@@ -193,4 +193,32 @@ class Utils {
 
     }
 
+    public static function sanitizeSelectControl( $control_data, $current_value ) {
+        $possible_values = array_keys( Utils::pathGet( $control_data, 'choices', array() ) );
+
+        if ( $linked_to = Utils::pathGet( $control_data, 'linked_to', false ) ) {
+            $possible_values = array();
+            $values          = Utils::pathGet( $control_data, 'choices', array() );
+
+            foreach ( $values as $linked_values ) {
+                $possible_values = $possible_values + array_keys( $linked_values );
+            }
+
+            $possible_values = array_unique( $possible_values );
+        }
+
+        if ( in_array( $current_value, $possible_values ) ) {
+            return $current_value;
+        }
+
+        return null;
+    }
+
+    public static function sanitizeEscapedJSON( $value ) {
+        if ( json_decode( urldecode( $value ) ) ) {
+            return $value;
+        }
+
+        return null;
+    }
 }

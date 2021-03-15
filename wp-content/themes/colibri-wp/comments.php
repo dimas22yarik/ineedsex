@@ -6,7 +6,6 @@ endif;
 
 
 <div class="post-comments">
-	<?php if ( have_comments() ): ?>
         <h3 class="comments-title">
     	<span class="comments-number">
 				<?php comments_number( __( 'No Responses', 'colibri-wp' ), __( 'One Response', 'colibri-wp' ),
@@ -35,9 +34,6 @@ endif;
 						'colibri-wp' ) ); ?>
                 </div>
             </div>
-		<?php
-		endif;
-		?>
 	<?php endif; ?>
 
 	<?php

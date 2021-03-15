@@ -79,7 +79,7 @@ class PartialsApi
         $type = $data['type'];
         $id = $data['id'];
         $key = $data['key'];
-        maybe_set_as_default_partial($type, $id, $key);
+        maybe_set_as_default_partial($type, $id, $key, $force = true);
     }
 }
 

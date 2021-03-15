@@ -1,5 +1,5 @@
 <li class="list-item no-gutters">
-  <a href="<?php echo esc_html(\ColibriWP\Theme\View::getData( 'link_value' )); ?>" h-use-smooth-scroll="true" class="item-link no-gutters">
+  <a href="<?php echo esc_url(\ColibriWP\Theme\View::getData( 'link_value' )); ?>" h-use-smooth-scroll="true" class="item-link no-gutters">
     <div class="d-flex h-col no-gutters align-items-lg-center align-items-md-center align-items-center list-item-text-wrapper">
       <div class="d-flex">
         <span class="h-svg-icon style-141-icon style-local-7-h22-icon">

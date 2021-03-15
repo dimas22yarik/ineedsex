@@ -2,7 +2,9 @@
 
 namespace ExtendBuilder;
 
-function get_templates_style( $template, $path = '', $fallback = null ) {
+use ColibriWP\PageBuilder\ThemeHooks;
+
+function get_templates_style($template, $path = '', $fallback = null ) {
 	$path_base = "global.templates.{$template}.props.descendants";
 	if ( $path ) {
 		$path = "{$path_base}.{$path}";
@@ -46,7 +48,7 @@ function is_partial_visible( $post_id_in_lang, $type ) {
 	return array_get_value( $theme_data, "options.theme.global.visible_partials.{$type}.{$post_id_in_lang}", true );
 }
 
-add_filter( 'colibriwp_theme_main_section_class', function ( $classes ) {
+ThemeHooks::prefixed_add_filter('main_section_class', function ( $classes ) {
 	$current_width = get_templates_prop( 'blog', 'section.width', 'boxed' );
 	$width_classes = array(
 		'boxed'      => 'h-section-boxed-container',
@@ -60,7 +62,7 @@ add_filter( 'colibriwp_theme_main_section_class', function ( $classes ) {
 } );
 
 
-add_filter( 'colibriwp_theme_main_row_class', function ( $classes ) {
+ThemeHooks::prefixed_add_filter('main_row_class', function ( $classes ) {
 	$classes = get_templates_prop( 'blog', 'row.layout-classes', array(
 		'outer_class' => array(),
 		'inner_class' => array(),
@@ -82,7 +84,7 @@ function is_blog_right_sidebar_enabled() {
 	return get_templates_prop( 'blog', "section.sidebars.right", $visible_partials_value );
 }
 
-add_filter( 'colibriwp_theme_blog_sidebar_enabled', function ( $value, $side ) {
+ThemeHooks::prefixed_add_filter('blog_sidebar_enabled', function ( $value, $side ) {
 
 	if ( is_customize_preview() ) {
 		return true;
@@ -96,7 +98,7 @@ add_filter( 'colibriwp_theme_blog_sidebar_enabled', function ( $value, $side ) {
 
 }, 20, 2 );
 
-add_filter( 'colibriwp_theme_blog_sidebar_column_class', function ( $classes, $side ) {
+ThemeHooks::prefixed_add_filter('blog_sidebar_column_class', function ( $classes, $side ) {
 
 	if ( is_customize_preview() ) {
 		if ( $side === 'right' ) {

@@ -11,7 +11,7 @@
         $tbContent.removeAttr('style').addClass('colibri-demo-import-popup');
 
         var template = wp.template('colibri-demo-import-popup');
-        var demo = ocdi.import_files[demo_index];
+        var demo = extendthemes_ocdi.import_files[demo_index];
 
 
         var data = {
@@ -20,7 +20,7 @@
             'preview_url': demo.preview_url,
             'plugins': _.toArray(demo.plugins || []),
             'pro': demo.is_pro,
-            'allow_pro': !!parseInt(ocdi.plugin_state),
+            'allow_pro': !!parseInt(extendthemes_ocdi.plugin_state),
             'id': demo_index
         };
         var content = template(data);

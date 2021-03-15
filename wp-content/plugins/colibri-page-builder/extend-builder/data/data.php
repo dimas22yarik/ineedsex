@@ -49,6 +49,7 @@ function maybe_deduplicate_post($post_id) {
         $query = new \WP_Query(
             array(
                 'post_type' => array('page'),
+                'lang'           => '',
                 'post_status' => 'any',
                 'post__not_in' => array($post_id),
                 'meta_query' => array(
@@ -74,6 +75,9 @@ function maybe_deduplicate_post($post_id) {
 function maybe_fix_partial_json( $json ) {
 
     if ( is_string( $json ) ) {
+        if (strpos($json, "{\\") === 0) {
+            $json = wp_unslash($json);
+        }
         $last_closed_bracket_position = strrpos( $json, "}" );
 
         // remove extra strings after json

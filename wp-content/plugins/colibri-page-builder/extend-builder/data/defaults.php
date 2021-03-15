@@ -52,6 +52,7 @@ function get_theme_data_defaults()
 		"fonts"        => array(
 			"google" => array(),
 		),
+		"dummyChange" => "",
 		"icons"        => array(),
 		"css"          => "",
 		"rules"        => "[]",

@@ -1381,3 +1381,7 @@ label.link-options-group .target-option {
 #customize-controls .customize-control-kirki .wp-picker-active input{
     display: inline-block !important;
 }
+
+#customize-footer-actions .devices {
+    display: flex;
+}

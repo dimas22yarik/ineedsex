@@ -36,7 +36,7 @@ class ContentSetting extends \ColibriWP\PageBuilder\Customizer\BaseSetting
                 return $value;
             }
         } else {
-            return array();
+            return "[]";
         }
     }
 }

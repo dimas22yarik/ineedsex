@@ -3,7 +3,9 @@
 namespace ExtendBuilder;
 
 
-function get_templates_parts( $type ) {
+use ColibriWP\PageBuilder\ThemeHooks;
+
+function get_templates_parts($type ) {
 	$posts      = get_custom_posts( $type );
 	$result     = array();
 	$default_id = get_default_partial_id( $type );
@@ -37,7 +39,7 @@ add_filter( 'colibri_page_builder/template/page_content',
 				return $saved_content;
 			}
 		}
-		if ( is_customize_preview() ) {
+		if ( is_customize_preview() && show_page_content()) {
 			// marker for content area//
 			$content = $content
 			           . "<script id=\"extend-builder-content-json\" type=\"template/json\"></script>";
@@ -96,13 +98,10 @@ function colibri_output_dynamic_template( $template, $type ) {
 
 		if ( is_customize_changeset_preview() ) {
 			$saved_html = get_partial_html( $type );
-
-
 			if ( $saved_html ) {
 				$data['html'] = $saved_html;
 			}
 		}
-
 
 		global $wp_embed;
 		$html = $data['html'];
@@ -141,9 +140,7 @@ function handle_dynamic_template( $template, $type ) {
 $partials_types_list = partials_types_list();
 
 foreach ( $partials_types_list as $partial ) {
-
-
-	add_filter( "colibriwp_theme_{$partial}_partial_type", function ( $template ) use ( $partial ) {
+	ThemeHooks::prefixed_add_filter("{$partial}_partial_type", function ( $template ) use ( $partial ) {
 		return handle_dynamic_template( $template, $partial );
 	}, 1000 );
 

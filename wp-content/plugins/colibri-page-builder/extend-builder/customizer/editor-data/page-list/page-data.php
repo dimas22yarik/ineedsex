@@ -10,6 +10,7 @@ class PageData
     public $colibri;
     public $id;
     public $is_blog_page;
+    public $is_woo_page;
 
     function __construct($label, $url, $category, $post_id = -1)
     {
@@ -19,6 +20,7 @@ class PageData
         $this->colibri = $this->is_colibri_page($post_id);
         $this->id = $post_id;
         $this->is_blog_page = $post_id == get_option( 'page_for_posts' );
+        $this->is_woo_page = is_woocommerce_page($post_id) || is_woocommerce_shop_page($post_id);
     }
 
      function is_colibri_page($post_id) {

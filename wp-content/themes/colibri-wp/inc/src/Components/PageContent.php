@@ -79,11 +79,13 @@ class PageContent extends ComponentBase {
                     } );
                 } );
             }, $self->getPageSectionClass() );
+
+            colibriwp_render_page_comments();
+
         }, array(
             "class" => array( 'page-content', 'colibri-page-content' )
         ) );
     }
-
     private function getPageSectionClass() {
 
         $classes = Hooks::colibri_apply_filters( 'page_section_class', array(

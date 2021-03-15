@@ -39,6 +39,18 @@
             $('#accordion-section-general_site_effects').on("click", function(event) {
                 top.hop.sidebar.selectPanel('effects');
             });
+            if (_extendBuilderWPData.colibri_managed_sections) {
+                for (var section_id in _extendBuilderWPData.colibri_managed_sections) {
+                    if (_extendBuilderWPData.colibri_managed_sections.hasOwnProperty(section_id)) {
+                        $(['#accordion-section-' + section_id, '#accordion-section-' + section_id + ' > *'].join(',')).off('click');
+                        $('#accordion-section-' + section_id).on("click", (function (panelKey) {
+                            return function (event) {
+                                top.hop.sidebar.selectPanel(panelKey);
+                            }
+                        })(_extendBuilderWPData.colibri_managed_sections[section_id]));
+                    }
+                }
+            }
             CP_Customizer.unbind('PREVIEW_LOADED', initBuilder);
             //CP_Customizer.bind('PREVIEW_LOADED', mountPreview);
             // append sidebar to the customizer root//
@@ -46,7 +58,9 @@
             jQuery('#customize-controls .wp-full-overlay-sidebar-content').append(extendSidebar);
 
             CP_Customizer.bind('PREVIEW_LOADED', function() {
-                mountPreview(hopInit.pages[0].partials);
+                let newInit = CP_Customizer.preview.frame().colibriInit;
+                hop.loadPages(newInit);
+                mountPreview(newInit.pages[0].partials);
             });
 
             var api = {

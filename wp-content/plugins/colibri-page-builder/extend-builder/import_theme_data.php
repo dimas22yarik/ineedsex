@@ -310,7 +310,9 @@ class ColibriThemeDataImporter {
 
 					$opacity      = intval( $opacity ) / 100;
 					$rgba         = $this->colorToRGB( $value );
-					$value        = "rgba({$rgba['red']},{$rgba['green']},{$rgba['blue']}, $opacity)";
+					if (isset($rgba['red'])) {
+						$value        = "rgba({$rgba['red']},{$rgba['green']},{$rgba['blue']}, $opacity)";
+					}
 					$data[ $key ] = $value;
 				}
 			}
@@ -546,8 +548,9 @@ class ColibriThemeDataImporter {
 					// $partial_json["children"][0]["children"][0]["children"]
 					$columns_array = array_get_value( $partial_json, 'children.0.children.0.children', array() );
 
-					$offscreen_logo_ref = $columns_array[2]["children"][0]["children"][0]["children"][0]["slots"]["header"][0]["children"][0]["children"][0]["styleRef"];
-					$main_logo_ref      = $columns_array[0]["children"][0]["styleRef"];
+					$offscreen_logo_ref = isset($columns_array[2]["children"][0]["children"][0]["children"][0]["slots"]["header"][0]["children"][0]["children"][0]["styleRef"]) ?
+										  $columns_array[2]["children"][0]["children"][0]["children"][0]["slots"]["header"][0]["children"][0]["children"][0]["styleRef"] : [];
+					$main_logo_ref      = isset($columns_array[0]["children"][0]["styleRef"]) ? $columns_array[0]["children"][0]["styleRef"] : [];
 
 					$this->copyStyle( $main_logo_ref, $offscreen_logo_ref, "props.layoutType" );
 

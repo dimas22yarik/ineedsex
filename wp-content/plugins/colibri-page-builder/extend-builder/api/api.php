@@ -67,4 +67,4 @@ class Api
 
 }
 
-$api = new Api();
+new Api();

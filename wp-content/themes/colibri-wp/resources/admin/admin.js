@@ -60,27 +60,26 @@
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 337);
+/******/ 	return __webpack_require__(__webpack_require__.s = 363);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 337:
+/***/ 363:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(338);
+module.exports = __webpack_require__(364);
 
 
 /***/ }),
 
-/***/ 338:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ 364:
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__images_logo_jpg__ = __webpack_require__(339);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__images_logo_jpg___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__images_logo_jpg__);
 
+
+__webpack_require__(365);
 
 // admin notice
 (function ($) {
@@ -184,11 +183,95 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     });
 
     $notice_container.parent().on('click', '.notice-dismiss', disableNotice);
+
+    var $document = $(document);
+
+    var colibriInstallPluginSuccess = function colibriInstallPluginSuccess(response) {
+        var $message = $('.plugin-card-' + response.slug).find('.install-now');
+
+        $message.removeClass('updating-message').addClass('updated-message installed button-disabled').attr('aria-label', wp.updates.l10n.pluginInstalledLabel.replace('%s', response.pluginName)).text(wp.updates.l10n.pluginInstalled);
+
+        wp.a11y.speak(wp.updates.l10n.installedMsg, 'polite');
+
+        $document.trigger('wp-plugin-install-success', response);
+
+        if (response.activateUrl) {
+            // Transform the 'Install' button into an 'Activate' button.
+            $message.removeClass('install-now installed button-disabled updated-message').addClass('activate-now').attr('href', response.activateUrl).attr('aria-label', wp.updates.l10n.activatePluginLabel.replace('%s', response.pluginName)).text(wp.updates.l10n.activatePlugin);
+
+            $message.click();
+        }
+    };
+
+    var colibriInstallPlugin = function colibriInstallPlugin(event) {
+
+        var $button = $(event.target);
+        event.preventDefault();
+
+        if ($button.hasClass('updating-message') || $button.hasClass('button-disabled')) {
+            return;
+        }
+
+        if (wp.updates.shouldRequestFilesystemCredentials && !wp.updates.ajaxLocked) {
+            wp.updates.requestFilesystemCredentials(event);
+
+            $document.on('credential-modal-cancel', function () {
+                var $message = $('.install-now.updating-message');
+
+                $message.removeClass('updating-message').text(wp.updates.l10n.installNow);
+
+                wp.a11y.speak(wp.updates.l10n.updateCancel, 'polite');
+            });
+        }
+
+        wp.updates.installPlugin({
+            slug: $button.data('slug'),
+            success: colibriInstallPluginSuccess
+        });
+    };
+
+    var colibriActivatePlugin = function colibriActivatePlugin(event) {
+        var $button = $(event.target);
+        var slug = $button.data('slug');
+        var card = $('.plugin-card-' + slug);
+
+        event.preventDefault();
+
+        $button.addClass('updating-message').removeClass('active-plugin').text(colibri_get_started.activating);
+
+        jQuery.get(this.href).done(function (data) {
+            $button.text(colibri_get_started.plugin_installed_and_active);
+            wp.a11y.speak(colibri_get_started.plugin_installed_and_active, 'polite');
+        }).fail(function (error) {
+            $button.text(colibri_get_started.activate);
+        }).always(function () {
+            $button.removeClass('updating-message').addClass('active-plugin');
+        });
+
+        /* 
+        args =  {
+        slug : slug, 
+        success: wp.updates.installPluginSuccess,
+        error: wp.updates.installPluginError
+        };
+        		return wp.updates.ajax( 'activate-plugin', args );
+        */
+    };
+
+    $document.on("click", ".install-now", colibriInstallPlugin);
+    $document.on("click", ".activate-now", colibriActivatePlugin);
+
+    $(document).ready(function () {
+
+        if (colibri_get_started.install_recommended) {
+            $('.plugin-card-' + colibri_get_started.install_recommended + ' a.button').trigger("click");
+        }
+    });
 })(jQuery);
 
 /***/ }),
 
-/***/ 339:
+/***/ 365:
 /***/ (function(module, exports) {
 
 module.exports = "./../images/logo.jpg";

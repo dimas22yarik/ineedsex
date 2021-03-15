@@ -87,24 +87,6 @@ function init_data() {
 	$init_data    = apply_filters( prefix( 'init' ), array() );
 	$init['data'] = $init_data;
 
-//	foreach ( (array) $init['page'] as $page => $page_data ) {
-//		if ( isset( $page_data['html'] ) ) {
-//			unset( $init['page'][ $page ]['html'] );
-//		}
-//	}
-//
-//	if(array_get_value($init,'meta.theme.css')){
-//		unset($init['meta']['theme']['css']);
-//	}
-//
-//	if(array_get_value($init,'meta.theme.cssById')){
-//		unset($init['meta']['theme']['cssById']);
-//	}
-//
-//
-//	if(array_get_value($init,'meta.theme.cssByPartialId')){
-//		unset($init['meta']['theme']['cssByPartialId']);
-//	}
 
 	return $init;
 }
@@ -112,6 +94,7 @@ function init_data() {
 
 add_filter(prefix('init'), function ($data) {
     $data["defaultTypes"] = get_page_default_types();
+
     return $data;
 });
 
@@ -291,13 +274,13 @@ function render_page_css()
     $css = "";
 
     if ($medias) {
-        $css = join($byDevice["desktop"], "\r\n") . "\r\n";
+        $css = implode( "\r\n", $byDevice["desktop"] ) . "\r\n";
         foreach ($byDevice as $device => $rules) {
             if (isset($medias[$device])) {
                 $media = $medias[$device];
                 if (isset($media['query'])) {
                     $css .= $media['query'] . "{\r\n";
-                    $css .= join($rules, "\r\n");
+                    $css .= implode( "\r\n", $rules );
                     $css .= "}\r\n";
                 }
             }
@@ -307,8 +290,36 @@ function render_page_css()
     return $css;
 }
 
+function get_shapes_css() {
+    $shapes = array(
+        "circles",
+        "10degree-stripes",
+        "rounded-squares-blue",
+        "many-rounded-squares-blue",
+        "two-circles",
+        "circles-2",
+        "circles-3",
+        "circles-gradient",
+        "circles-white-gradient",
+        "waves",
+        "waves-inverted",
+        "dots",
+        "left-tilted-lines",
+        "right-tilted-lines",
+        "right-tilted-strips"
+    );
+    $css = '';
+    $url = get_template_directory_uri();
+    foreach ($shapes as $shape) {
+        $css .= ".colibri-shape-${shape} {\nbackground-image:url('${url}/resources/images/header-shapes/${shape}.png')\n}\n";
+    }
+    return $css;
+}
+
 function add_builder_css() {
     $data = get_current_data();
+
+    register_css("theme-shapes", get_shapes_css());
 
     if (!is_customize_preview()) {
         $options = array_get_value($data, 'options');

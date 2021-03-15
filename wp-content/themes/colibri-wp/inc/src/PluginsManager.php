@@ -55,16 +55,73 @@ class PluginsManager {
 
         add_action( 'tgmpa_register', array( $this, 'tgmpaRegitster' ) );
 
+        add_action( 'wp_ajax_colibriwp_install_plugin', function () {
+            $slug = isset( $_REQUEST['slug'] ) ? wp_unslash( $_REQUEST['slug'] ) : false;
+
+            if ( ! current_user_can( 'install_plugins', $slug ) ) {
+                wp_send_json_error( array( 'error' => 'install_plugin_capability_missing' ) );
+            }
+
+            if ( ! function_exists( 'plugins_api' ) ) {
+                include_once ABSPATH . 'wp-admin/includes/plugin-install.php';
+
+            }
+
+            if ( $slug && ( $path = $this->getPluginData( "{$slug}.plugin_path" ) ) ) {
+                $api = plugins_api(
+                    'plugin_information',
+                    array(
+                        'slug'   => $slug,
+                        'fields' => array(
+                            'sections' => false,
+                        ),
+                    )
+                );
+
+                if ( is_wp_error( $api ) ) {
+                    wp_send_json_error( array( 'error' => 'api_error', 'error_content' => $api ) );
+                } else {
+
+                    if ( ! class_exists( 'Plugin_Upgrader' ) ) {
+                        /** Plugin_Upgrader class */
+                        require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+                    }
+
+                    $upgrader = new \Plugin_Upgrader( new \Automatic_Upgrader_Skin() );
+                    $result   = $upgrader->install( $api->download_link );
+
+                    if ( $result !== true ) {
+                        wp_send_json_error( array( 'error' => 'installation_failed' ) );
+                    }
+
+
+                    $data = apply_filters( 'colibri_page_builder/plugin-installed', array(), $slug,
+                        $this->getPluginData( $slug ) );
+
+                    wp_send_json_success( $data );
+                }
+            }
+
+            wp_send_json_error( array( 'error' => 'not_found' ) );
+
+        } );
+
         add_action( 'wp_ajax_colibriwp_activate_plugin', function () {
 
-            $slug = isset( $_REQUEST['slug'] ) ? $_REQUEST['slug'] : false;
+            $slug = isset( $_REQUEST['slug'] ) ? wp_unslash( $_REQUEST['slug'] ) : false;
+
+            if ( ! current_user_can( 'activate_plugin', $slug ) ) {
+                wp_send_json_error( array( 'error' => 'activate_plugin_capability_missing' ) );
+            }
 
             if ( $slug && ( $path = $this->getPluginData( "{$slug}.plugin_path" ) ) ) {
                 $ac   = get_option( 'active_plugins' );
                 $ac[] = $path;
                 update_option( 'active_plugins', array_unique( $ac ) );
+
                 $data = apply_filters( 'colibri_page_builder/plugin-activated', array(), $slug,
                     $this->getPluginData( $slug ) );
+
                 if ( isset( $data[ $slug ] ) ) {
                     wp_send_json_success( $data[ $slug ] );
                 } else {
@@ -72,7 +129,7 @@ class PluginsManager {
                 }
             }
 
-            wp_send_json_error();
+            wp_send_json_error( array( 'error' => 'not_found' ) );
 
         } );
     }
@@ -98,10 +155,10 @@ class PluginsManager {
         $to_register = array();
         foreach ( $plugins as $slug => $plugin_data ) {
             $to_register[] = array_merge(
-                $plugin_data,
                 array(
                     'slug' => $slug
-                )
+                ),
+                $plugin_data
             );
         }
 
@@ -157,14 +214,16 @@ class PluginsManager {
 
     public function getActivationLink( $slug ) {
         $tgmpa = TGM_Plugin_Activation::get_instance();
-        $path  = $tgmpa->plugins[ $slug ]['file_path'];
+        if ( isset( $tgmpa->plugins[ $slug ] ) ) {
+            $path = $tgmpa->plugins[ $slug ]['file_path'];
 
-        return add_query_arg( array(
-            'action'        => 'activate',
-            'plugin'        => rawurlencode( $path ),
-            'plugin_status' => 'all',
-            'paged'         => '1',
-            '_wpnonce'      => wp_create_nonce( 'activate-plugin_' . $path ),
-        ), network_admin_url( 'plugins.php' ) );
+            return add_query_arg( array(
+                'action'        => 'activate',
+                'plugin'        => rawurlencode( $path ),
+                'plugin_status' => 'all',
+                'paged'         => '1',
+                '_wpnonce'      => wp_create_nonce( 'activate-plugin_' . $path ),
+            ), network_admin_url( 'plugins.php' ) );
+        }
     }
 }

@@ -11,7 +11,7 @@ use ColibriWP\Theme\Translations;
 class PluginMessageControl extends VueControl {
 
     public $type = "colibri-plugin-message";
-
+	public static $slug = null;
     protected function printVueContent() {
 
         $this->addData();
@@ -21,7 +21,7 @@ class PluginMessageControl extends VueControl {
             <p>
                 <?php echo Translations::get( 'plugin_message', 'Colibri Page Builder' ); ?>
             </p>
-            <?php if ( colibriwp_theme()->getPluginsManager()->getPluginState( 'colibri-page-builder' ) === PluginsManager::NOT_INSTALLED_PLUGIN ): ?>
+            <?php if ( colibriwp_theme()->getPluginsManager()->getPluginState( $this->getBuilderSlug() ) === PluginsManager::NOT_INSTALLED_PLUGIN ): ?>
                 <button data-colibri-plugin-action="install"
                         class="el-button el-link h-col el-button--primary el-button--small"
                         style="text-decoration: none">
@@ -29,7 +29,7 @@ class PluginMessageControl extends VueControl {
                 </button>
             <?php endif; ?>
 
-            <?php if ( colibriwp_theme()->getPluginsManager()->getPluginState( 'colibri-page-builder' ) === PluginsManager::INSTALLED_PLUGIN ): ?>
+            <?php if ( colibriwp_theme()->getPluginsManager()->getPluginState( $this->getBuilderSlug() ) === PluginsManager::INSTALLED_PLUGIN ): ?>
                 <button data-colibri-plugin-action="activate"
                         class="el-button el-link h-col el-button--primary el-button--small"
                         style="text-decoration: none">
@@ -42,6 +42,21 @@ class PluginMessageControl extends VueControl {
         <?php
     }
 
+	protected function getBuilderSlug() {
+		if ( self::$slug ) {
+			return self::$slug;
+		}
+		$builder_plugin    = 'colibri-page-builder';
+		$installed_plugins = get_plugins();
+		foreach ( $installed_plugins as $key => $plugin_data ) {
+			if ( strpos( $key, 'colibri-page-builder-pro' ) !== false ) {
+				$builder_plugin = 'colibri-page-builder-pro';
+			}
+		}
+		self::$slug = $builder_plugin;
+
+		return self::$slug;
+	}
     public function addData() {
 
         if ( Hooks::colibri_apply_filters( 'plugin-customizer-controller-data-added', false ) ) {
@@ -53,9 +68,9 @@ class PluginMessageControl extends VueControl {
         add_action( 'customize_controls_print_footer_scripts', function () {
 
             $data = array(
-                "status"       => colibriwp_theme()->getPluginsManager()->getPluginState( 'colibri-page-builder' ),
-                "install_url"  => colibriwp_theme()->getPluginsManager()->getInstallLink( 'colibri-page-builder' ),
-                "activate_url" => colibriwp_theme()->getPluginsManager()->getActivationLink( 'colibri-page-builder' ),
+                "status"       => colibriwp_theme()->getPluginsManager()->getPluginState(  $this->getBuilderSlug() ),
+                "install_url"  => colibriwp_theme()->getPluginsManager()->getInstallLink(  $this->getBuilderSlug() ),
+                "activate_url" => colibriwp_theme()->getPluginsManager()->getActivationLink(  $this->getBuilderSlug() ),
                 "messages"     => array(
                     "installing" => Translations::get( 'installing',
                         'Colibri Page Builder' ),

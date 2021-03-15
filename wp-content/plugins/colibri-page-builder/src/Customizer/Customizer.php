@@ -68,7 +68,7 @@ class Customizer {
 			"customize-base",
 		), $ver, true );
 
-		wp_localize_script( 'cp-customizer-base', '__colibriBuilderCustomizerStrings', Translations::getTranslations() );
+		wp_localize_script( 'cp-customizer-base', '__colibriBuilderCustomizerStrings', (array) Translations::getTranslations() );
 		wp_register_script( 'customizer-base', null, array( 'cp-customizer-base' ), $ver, true );
 		wp_enqueue_script( 'customizer-base' );
 
@@ -195,7 +195,11 @@ class Customizer {
                             var data = <?php echo wp_json_encode( $iframe_content ); ?>;
                             var doc = document.querySelector("#colibri-preloader-browser").contentWindow.document;
                             doc.open();
-                            doc.write('<html><body>' + data + '</body></html>');
+                            var content = '{{html}}{{body}}@@data@@{{/body}}{{/html}}';
+                            content = content.split("{{").join('<');
+                            content = content.split("}}").join('>');
+                            content = content.replace('@@data@@', data);
+                            doc.write(content);
                             doc.close();
                         })();
                     </script>
@@ -287,7 +291,7 @@ class Customizer {
                     window.cpCustomizerPreview = <?php echo json_encode( $previewData ); ?>;
                     wp.customize.bind('preview-ready', function () {
                         // if this is removed, the iframe returned by customizer is the old one, needs more investigation
-                        jQuery(window).load(function () {
+                        jQuery(function () {
                             setTimeout(function () {
                                 parent.postMessage('colibri_page_builder_update_customizer', "*");
                             }, 100);

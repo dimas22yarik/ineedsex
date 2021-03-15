@@ -54,7 +54,7 @@ function colibriwp_post_title( $atts ) {
     $title_tempalte = '<a href="%1$s"><%2$s class="%4$s">%3$s</%2$s></a>';
 
     printf( $title_tempalte,
-        get_the_permalink(),
+        esc_url( get_the_permalink() ),
         $atts['heading_type'],
         get_the_title(),
         $atts['classes']
@@ -112,11 +112,11 @@ function colibriwp_post_thumbnail( $atts = array() ) {
         if ( Utils::pathGet( $atts, 'link', false ) ) {
             ?>
             <a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>">
-                <?php echo get_the_post_thumbnail(); ?>
+                <?php the_post_thumbnail(); ?>
             </a>
             <?php
         } else {
-            echo get_the_post_thumbnail();
+            the_post_thumbnail();
         }
     }
 }
@@ -151,7 +151,7 @@ function colibriwp_post_categories( $attrs = array() ) {
             );
         }
     } else {
-        $html .= sprintf( '<span class="d-inline-block">%s</span>', esc_attr__( 'No Category', 'colibri-wp' ) );
+        $html .= sprintf( '<span class="d-inline-block">%s</span>', esc_html__( 'No Category', 'colibri-wp' ) );
     }
 
     echo $html;
@@ -175,9 +175,13 @@ function colibriwp_post_tags( $attrs = array() ) {
     }
     if ( $tags ) {
         foreach ( $tags as $tag ) {
-            $tag_link = get_tag_link( $tag->term_id );
-            $html     .= "<a class=\"d-inline-block\" href=\"{$tag_link}\" title=\"{$tag->name} Tag\">";
-            $html     .= "{$tag->name}</a>";
+            $tag_link  = get_tag_link( $tag->term_id );
+            $tag_title = sprintf( __( 'Tag: %s', 'colibri-wp' ), $tag->name );
+            $html      .= sprintf( '<a class="d-inline-block" href="%s" title="%s">%s</a>',
+                esc_html( $tag_link ),
+                esc_attr( $tag_title ),
+                esc_html( $tag->name )
+            );
         }
     } else {
         $html .= sprintf( '<span class="d-inline-block">%s</span>', esc_html__( 'No Tag', 'colibri-wp' ) );
@@ -297,6 +301,27 @@ function colibriwp_archive_pagination() {
     colibriwp_render_pagination( '\colibriwp_numbers_pagination' );
 }
 
+function colibriwp_render_page_comments() {
+    if ( ! comments_open() ) {
+        return;
+    }
+    ?>
+    <div id="page-comments" class="page-comments">
+        <div
+                class="h-section h-section-global-spacing d-flex align-items-lg-center align-items-md-center align-items-center">
+            <div class="h-section-grid-container h-section-boxed-container">
+                <div class="gutters-row-md-2 gutters-row-0 position-relative">
+                    <div class="h-px-lg-2 h-px-md-2 h-px-2 ">
+                        <?php echo colibriwp_post_comments() ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php
+
+}
+
 function colibriwp_post_comments( $attrs = array() ) {
     // comments won't render without post//
     if ( is_customize_preview() ) {
@@ -348,6 +373,7 @@ function colibriwp_widget_area( $atts ) {
     );
 
     $id = "colibri-" . $atts['id'];
+    $id = Hooks::colibri_apply_filters( 'widget_area_id', $id );
 
     ob_start();
     dynamic_sidebar( $id );
@@ -439,20 +465,31 @@ function colibriwp_layout_wrapper( $atts ) {
 }
 
 
-Hooks::colibri_add_action( "layout_wrapper_output_tags_container", function ( $atts ) {
+function colibriwp_layout_wrapper_output_tags_container( $atts ) {
     if ( has_tag() ) {
         View::partial( 'layout-wrapper-content', $atts['slug'] );
     }
-} );
+}
 
-Hooks::colibri_add_action( "layout_wrapper_output_categories_container", function ( $atts ) {
+
+function colibriwp_layout_wrapper_output_categories_container( $atts ) {
     if ( has_category() ) {
         View::partial( 'layout-wrapper-content', $atts['slug'] );
     }
-} );
+}
 
-Hooks::colibri_add_action( "layout_wrapper_output_navigation_container", function ( $atts ) {
+
+function colibriwp_layout_wrapper_output_navigation_container( $atts ) {
     if ( colibriwp_has_multiple_pages() ) {
         View::partial( 'layout-wrapper-content', $atts['slug'] );
     }
-} );
+}
+
+Hooks::colibri_add_action( "layout_wrapper_output_tags_container",
+    'colibriwp_layout_wrapper_output_tags_container' );
+
+Hooks::colibri_add_action( "layout_wrapper_output_categories_container",
+    'colibriwp_layout_wrapper_output_categories_container' );
+
+Hooks::colibri_add_action( "layout_wrapper_output_navigation_container",
+    'colibriwp_layout_wrapper_output_navigation_container' );

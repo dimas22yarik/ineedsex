@@ -67,8 +67,10 @@ function set_plugin_option($option_name, $data, $backup = false)
         update_option($colibri_option_name, $data);
     } else {
         $assoc = colibri_options_to_theme_assoc();
-        $theme_asoc = $assoc[$option_name];
-        set_theme_path($theme_asoc, $data);
+        if (isset($assoc[$option_name])) {
+			$theme_asoc = $assoc[$option_name];
+			set_theme_path($theme_asoc, $data);
+		}
     }
 }
 

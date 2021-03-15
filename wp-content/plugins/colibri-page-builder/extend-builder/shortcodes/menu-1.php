@@ -200,11 +200,9 @@ function colibri_woocommerce_cart_menu_item( $items, $args = false ) {
 	ob_start();
 	?>
     <li class="mesmerize-menu-cart">
-        <a href="<?php echo $cart_url ?>">
-            <span>
-                <i class='fa fa-shopping-cart'></i>
-                <span class='cart-label'><?php echo $cartLabel ?></span>
-            </span>
+        <a href="<?php echo esc_url($cart_url) ?>">
+            <i style="transition-duration: 0s;" class='dashicons dashicons-cart'></i>
+			<?php echo esc_html($cartLabel); ?>
         </a>
     </li>
 	<?php

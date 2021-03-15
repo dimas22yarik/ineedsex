@@ -9,29 +9,37 @@ use WP_Customize_Manager;
 
 class AlignButtonGroupControl extends ButtonGroupControl {
 
-	public $type = 'colibri-align-button-group';
+    public $type = 'colibri-align-button-group';
 
-	public function __construct( WP_Customize_Manager $manager, $id, array $args = array() ) {
-		parent::__construct( $manager, $id, $args );
-	}
+    public function __construct( WP_Customize_Manager $manager, $id, array $args = array() ) {
+        parent::__construct( $manager, $id, $args );
+    }
 
-	/**
-	 * @return bool|mixed
-	 */
-	public function getNoneValue() {
-		return $this->getParam( 'none_value' );
-	}
+    public static function sanitize( $value, $control_data, $default = '' ) {
+        if ( in_array( $value, array( 'left', 'center', 'right' ) ) ) {
+            return $value;
+        }
 
-	protected function content_template() {
-		$this->printVueMountPoint();
+        return 'left';
+    }
 
-		?>
+    /**
+     * @return bool|mixed
+     */
+    public function getNoneValue() {
+        return $this->getParam( 'none_value' );
+    }
+
+    protected function content_template() {
+        $this->printVueMountPoint();
+
+        ?>
         <div class="customize-control-notifications-container"></div>
-		<?php
-	}
+        <?php
+    }
 
-	protected function printVueContent() {
-		?>
+    protected function printVueContent() {
+        ?>
         <div class="colibri-fullwidth">
             <div class="inline-elements-container">
                 <div class="inline-element">
@@ -90,14 +98,6 @@ class AlignButtonGroupControl extends ButtonGroupControl {
                 </div>
             </el-button-group>
         </div>
-		<?php
-	}
-
-	public static function sanitize( $value, $control_data, $default = '' ) {
-		if ( in_array( $value, array( 'left', 'center', 'right' ) ) ) {
-			return $value;
-		}
-
-		return 'left';
-	}
+        <?php
+    }
 }

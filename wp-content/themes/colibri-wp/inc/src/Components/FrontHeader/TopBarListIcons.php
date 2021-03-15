@@ -42,7 +42,6 @@ class TopBarListIcons extends ComponentBase {
 					'control' => array(
 						'label'          => Translations::get( 'icons' ),
 						'type'           => 'repeater',
-						'input_type'     => 'textarea',
 						'section'        => "{$prefix}section",
 						'colibri_tab'    => 'content',
 						'item_add_label' => Translations::get( 'add_item' ),

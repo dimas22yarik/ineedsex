@@ -2,6 +2,7 @@
 
 
 use ColibriWP\Theme\Core\Hooks;
+use ColibriWP\Theme\Translations;
 use ColibriWP\Theme\View;
 
 $colibriwp_tabs            = View::getData( 'tabs', array() );
@@ -10,7 +11,15 @@ $colibriwp_url             = View::getData( 'page_url', null );
 $colibriwp_welcome_message = View::getData( 'welcome_message', null );
 $colibriwp_tab_partial     = View::getData( "tabs.{$colibriwp_current_tab}.tab_partial", null );
 Hooks::colibri_do_action( "before_info_page_tab_{$colibriwp_current_tab}" );
+$colibri_slug = get_template() . "-page-info";
+$colibri_get_started = array(
+	'plugin_installed_and_active' => Translations::escHtml( 'plugin_installed_and_active' ),
+	'activate' => Translations::escHtml( 'activate' ),
+    'activating'                  => __( 'Activating', 'colibri-wp' ),
+	'install_recommended' => isset($_GET['install_recommended']) ? $_GET['install_recommended'] :''
+);
 
+wp_localize_script( $colibri_slug , 'colibri_get_started', $colibri_get_started );
 ?>
 <div class="colibri-admin-page wrap about-wrap full-width-layout mesmerize-page">
 
@@ -30,7 +39,7 @@ Hooks::colibri_do_action( "before_info_page_tab_{$colibriwp_current_tab}" );
             <nav class="nav-tab-wrapper wp-clearfix">
                 <?php foreach ( $colibriwp_tabs as $colibriwp_tab_id => $colibriwp_tab ) : ?>
                     <a class="nav-tab <?php echo ( $colibriwp_current_tab === $colibriwp_tab_id ) ? 'nav-tab-active' : '' ?>"
-                       href="<?php echo esc_attr( add_query_arg( array( 'current_tab' => $colibriwp_tab_id ),
+                       href="<?php echo esc_url( add_query_arg( array( 'current_tab' => $colibriwp_tab_id ),
                            $colibriwp_url ) ); ?>">
                         <?php echo esc_html( $colibriwp_tab['title'] ); ?>
                     </a>

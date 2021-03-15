@@ -7,11 +7,11 @@ use ColibriWP\Theme\View;
 
 class Sidebar extends ComponentBase {
 
-	public function renderContent() {
-		View::partial( 'sidebar', 'post', array(
+	public function renderContent($options = array()) {
+	    $id = isset($options['id']) ? $options['id'] : 'post';
+		View::partial( 'sidebar', $id, array(
 			"component" => $this,
 		) );
-
 	}
 
 	/**

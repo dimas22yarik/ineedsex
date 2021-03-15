@@ -5,6 +5,8 @@ use ColibriWP\Theme\Translations;
 
 $colibriwp_is_builder_installed = apply_filters( 'colibri_page_builder/installed', false );
 
+wp_enqueue_script( 'updates' );
+
 function colibriwp_get_setting_link( $setting ) {
     return esc_attr( colibriwp_theme()->getCustomizer()->getSettingQuickLink( $setting ) );
 }
@@ -28,7 +30,9 @@ function colibriwp_get_setting_link( $setting ) {
                     continue;
                 }
                 ?>
-                <div class="colibri-notice <?php echo esc_attr( $colibriwp_notice_type ); ?>">
+                <div 
+				
+					class="colibri-notice <?php echo esc_attr( $colibriwp_notice_type ); ?> plugin-card-<?php echo $colibriwp_recommended_plugin_slug;?>">
                     <div class="colibri-notice__header">
                         <h3 class="colibri-notice__title"><?php echo esc_html( colibriwp_theme()->getPluginsManager()->getPluginData( "{$colibriwp_recommended_plugin_slug}.name" ) ); ?></h3>
                         <div class="colibri-notice__action">
@@ -36,13 +40,15 @@ function colibriwp_get_setting_link( $setting ) {
                                 <p class="colibri-notice__action__active"><?php Translations::escHtmlE( 'plugin_installed_and_active' ); ?> </p>
                             <?php else: ?>
                                 <?php if ( $colibriwp_plugin_state === PluginsManager::INSTALLED_PLUGIN ): ?>
-                                    <a class="button button-large"
-                                       href="<?php echo esc_attr( colibriwp_theme()->getPluginsManager()->getActivationLink( $colibriwp_recommended_plugin_slug ) ); ?>">
+                                    <a class="button button-large activate-now" 
+										data-slug="<?php echo $colibriwp_recommended_plugin_slug;?>"
+                                       href="<?php echo esc_url( colibriwp_theme()->getPluginsManager()->getActivationLink( $colibriwp_recommended_plugin_slug ) ); ?>">
                                         <?php Translations::escHtmlE( 'activate' ); ?>
                                     </a>
                                 <?php else: ?>
-                                    <a class="button button-large"
-                                       href="<?php echo esc_attr( colibriwp_theme()->getPluginsManager()->getInstallLink( $colibriwp_recommended_plugin_slug ) ); ?>">
+                                    <a class="button button-large install-now"
+									   data-slug="<?php echo $colibriwp_recommended_plugin_slug;?>"
+                                       href="<?php echo esc_url( colibriwp_theme()->getPluginsManager()->getInstallLink( $colibriwp_recommended_plugin_slug ) ); ?>">
                                         <?php Translations::escHtmlE( 'install' ); ?>
                                     </a>
                                 <?php endif; ?>
@@ -67,7 +73,7 @@ function colibriwp_get_setting_link( $setting ) {
                     <span class="colibri-customizer-option__icon dashicons dashicons-format-image"></span>
                     <a class="colibri-customizer-option__label"
                        target="_blank"
-                       href="<?php echo esc_attr( colibriwp_get_setting_link( 'logo' ) ); ?>">
+                       href="<?php echo esc_url( colibriwp_get_setting_link( 'logo' ) ); ?>">
                         <?php Translations::escHtmlE( 'get_started_set_logo' ); ?>
                     </a>
                 </div>
@@ -75,7 +81,7 @@ function colibriwp_get_setting_link( $setting ) {
                     <span class="colibri-customizer-option__icon dashicons dashicons-format-image"></span>
                     <a class="colibri-customizer-option__label"
                        target="_blank"
-                       href="<?php echo esc_attr( colibriwp_get_setting_link( 'hero_background' ) ); ?>">
+                       href="<?php echo esc_url( colibriwp_get_setting_link( 'hero_background' ) ); ?>">
                         <?php Translations::escHtmlE( 'get_started_change_hero_image' ); ?>
                     </a>
                 </div>
@@ -83,7 +89,7 @@ function colibriwp_get_setting_link( $setting ) {
                     <span class="colibri-customizer-option__icon dashicons dashicons-menu-alt3"></span>
                     <a class="colibri-customizer-option__label"
                        target="_blank"
-                       href="<?php echo esc_attr( colibriwp_get_setting_link( 'navigation' ) ); ?>">
+                       href="<?php echo esc_url( colibriwp_get_setting_link( 'navigation' ) ); ?>">
                         <?php Translations::escHtmlE( 'get_started_change_customize_navigation' ); ?>
                     </a>
                 </div>
@@ -91,7 +97,7 @@ function colibriwp_get_setting_link( $setting ) {
                     <span class="colibri-customizer-option__icon dashicons dashicons-layout"></span>
                     <a class="colibri-customizer-option__label"
                        target="_blank"
-                       href="<?php echo esc_attr( colibriwp_get_setting_link( 'hero_layout' ) ); ?>">
+                       href="<?php echo esc_url( colibriwp_get_setting_link( 'hero_layout' ) ); ?>">
                         <?php Translations::escHtmlE( 'get_started_change_customize_hero' ); ?>
                     </a>
                 </div>
@@ -99,7 +105,7 @@ function colibriwp_get_setting_link( $setting ) {
                     <span class="colibri-customizer-option__icon dashicons dashicons-admin-appearance"></span>
                     <a class="colibri-customizer-option__label"
                        target="_blank"
-                       href="<?php echo esc_attr( colibriwp_get_setting_link( 'footer' ) ); ?>">
+                       href="<?php echo esc_url( colibriwp_get_setting_link( 'footer' ) ); ?>">
                         <?php Translations::escHtmlE( 'get_started_customize_footer' ); ?>
                     </a>
                 </div>
@@ -108,7 +114,7 @@ function colibriwp_get_setting_link( $setting ) {
                         <span class="colibri-customizer-option__icon dashicons dashicons-art"></span>
                         <a class="colibri-customizer-option__label"
                            target="_blank"
-                           href="<?php echo esc_attr( colibriwp_get_setting_link( 'color_scheme' ) ); ?>">
+                           href="<?php echo esc_url( colibriwp_get_setting_link( 'color_scheme' ) ); ?>">
                             <?php Translations::escHtmlE( 'get_started_change_color_settings' ); ?>
                         </a>
                     </div>
@@ -116,7 +122,7 @@ function colibriwp_get_setting_link( $setting ) {
                         <span class="colibri-customizer-option__icon dashicons dashicons-editor-textcolor"></span>
                         <a class="colibri-customizer-option__label"
                            target="_blank"
-                           href="<?php echo esc_attr( colibriwp_get_setting_link( 'general_typography' ) ); ?>">
+                           href="<?php echo esc_url( colibriwp_get_setting_link( 'general_typography' ) ); ?>">
                             <?php Translations::escHtmlE( 'get_started_customize_fonts' ); ?>
                         </a>
                     </div>
@@ -126,7 +132,7 @@ function colibriwp_get_setting_link( $setting ) {
                     <span class="colibri-customizer-option__icon dashicons dashicons-menu-alt3"></span>
                     <a class="colibri-customizer-option__label"
                        target="_blank"
-                       href="<?php echo esc_attr( colibriwp_get_setting_link( 'menu' ) ); ?>">
+                       href="<?php echo esc_url( colibriwp_get_setting_link( 'menu' ) ); ?>">
                         <?php Translations::escHtmlE( 'get_started_set_menu_links' ); ?>
                     </a>
                 </div>
@@ -134,3 +140,9 @@ function colibriwp_get_setting_link( $setting ) {
         </div>
     </div>
 </div>
+<?php
+
+
+
+wp_print_request_filesystem_credentials_modal();
+wp_print_admin_notice_templates();

@@ -7,6 +7,7 @@ namespace ColibriWP\PageBuilder\DemoImport\Views;
 use ColibriWP\PageBuilder\DemoImport\DemoImport;
 use ColibriWP\PageBuilder\LoadingScreen;
 use ColibriWP\PageBuilder\PageBuilder;
+use ColibriWP\PageBuilder\ThemeHooks;
 use function ExtendBuilder\builderUrl;
 use function ExtendBuilder\devUrl;
 use function ExtendBuilder\isDev;
@@ -19,15 +20,13 @@ class PageView {
 
 	public function __construct( $demo_importer ) {
 
-		$this->demo_importer = $demo_importer;
+			      $this->demo_importer = $demo_importer;
 
-		add_filter( 'colibriwp_theme_info_page_data_tab_demo-import', array( $this, 'tabData' ) );
+			      ThemeHooks::prefixed_add_filter( 'info_page_data_tab_demo-import', array( $this, 'tabData' ) );
+			      ThemeHooks::prefixed_add_action( 'before_info_page_tab_demo-import', array( $this, 'beforeTab' ) );
+			      ThemeHooks::prefixed_add_filter( 'info_page_tabs', function ( $tabs ) {
 
-		add_action( 'colibriwp_theme_before_info_page_tab_demo-import', array( $this, 'beforeTab' ) );
-
-		add_filter( 'colibriwp_theme_info_page_tabs', function ( $tabs ) {
-
-			$partial = PageBuilder::instance()->themeDataPath( "/demo-importer/tab_partial.php" );
+			$partial = PageBuilder::instance()->rootPath(). "/demo-importer/tab_partial.php";
 
 			$tabs['demo-import'] = array(
 				'title'       => "Demo Sites",
@@ -47,7 +46,8 @@ class PageView {
 	}
 
 	public function isImporterInstalled() {
-		return class_exists( "OCDI\OneClickDemoImport" );
+        return true;
+//        return class_exists( "OCDI\OneClickDemoImport" );
 	}
 
 	public function beforeTab() {
@@ -60,7 +60,8 @@ class PageView {
 		);
 
         ?>
-        <link rel="stylesheet" href="<?php echo esc_attr(PageBuilder::instance()->assetsRootURL() . "/css/demo-import.css?ver=" .PageBuilder::instance()->getVersion())?>"/>
+        <link rel="stylesheet"
+              href="<?php echo esc_attr( PageBuilder::instance()->assetsRootURL() . "/css/demo-import.css?ver=" . PageBuilder::instance()->getVersion() ) ?>"/>
         <?php
 
 		$ver = PageBuilder::instance()->getVersion();
@@ -71,25 +72,28 @@ class PageView {
 			wp_enqueue_script( 'thickbox' );
 			wp_enqueue_script( 'jquery-ui-dialog' );
 			wp_enqueue_style( 'wp-jquery-ui-dialog' );
-			wp_enqueue_script( 'ocdi-main-js', PT_OCDI_URL . 'assets/js/main.js', array( 'jquery', 'jquery-ui-dialog' ),
-				PT_OCDI_VERSION );
+            wp_enqueue_script( 'extendthemes-ocdi-main-js', PageBuilder::instance()->assetsRootURL() . '/ocdi/main.js', array( 'jquery', 'jquery-ui-dialog' ),
+                COLIBRI_PAGE_BUILDER_VERSION );
 
 
 			if ( ! isDev() ) {
 				registerBuilderAssets();
 				wp_enqueue_style( 'colibri-regenerate-theme', builderUrl( "renderer.css", "css" ), array(), $ver );
-				wp_enqueue_script( 'colibri-regenerate-theme', builderUrl( "renderer.js", "js" ), array( 'h-vendor','shortcode' ),
+                wp_enqueue_script( 'colibri-regenerate-theme', builderUrl( "renderer.js", "js" ), array(
+                    'h-vendor',
+                    'shortcode'
+                ),
 					$ver, true );
 			} else {
 				wp_enqueue_script( 'colibri-regenerate-theme', devUrl( "renderer.js" ), array('shortcode') );
 			}
 
-			wp_localize_script( 'ocdi-main-js', 'ocdi',
+            wp_localize_script( 'extendthemes-ocdi-main-js', 'extendthemes_ocdi',
 				array(
 					'ajax_url'         => admin_url( 'admin-ajax.php' ),
-					'ajax_nonce'       => wp_create_nonce( 'ocdi-ajax-verification' ),
+                    'ajax_nonce'       => wp_create_nonce( 'extendthemes-ocdi-ajax-verification' ),
 					'import_files'     => $this->demo_importer->getImporterFiles(),
-					'wp_customize_on'  => apply_filters( 'pt-ocdi/enable_wp_customize_save_hooks', false ),
+                    'wp_customize_on'  => apply_filters( 'extendthemes-ocdi/enable_wp_customize_save_hooks', false ),
 					'import_popup'     => false,
 					'theme_screenshot' => wp_get_theme()->get_screenshot(),
 					'texts'            => array(
@@ -110,7 +114,7 @@ class PageView {
 
 					),
 					'plugin_state'     => intval( PageBuilder::instance()->isPRO() ),
-					'dialog_options'   => apply_filters( 'pt-ocdi/confirmation_dialog_options', array() ),
+                    'dialog_options'   => apply_filters( 'extendthemes-ocdi/confirmation_dialog_options', array() ),
 
 				)
 			);
@@ -119,7 +123,7 @@ class PageView {
 			?>
             <script>
                 window.ocdi_needs_instalation = true;
-                window.ocdi_current_state = "<?php echo colibriwp_theme()->getPluginsManager()->getPluginState( 'one-click-demo-import' ); ?>";
+                window.ocdi_current_state = "<?php echo PageBuilder::instance()->theme()->getPluginsManager()->getPluginState( 'one-click-demo-import' ); ?>";
             </script>
 			<?php
 		}

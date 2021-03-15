@@ -60,529 +60,22 @@
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 340);
+/******/ 	return __webpack_require__(__webpack_require__.s = 366);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 32:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = maybe_deserialize;
-
-function maybe_deserialize(value) {
-    if (_.isString(value)) {
-        try {
-            value = JSON.parse(decodeURIComponent(value));
-        } catch (e) {}
-    }
-
-    return value;
-}
-
-/***/ }),
-
-/***/ 340:
+/***/ 100:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(341);
-
-
-/***/ }),
-
-/***/ 341:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__undescore_extensions__ = __webpack_require__(35);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__undescore_extensions___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__undescore_extensions__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__preview_css_preview__ = __webpack_require__(342);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__preview_js_preview__ = __webpack_require__(343);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__custom_preview__ = __webpack_require__(344);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__custom_preview___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__custom_preview__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__preview_selective_refresh__ = __webpack_require__(345);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__preview_selective_refresh___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__preview_selective_refresh__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__preview_specific_bindings__ = __webpack_require__(346);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__preview_specific_bindings___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__preview_specific_bindings__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_domready__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_domready___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_domready__);
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 
-
-
-
-
-
-
-
-var ColibriCustomizerPreviewer = function () {
-    function ColibriCustomizerPreviewer() {
-        _classCallCheck(this, ColibriCustomizerPreviewer);
-    }
-
-    _createClass(ColibriCustomizerPreviewer, null, [{
-        key: "bindSetting",
-        value: function bindSetting(setting, callback) {
-            window.wp.customize(setting, function (setting) {
-                setting.bind(callback);
-            });
-        }
-    }]);
-
-    return ColibriCustomizerPreviewer;
-}();
-
-__WEBPACK_IMPORTED_MODULE_6_domready___default()(function () {
-    wp.customize.preview.send('colibri-ready', _wpCustomizeSettings);
+Object.defineProperty(exports, "__esModule", {
+    value: true
 });
-
-window.ColibriCustomizerPreviewer = ColibriCustomizerPreviewer;
-
-/***/ }),
-
-/***/ 342:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__compare__ = __webpack_require__(58);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__maybe_deserialize__ = __webpack_require__(32);
-
-
-
 var $ = jQuery,
-    domready = __webpack_require__(8),
-    sprintf = __webpack_require__(57).sprintf;
-
-function isSettingActive(key) {
-    if (!colibri_CONTROLS_ACTIVE_RULES[key]) {
-        return true;
-    }
-
-    var rules = colibri_CONTROLS_ACTIVE_RULES[key] || [];
-
-    for (var i = 0; i < rules.length; i++) {
-        var rule = rules[i],
-            value1 = Object(__WEBPACK_IMPORTED_MODULE_1__maybe_deserialize__["a" /* default */])(wp.customize(rule.setting).get()),
-            value2 = rule.value,
-            operator = rule.operator;
-
-        if (!Object(__WEBPACK_IMPORTED_MODULE_0__compare__["a" /* default */])(value1, value2, operator)) {
-            return false;
-        }
-    }
-
-    return true;
-}
-
-function getStyleRulesByMedia() {
-    var medias = {};
-
-    var _loop = function _loop(key) {
-        if (!colibri_CSS_OUTPUT_CONTROLS.hasOwnProperty(key)) {
-            return "continue";
-        }
-
-        if (!isSettingActive(key)) {
-            return "continue";
-        }
-
-        var rules = colibri_CSS_OUTPUT_CONTROLS[key];
-        rules.forEach(function (data) {
-            if (!medias[data.media]) {
-                medias[data.media] = [];
-            }
-
-            var value = Object(__WEBPACK_IMPORTED_MODULE_1__maybe_deserialize__["a" /* default */])(wp.customize(key).get());
-            if (_.isObject(data.value)) {
-                value = data.value[value];
-            }
-            medias[data.media].push($.extend({}, data, { value: value }));
-        });
-    };
-
-    for (var key in colibri_CSS_OUTPUT_CONTROLS) {
-        var _ret = _loop(key);
-
-        if (_ret === "continue") continue;
-    }
-
-    return medias;
-}
-
-function getItemValue(item) {
-    if (_.isObject(item.value)) {
-
-        var __value = item.value_pattern;
-
-        __value = __value.replace(/#([\w_.]+)#/ig, function (m1, m2) {
-            return _.get(item.value, m2);
-        });
-
-        return __value;
-    } else {
-        if (_.isBoolean(item.value)) {
-            if (item.value) {
-                if (item.true_value) {
-                    return item.true_value;
-                } else {
-                    return undefined;
-                }
-            } else {
-                if (item.false_value) {
-                    return item.false_value;
-                } else {
-                    return undefined;
-                }
-            }
-        }
-    }
-
-    if (!JSON.stringify(item.value).length) {
-        return '';
-    }
-
-    return sprintf(item.value_pattern, item.value);
-}
-
-function generateCSSOutputForMedia(media, data) {
-    var selectors = {};
-
-    var selectorsPrefix = colibri_ADDITIONAL_JS_DATA.css_selectors_prefix || "";
-
-    data.forEach(function (item) {
-
-        var selector = item.selector;
-
-        if (_.isArray(selector)) {
-            selector = selector.join(',');
-        }
-
-        if (!selectors[selector]) {
-            selectors[selector] = {};
-        }
-
-        var value = getItemValue(item);
-
-        if (value !== undefined) {
-            selectors[selector][item.property] = value;
-        }
-    });
-
-    var content = '';
-    for (var selector in selectors) {
-
-        if (!selectors.hasOwnProperty(selector)) {
-            continue;
-        }
-
-        var selector_composed_rules = [],
-            selector_rules = selectors[selector];
-
-        for (var prop in selector_rules) {
-            if (!selector_rules.hasOwnProperty(prop)) {
-                continue;
-            }
-            var value = selector_rules[prop];
-            selector_composed_rules.push(prop + ":" + value);
-        }
-
-        var rules = selector_composed_rules.join(";");
-        content += selectorsPrefix + " " + selector + "{" + rules + "}";
-    }
-
-    if (media) {
-        content = media + "{" + content + "}";
-    }
-
-    return content;
-}
-
-function _displayStyle() {
-    var $style = $('[data-colibri-theme-style="true"]'),
-        styleByMedia = getStyleRulesByMedia(),
-        content = '';
-
-    for (var media in styleByMedia) {
-        if (!styleByMedia.hasOwnProperty(media)) {
-            continue;
-        }
-
-        var data = styleByMedia[media];
-        if (media === "__colibri__no__media__") {
-            media = "";
-        }
-
-        content += generateCSSOutputForMedia(media, data);
-    }
-
-    $style.text(content);
-}
-
-var displayStyle = _.debounce(_displayStyle, 100);
-
-domready(function () {
-    var settingsInActiveRules = [];
-
-    for (var key in colibri_CONTROLS_ACTIVE_RULES) {
-        if (!colibri_CONTROLS_ACTIVE_RULES.hasOwnProperty(key)) {
-            continue;
-        }
-
-        if (!colibri_CSS_OUTPUT_CONTROLS[key]) {
-            continue;
-        }
-
-        for (var i = 0; i < colibri_CONTROLS_ACTIVE_RULES[key].length; i++) {
-            var setting = colibri_CONTROLS_ACTIVE_RULES[key][i].setting;
-            if (setting && settingsInActiveRules.indexOf(setting) === -1) {
-                settingsInActiveRules.push(setting);
-            }
-        }
-    }
-
-    settingsInActiveRules.concat(_.keys(colibri_CSS_OUTPUT_CONTROLS)).forEach(function (control_id) {
-        wp.customize(control_id, function (value) {
-            value.bind(function (newValue, oldValue) {
-                displayStyle();
-                top.wp.customize.requestChangesetUpdate({}, { autosave: true });
-            });
-        });
-    });
-});
-
-/***/ }),
-
-/***/ 343:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__js_helpers__ = __webpack_require__(56);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_domready__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_domready___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_domready__);
-
-
-
-__WEBPACK_IMPORTED_MODULE_1_domready___default()(function () {
-    var settingsInActiveRules = [];
-
-    settingsInActiveRules.concat(_.keys(colibri_JS_OUTPUT_CONTROLS)).forEach(function (control_id) {
-        wp.customize(control_id, function (value) {
-            value.bind(function (newValue, oldValue) {
-                Object(__WEBPACK_IMPORTED_MODULE_0__js_helpers__["a" /* default */])(colibri_JS_OUTPUT_CONTROLS[this.id], newValue, oldValue);
-                top.wp.customize.requestChangesetUpdate({}, { autosave: true });
-            });
-        });
-    });
-});
-
-/***/ }),
-
-/***/ 344:
-/***/ (function(module, exports) {
-
-// wp.customize.bind('preview-ready',function () {
-//    wp.customize.preview.receive(function(){
-//       console.log('Received',arguments
-//       )
-//    });
-// })
-
-/***/ }),
-
-/***/ 345:
-/***/ (function(module, exports) {
-
-var $ = jQuery,
-    selectiveRefresh = wp.customize.selectiveRefresh,
-    partialIsRelatedSetting = selectiveRefresh.Partial.prototype.isRelatedSetting,
-    partialRefresh = selectiveRefresh.Partial.prototype.refresh,
-    _renderContent = selectiveRefresh.Partial.prototype.renderContent,
-    partialReady = selectiveRefresh.Partial.prototype.ready,
-    innerRefreshes = [],
-    innerPartialsListGenerated = false,
-    renderInnerPlacementDelay = 200;
-
-function isSelectiveRefreshSetting(id) {
-    return colibri_ADDITIONAL_JS_DATA.selective_refresh_settings.indexOf(id) !== -1;
-}
-
-selectiveRefresh.Partial = selectiveRefresh.Partial.extend({
-    isRelatedSetting: function isRelatedSetting(setting /*... newValue, oldValue */) {
-        var _this = this;
-
-        var isRelatedSetting = partialIsRelatedSetting.apply(this, arguments),
-            isInnerPartial = false;
-
-        if (isRelatedSetting) {
-            selectiveRefresh.partial.each(function (partial) {
-                if (innerRefreshes.indexOf(partial.id) === -1) {
-                    if (_this.containsPartial(partial)) {
-                        innerRefreshes.push(partial.id);
-                    }
-                }
-            });
-        } else {
-            isInnerPartial = innerRefreshes.indexOf(this.id) !== -1;
-
-            if (isInnerPartial) {
-                this.renderedAsInnerPartial = true;
-            } else {
-                this.renderedAsInnerPartial = false;
-            }
-        }
-
-        return isInnerPartial || isRelatedSetting;
-    },
-    refresh: function refresh() {
-        var refreshPromise = partialRefresh.apply(this, arguments);
-        refreshPromise.always(function () {
-            innerRefreshes = [];
-            innerPartialsListGenerated = false;
-        });
-
-        return refreshPromise;
-    },
-    ready: function ready() {
-        var _this2 = this;
-
-        _.each(this.placements(), function (placement) {
-            _this2.addColibriOverlay(placement);
-        });
-
-        partialReady.apply(this, arguments);
-    },
-    addColibriOverlay: function addColibriOverlay(placement) {
-        return;
-        if (placement.container.children('span.customize-colibri-overlay').length === 0) {
-            placement.container.append('<span class="customize-colibri-overlay"></span>');
-        }
-    },
-    renderContent: function renderContent(placement) {
-        var _this3 = this;
-
-        this.addColibriOverlay(placement);
-
-        if (this.renderedAsInnerPartial) {
-            setTimeout(function () {
-                var currentPlacement = _this3.placements()[0];
-                currentPlacement.addedContent = placement.addedContent;
-                _renderContent.call(_this3, currentPlacement);
-            }, renderInnerPlacementDelay);
-        } else {
-            _renderContent.apply(this, arguments);
-        }
-    },
-    containsPartial: function containsPartial(toCheck) {
-        var parentPlacements = this.placements();
-        var childPlacements = toCheck.placements();
-
-        for (var i = 0; i < parentPlacements.length; i++) {
-
-            var parentPlacement = parentPlacements[i].container;
-
-            if (parentPlacement) {
-
-                for (var j = 0; j < childPlacements.length; j++) {
-
-                    var childPlacement = childPlacements[j].container;
-
-                    if (childPlacement && !parentPlacement.is(childPlacement) && $.contains(parentPlacement[0], childPlacement[0])) {
-                        return true;
-                    }
-                }
-            }
-        }
-
-        return false;
-    }
-});
-
-/***/ }),
-
-/***/ 346:
-/***/ (function(module, exports) {
-
-(function ($) {
-    var $win = $(window);
-
-    function setHeroEditButtonTop() {
-        var top = '0';
-        var $hero = $("#hero");
-        var overlap = $("[data-colibri-navigation-overlap]").hasClass('h-navigation_overlap');
-        if (overlap) {
-            top = parseInt($hero.css('padding-top')) + 30;
-        }
-        var button = $hero.children('.customize-partial-edit-shortcut');
-        button.attr('style', "top:" + top + "px !important");
-    }
-
-    $win.on('resize.overlap', setHeroEditButtonTop);
-
-    $win.load(function () {
-        setTimeout(setHeroEditButtonTop, 1000);
-    });
-
-    if (wp.customize && wp.customize.selectiveRefresh) {
-        wp.customize.selectiveRefresh.bind('partial-content-rendered', function (placement) {
-            if (jQuery(placement.partial.params.selector).attr('id') === 'hero') setTimeout(setHeroEditButtonTop, 1000);
-        });
-    }
-
-    window.colibriUpdateHeroPenPosition = setHeroEditButtonTop;
-
-    //update columns width based on layout
-    wp.customize('header_front_page.hero.props.heroSection.layout', function (value) {
-        value.bind(function (newval) {
-            console.log(newval);
-
-            if (newval === 'textWithMediaOnRight' || newval === 'textWithMediaOnLeft') {
-                var control = parent.wp.customize("header_front_page.hero.hero_column_width").findControls()[0];
-                control.vueControl.value = 50;
-                control.vueControl.debouncedSetValue(50);
-            }
-        });
-    });
-})(jQuery);
-
-/***/ }),
-
-/***/ 35:
-/***/ (function(module, exports) {
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-/** @global _ **/
-
-_.mixin({
-    get: function get(obj, key) {
-        var type = typeof key === "undefined" ? "undefined" : _typeof(key);
-
-        if (type === 'string' || type === "number") {
-            key = ("" + key).replace(/\[(.*?)\]/, /\[(.*?)\]/, function (m, key) {
-                //handle case where [1] may occur
-                return '.' + key.replace(/["']/g, /["']/g, ""); //strip quotes
-            }).split('.');
-        }
-        for (var i = 0, l = key.length; i < l; i++) {
-            if (typeof obj !== 'undefined' && _.has(obj, key[i])) obj = obj[key[i]];else return undefined;
-        }
-        return obj;
-    }
-});
-
-/***/ }),
-
-/***/ 56:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var $ = jQuery,
-    domready = __webpack_require__(8);
+    domready = __webpack_require__(26);
 
 function toggleClass(item, newValue, oldValue) {
     var $el = $(item.selector);
@@ -775,11 +268,11 @@ function runJs(data, newValue, oldValue) {
     });
 }
 
-/* harmony default export */ __webpack_exports__["a"] = (runJs);
+exports.default = runJs;
 
 /***/ }),
 
-/***/ 57:
+/***/ 101:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;/* global window, exports, define */
@@ -1018,11 +511,16 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/* global window, exports, define */
 
 /***/ }),
 
-/***/ 58:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ 102:
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = compare;
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = compare;
 function compare(value1, value2, operator) {
     var result = null;
     switch (operator) {
@@ -1080,7 +578,7 @@ function compare(value1, value2, operator) {
 
 /***/ }),
 
-/***/ 8:
+/***/ 26:
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
@@ -1114,6 +612,545 @@ function compare(value1, value2, operator) {
 
 });
 
+
+/***/ }),
+
+/***/ 366:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(367);
+
+
+/***/ }),
+
+/***/ 367:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+__webpack_require__(91);
+
+__webpack_require__(368);
+
+__webpack_require__(369);
+
+__webpack_require__(370);
+
+__webpack_require__(371);
+
+__webpack_require__(372);
+
+var _domready = __webpack_require__(26);
+
+var _domready2 = _interopRequireDefault(_domready);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var ColibriCustomizerPreviewer = function () {
+    function ColibriCustomizerPreviewer() {
+        _classCallCheck(this, ColibriCustomizerPreviewer);
+    }
+
+    _createClass(ColibriCustomizerPreviewer, null, [{
+        key: "bindSetting",
+        value: function bindSetting(setting, callback) {
+            window.wp.customize(setting, function (setting) {
+                setting.bind(callback);
+            });
+        }
+    }]);
+
+    return ColibriCustomizerPreviewer;
+}();
+
+(0, _domready2.default)(function () {
+    wp.customize.preview.send('colibri-ready', _wpCustomizeSettings);
+});
+
+window.ColibriCustomizerPreviewer = ColibriCustomizerPreviewer;
+
+/***/ }),
+
+/***/ 368:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _compare = __webpack_require__(102);
+
+var _compare2 = _interopRequireDefault(_compare);
+
+var _maybeDeserialize = __webpack_require__(62);
+
+var _maybeDeserialize2 = _interopRequireDefault(_maybeDeserialize);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var $ = jQuery,
+    domready = __webpack_require__(26),
+    sprintf = __webpack_require__(101).sprintf;
+
+function isSettingActive(key) {
+    if (!colibri_CONTROLS_ACTIVE_RULES[key]) {
+        return true;
+    }
+
+    var rules = colibri_CONTROLS_ACTIVE_RULES[key] || [];
+
+    for (var i = 0; i < rules.length; i++) {
+        var rule = rules[i],
+            value1 = (0, _maybeDeserialize2.default)(wp.customize(rule.setting).get()),
+            value2 = rule.value,
+            operator = rule.operator;
+
+        if (!(0, _compare2.default)(value1, value2, operator)) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+function getStyleRulesByMedia() {
+    var medias = {};
+
+    var _loop = function _loop(key) {
+        if (!colibri_CSS_OUTPUT_CONTROLS.hasOwnProperty(key)) {
+            return "continue";
+        }
+
+        if (!isSettingActive(key)) {
+            return "continue";
+        }
+
+        var rules = colibri_CSS_OUTPUT_CONTROLS[key];
+        rules.forEach(function (data) {
+            if (!medias[data.media]) {
+                medias[data.media] = [];
+            }
+
+            var value = (0, _maybeDeserialize2.default)(wp.customize(key).get());
+            if (_.isObject(data.value)) {
+                value = data.value[value];
+            }
+            medias[data.media].push($.extend({}, data, { value: value }));
+        });
+    };
+
+    for (var key in colibri_CSS_OUTPUT_CONTROLS) {
+        var _ret = _loop(key);
+
+        if (_ret === "continue") continue;
+    }
+
+    return medias;
+}
+
+function getItemValue(item) {
+    if (_.isObject(item.value)) {
+
+        var __value = item.value_pattern;
+
+        __value = __value.replace(/#([\w_.]+)#/ig, function (m1, m2) {
+            return _.get(item.value, m2);
+        });
+
+        return __value;
+    } else {
+        if (_.isBoolean(item.value)) {
+            if (item.value) {
+                if (item.true_value) {
+                    return item.true_value;
+                } else {
+                    return undefined;
+                }
+            } else {
+                if (item.false_value) {
+                    return item.false_value;
+                } else {
+                    return undefined;
+                }
+            }
+        }
+    }
+
+    if (!JSON.stringify(item.value).length) {
+        return '';
+    }
+
+    return sprintf(item.value_pattern, item.value);
+}
+
+function generateCSSOutputForMedia(media, data) {
+    var selectors = {};
+
+    var selectorsPrefix = colibri_ADDITIONAL_JS_DATA.css_selectors_prefix || "";
+
+    data.forEach(function (item) {
+
+        var selector = item.selector;
+
+        if (_.isArray(selector)) {
+            selector = selector.join(',');
+        }
+
+        if (!selectors[selector]) {
+            selectors[selector] = {};
+        }
+
+        var value = getItemValue(item);
+
+        if (value !== undefined) {
+            selectors[selector][item.property] = value;
+        }
+    });
+
+    var content = '';
+    for (var selector in selectors) {
+
+        if (!selectors.hasOwnProperty(selector)) {
+            continue;
+        }
+
+        var selector_composed_rules = [],
+            selector_rules = selectors[selector];
+
+        for (var prop in selector_rules) {
+            if (!selector_rules.hasOwnProperty(prop)) {
+                continue;
+            }
+            var value = selector_rules[prop];
+            selector_composed_rules.push(prop + ":" + value);
+        }
+
+        var rules = selector_composed_rules.join(";");
+        content += selectorsPrefix + " " + selector + "{" + rules + "}";
+    }
+
+    if (media) {
+        content = media + "{" + content + "}";
+    }
+
+    return content;
+}
+
+function _displayStyle() {
+    var $style = $('[data-colibri-theme-style="true"]'),
+        styleByMedia = getStyleRulesByMedia(),
+        content = '';
+
+    for (var media in styleByMedia) {
+        if (!styleByMedia.hasOwnProperty(media)) {
+            continue;
+        }
+
+        var data = styleByMedia[media];
+        if (media === "__colibri__no__media__") {
+            media = "";
+        }
+
+        content += generateCSSOutputForMedia(media, data);
+    }
+
+    $style.text(content);
+}
+
+var displayStyle = _.debounce(_displayStyle, 100);
+
+domready(function () {
+    var settingsInActiveRules = [];
+
+    for (var key in colibri_CONTROLS_ACTIVE_RULES) {
+        if (!colibri_CONTROLS_ACTIVE_RULES.hasOwnProperty(key)) {
+            continue;
+        }
+
+        if (!colibri_CSS_OUTPUT_CONTROLS[key]) {
+            continue;
+        }
+
+        for (var i = 0; i < colibri_CONTROLS_ACTIVE_RULES[key].length; i++) {
+            var setting = colibri_CONTROLS_ACTIVE_RULES[key][i].setting;
+            if (setting && settingsInActiveRules.indexOf(setting) === -1) {
+                settingsInActiveRules.push(setting);
+            }
+        }
+    }
+
+    settingsInActiveRules.concat(_.keys(colibri_CSS_OUTPUT_CONTROLS)).forEach(function (control_id) {
+        wp.customize(control_id, function (value) {
+            value.bind(function (newValue, oldValue) {
+                displayStyle();
+                top.wp.customize.requestChangesetUpdate({}, { autosave: true });
+            });
+        });
+    });
+});
+
+/***/ }),
+
+/***/ 369:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _jsHelpers = __webpack_require__(100);
+
+var _jsHelpers2 = _interopRequireDefault(_jsHelpers);
+
+var _domready = __webpack_require__(26);
+
+var _domready2 = _interopRequireDefault(_domready);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+(0, _domready2.default)(function () {
+    var settingsInActiveRules = [];
+
+    settingsInActiveRules.concat(_.keys(colibri_JS_OUTPUT_CONTROLS)).forEach(function (control_id) {
+        wp.customize(control_id, function (value) {
+            value.bind(function (newValue, oldValue) {
+                (0, _jsHelpers2.default)(colibri_JS_OUTPUT_CONTROLS[this.id], newValue, oldValue);
+                top.wp.customize.requestChangesetUpdate({}, { autosave: true });
+            });
+        });
+    });
+});
+
+/***/ }),
+
+/***/ 370:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// wp.customize.bind('preview-ready',function () {
+//    wp.customize.preview.receive(function(){
+//       console.log('Received',arguments
+//       )
+//    });
+// })
+
+
+/***/ }),
+
+/***/ 371:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var $ = jQuery,
+    selectiveRefresh = wp.customize.selectiveRefresh,
+    partialIsRelatedSetting = selectiveRefresh.Partial.prototype.isRelatedSetting,
+    partialRefresh = selectiveRefresh.Partial.prototype.refresh,
+    _renderContent = selectiveRefresh.Partial.prototype.renderContent,
+    partialReady = selectiveRefresh.Partial.prototype.ready,
+    innerRefreshes = [],
+    innerPartialsListGenerated = false,
+    renderInnerPlacementDelay = 200;
+
+function isSelectiveRefreshSetting(id) {
+    return colibri_ADDITIONAL_JS_DATA.selective_refresh_settings.indexOf(id) !== -1;
+}
+
+selectiveRefresh.Partial = selectiveRefresh.Partial.extend({
+    isRelatedSetting: function isRelatedSetting(setting /*... newValue, oldValue */) {
+        var _this = this;
+
+        var isRelatedSetting = partialIsRelatedSetting.apply(this, arguments),
+            isInnerPartial = false;
+
+        if (isRelatedSetting) {
+            selectiveRefresh.partial.each(function (partial) {
+                if (innerRefreshes.indexOf(partial.id) === -1) {
+                    if (_this.containsPartial(partial)) {
+                        innerRefreshes.push(partial.id);
+                    }
+                }
+            });
+        } else {
+            isInnerPartial = innerRefreshes.indexOf(this.id) !== -1;
+
+            if (isInnerPartial) {
+                this.renderedAsInnerPartial = true;
+            } else {
+                this.renderedAsInnerPartial = false;
+            }
+        }
+
+        return isInnerPartial || isRelatedSetting;
+    },
+    refresh: function refresh() {
+        var refreshPromise = partialRefresh.apply(this, arguments);
+        refreshPromise.always(function () {
+            innerRefreshes = [];
+            innerPartialsListGenerated = false;
+        });
+
+        return refreshPromise;
+    },
+    ready: function ready() {
+        var _this2 = this;
+
+        _.each(this.placements(), function (placement) {
+            _this2.addColibriOverlay(placement);
+        });
+
+        partialReady.apply(this, arguments);
+    },
+    addColibriOverlay: function addColibriOverlay(placement) {
+        return;
+        if (placement.container.children('span.customize-colibri-overlay').length === 0) {
+            placement.container.append('<span class="customize-colibri-overlay"></span>');
+        }
+    },
+    renderContent: function renderContent(placement) {
+        var _this3 = this;
+
+        this.addColibriOverlay(placement);
+
+        if (this.renderedAsInnerPartial) {
+            setTimeout(function () {
+                var currentPlacement = _this3.placements()[0];
+                currentPlacement.addedContent = placement.addedContent;
+                _renderContent.call(_this3, currentPlacement);
+            }, renderInnerPlacementDelay);
+        } else {
+            _renderContent.apply(this, arguments);
+        }
+    },
+    containsPartial: function containsPartial(toCheck) {
+        var parentPlacements = this.placements();
+        var childPlacements = toCheck.placements();
+
+        for (var i = 0; i < parentPlacements.length; i++) {
+
+            var parentPlacement = parentPlacements[i].container;
+
+            if (parentPlacement) {
+
+                for (var j = 0; j < childPlacements.length; j++) {
+
+                    var childPlacement = childPlacements[j].container;
+
+                    if (childPlacement && !parentPlacement.is(childPlacement) && $.contains(parentPlacement[0], childPlacement[0])) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+});
+
+/***/ }),
+
+/***/ 372:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+(function ($) {
+    var $win = $(window);
+
+    function setHeroEditButtonTop() {
+        var top = '0';
+        var $hero = $("#hero");
+        var overlap = $("[data-colibri-navigation-overlap]").hasClass('h-navigation_overlap');
+        if (overlap) {
+            top = parseInt($hero.css('padding-top')) + 30;
+        }
+        var button = $hero.children('.customize-partial-edit-shortcut');
+        button.attr('style', "top:" + top + "px !important");
+    }
+
+    $win.on('resize.overlap', setHeroEditButtonTop);
+
+    $win.load(function () {
+        setTimeout(setHeroEditButtonTop, 1000);
+    });
+
+    if (wp.customize && wp.customize.selectiveRefresh) {
+        wp.customize.selectiveRefresh.bind('partial-content-rendered', function (placement) {
+            if (jQuery(placement.partial.params.selector).attr('id') === 'hero') setTimeout(setHeroEditButtonTop, 1000);
+        });
+    }
+
+    window.colibriUpdateHeroPenPosition = setHeroEditButtonTop;
+
+    //update columns width based on layout
+    wp.customize('header_front_page.hero.props.heroSection.layout', function (value) {
+        value.bind(function (newval) {
+            console.log(newval);
+
+            if (newval === 'textWithMediaOnRight' || newval === 'textWithMediaOnLeft') {
+                var control = parent.wp.customize("header_front_page.hero.hero_column_width").findControls()[0];
+                control.vueControl.value = 50;
+                control.vueControl.debouncedSetValue(50);
+            }
+        });
+    });
+})(jQuery);
+
+/***/ }),
+
+/***/ 62:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = maybe_deserialize;
+function maybe_deserialize(value) {
+    if (_.isString(value)) {
+        try {
+            value = JSON.parse(decodeURIComponent(value));
+        } catch (e) {}
+    }
+
+    return value;
+}
+
+/***/ }),
+
+/***/ 91:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+/** @global _ **/
+
+_.mixin({
+    get: function get(obj, key) {
+        var type = typeof key === "undefined" ? "undefined" : _typeof(key);
+
+        if (type === 'string' || type === "number") {
+            key = ("" + key).replace(/\[(.*?)\]/, /\[(.*?)\]/, function (m, key) {
+                //handle case where [1] may occur
+                return '.' + key.replace(/["']/g, /["']/g, ""); //strip quotes
+            }).split('.');
+        }
+        for (var i = 0, l = key.length; i < l; i++) {
+            if (typeof obj !== 'undefined' && _.has(obj, key[i])) obj = obj[key[i]];else return undefined;
+        }
+        return obj;
+    }
+});
 
 /***/ })
 

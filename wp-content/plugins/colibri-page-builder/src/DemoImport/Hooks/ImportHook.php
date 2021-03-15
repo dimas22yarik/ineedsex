@@ -35,7 +35,7 @@ abstract class ImportHook {
 		if ( ! isset( static::$instance[ static::class ] ) ) {
 			$instance                          = new static();
 			static::$instance[ static::class ] = $instance;
-			add_action( 'pt-ocdi/after_import', array( $instance, 'afterImport' ),
+			add_action( 'extendthemes-ocdi/after_import', array( $instance, 'afterImport' ),
 				$instance->afterImportPriority() );
 		}
 	}
@@ -102,12 +102,12 @@ abstract class ImportHook {
 	/**
 	 * Protected clone method to prevent cloning of the Singleton instance.
 	 */
-	protected function __clone() {
+	public function __clone() {
 	}
 
 	/**
 	 * Protected wakeup method to prevent unserializing of the Singleton instance.
 	 */
-	protected function __wakeup() {
+	public function __wakeup() {
 	}
 }

@@ -19,3 +19,4 @@ require_once __DIR__ . '/breadcrumb.php';
 require_once __DIR__ . '/blog/index.php';
 require_once __DIR__ . '/newsletter.php';
 require_once __DIR__ . '/filters.php';
+require_once __DIR__ . '/contact-form.php';

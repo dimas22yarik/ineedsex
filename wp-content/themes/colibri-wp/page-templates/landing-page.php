@@ -17,6 +17,8 @@
 <?php
 if ( function_exists( 'wp_body_open' ) ) {
     wp_body_open();
+} else {
+    do_action( 'wp_body_open' );
 }
 ?>
 <div class="site" id="page-top">

@@ -6,7 +6,6 @@ namespace ColibriWP\Theme;
 
 use ColibriWP\Theme\Core\ComponentInterface;
 use ColibriWP\Theme\Core\Hooks;
-use ColibriWP\Theme\Core\Utils;
 use Exception;
 use function add_theme_support;
 use function register_nav_menus;
@@ -140,39 +139,39 @@ class Theme {
             update_option( "{$slug}-theme-notice-dismissed", true );
         } );
 
-        add_filter( 'language_attributes', function ( $output ) {
-            if ( apply_filters( 'colibri_page_builder/installed', false ) ) {
-                return $output;
-            }
+        add_filter( 'language_attributes', array( $this, 'languageAttributes' ) );
 
-            $theme_class = get_template() . "-theme";
-            $output      .= " class='{$theme_class}'";
-
-            return $output;
-
-        } );
-
-        add_action( 'admin_enqueue_scripts', function () {
-
-            $slug = get_template() . "-page-info";
-
-            $this->getAssetsManager()->registerScript(
-                $slug,
-                $this->getAssetsManager()->getBaseURL() . "/admin/admin.js",
-                array( 'jquery' ),
-                false
-            )->registerStyle(
-                $slug,
-                $this->getAssetsManager()->getBaseURL() . "/admin/admin.css" .
-                false
-            );
-
-        }, 0 );
-
+        add_action( 'admin_enqueue_scripts', array( $this, 'enqueueAdminScripts' ), 0 );
     }
 
     private function registerMenus() {
         register_nav_menus( $this->registered_menus );
+    }
+
+    public function languageAttributes( $output ) {
+        if ( apply_filters( 'colibri_page_builder/installed', false ) ) {
+            return $output;
+        }
+
+        $theme_class = get_template() . "-theme";
+        $output      .= " class='{$theme_class}'";
+
+        return $output;
+
+    }
+
+    public function enqueueAdminScripts() {
+        $slug = get_template() . "-page-info";
+
+        $this->getAssetsManager()->registerScript(
+            $slug,
+            $this->getAssetsManager()->getBaseURL() . "/admin/admin.js",
+            array( 'jquery' ),
+            false
+        )->registerStyle(
+            $slug,
+            $this->getAssetsManager()->getBaseURL() . "/admin/admin.css" .
+            false );
     }
 
     /**
@@ -238,16 +237,17 @@ class Theme {
             array( $this, 'printThemePage' )
         );
 
-        add_action( 'admin_enqueue_scripts', function () {
-            global $plugin_page;
-            $slug = get_template() . "-page-info";
+        add_action( 'admin_enqueue_scripts', array( $this, 'enqueueThemeInfoPageScripts' ), 20 );
+    }
 
-            if ( $plugin_page === $slug ) {
-                wp_enqueue_style( $slug );
-                wp_enqueue_script( $slug );
-            }
+    public function enqueueThemeInfoPageScripts() {
+        global $plugin_page;
+        $slug = get_template() . "-page-info";
 
-        }, 20 );
+        if ( $plugin_page === $slug ) {
+            wp_enqueue_style( $slug );
+            wp_enqueue_script( $slug );
+        }
     }
 
     public function printThemePage() {
@@ -282,14 +282,12 @@ class Theme {
 
     }
 
-    public function getTheme( $stylesheet = null ) {
+    public function getThemeHeaderData( $key, $child = false ) {
 
-        if ( ! array_key_exists( $stylesheet, $this->themes_cache ) ) {
-            $this->themes_cache[ $stylesheet ] = wp_get_theme( $stylesheet );
-        }
+        $slug  = $this->getThemeSlug( $child );
+        $theme = $this->getTheme( $slug );
 
-        return $this->themes_cache[ $stylesheet ];
-
+        return $theme->get( $key );
     }
 
     public function getThemeSlug( $maybe_get_child = false ) {
@@ -307,12 +305,14 @@ class Theme {
 
     }
 
-    public function getThemeHeaderData( $key, $child = false ) {
+    public function getTheme( $stylesheet = null ) {
 
-        $slug  = $this->getThemeSlug( $child );
-        $theme = $this->getTheme( $slug );
+        if ( ! array_key_exists( $stylesheet, $this->themes_cache ) ) {
+            $this->themes_cache[ $stylesheet ] = wp_get_theme( $stylesheet );
+        }
 
-        return $theme->get( $key );
+        return $this->themes_cache[ $stylesheet ];
+
     }
 
     public function doInitWidgets() {

@@ -1788,6 +1788,9 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
         public function is_plugin_installed( $slug ) {
             $installed_plugins = $this->get_plugins(); // Retrieve a list of all installed plugins (WP cached).
 
+            if(!isset($this->plugins[ $slug ])) {
+                return false;
+            }
             return ( ! empty( $installed_plugins[ $this->plugins[ $slug ]['file_path'] ] ) );
         }
 

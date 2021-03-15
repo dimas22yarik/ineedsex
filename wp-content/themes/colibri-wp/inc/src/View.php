@@ -28,8 +28,22 @@ class View {
         $category = Utils::camel2dashed( $category );
         $slug     = Utils::camel2dashed( $slug );
 
-        static::make( "template-parts/{$category}/{$slug}", $data );
 
+        static::prinDebugHTMLComment( 'Start Partial', "/{$category}/{$slug}" );
+        static::make( "template-parts/{$category}/{$slug}", $data );
+        static::prinDebugHTMLComment( 'Start Partial', "/{$category}/{$slug}" );
+
+    }
+
+    public static function prinDebugHTMLComment( $message = '', $details = '' ) {
+
+        if ( defined( 'COLIBRI_THEME_DEBUG' ) && COLIBRI_THEME_DEBUG && ! is_customize_preview() ) {
+            $message = $details ? trim( $message ) . " - " : '';
+            $content = trim( strtoupper( $message ) . trim( $details ) );
+            ?>
+            <!--  <?php echo esc_attr( $content ); ?> -->
+            <?php
+        }
     }
 
     public static function make( $path, $data = array() ) {
@@ -232,6 +246,7 @@ class View {
             }
 
             $value             = esc_attr( $value );
+            $key               = sanitize_key( $key );
             $key_value_attrs[] = "{$key}='{$value}'";
         }
 
@@ -284,6 +299,7 @@ class View {
         $class         = Utils::pathGet( $args, 'class', array() );
         $class         = array_merge( array( 'content', ' position-relative' ), $class );
         $args['class'] = $class;
+        $args['id']    = Utils::pathGet( $args, 'id', 'content' );
 
         self::printElementStart( 'div', $args );
 

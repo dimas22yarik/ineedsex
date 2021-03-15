@@ -330,16 +330,30 @@ function get_colibri_image( $name ) {
 }
 
 function import_colibri_image( $url ) {
+	$skip_import = apply_filters( 'colibri_api_import_image_skip', false );
+	if($skip_import) {
+		return  array(
+			'colibri-url' => $url,
+			'url'         => $url,
+		);
+	}
+    	include_once( ABSPATH . 'wp-admin/includes/image.php' );
 	$name           = basename( $url );
 	$existing_image = get_colibri_image( $name );
 	if ( $existing_image ) {
 		$existing_image['colibri-url'] = $url;
-
 		return $existing_image;
 	}
 
 	$filename     = $name;
-	$file_content = wp_remote_retrieve_body( wp_safe_remote_get( $url ) );
+	$response = null;
+
+	try {
+        $response = wp_safe_remote_get( $url );
+    } catch(Exception $e){
+    }
+
+	$file_content = wp_remote_retrieve_body( $response );
 	if ( empty( $file_content ) ) {
 		return false;
 	}
@@ -429,18 +443,6 @@ function get_mailchimp_form_shortcode() {
 	return $shortcode;
 }
 
-function colibri_polylang_is_active() {
-	return function_exists( 'pll_get_post' );
-}
-
-function colibri_wpml_is_active() {
-	return class_exists( 'SitePress' );
-}
-
-function colibri_multilanguage_is_active() {
-	return colibri_polylang_is_active() || colibri_wpml_is_active();
-}
-
 function colibri_duplicate_post_as_draft($post_id, $title = null)
 {
 
@@ -522,4 +524,9 @@ function colibri_duplicate_post_as_draft($post_id, $title = null)
     } else {
         wp_die('Error! Post creation failed, could not find original post: ' . $post_id);
     }
+}
+
+function colibri_is_blog_archive_page() {
+    $is_post_type_archive =  get_post_type() === 'post';
+    return (is_archive() && $is_post_type_archive )|| is_blog_posts();
 }

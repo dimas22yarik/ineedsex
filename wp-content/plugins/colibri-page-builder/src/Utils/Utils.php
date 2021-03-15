@@ -123,7 +123,7 @@ class Utils
 
         $data = self::base64ColibriDecode($data);
 
-        $data    = gzdecode($data);
+        $data    = \gzdecode($data);
         $decoded = rawurldecode($data);
 
         return $decoded;

@@ -16,7 +16,7 @@ catch_action_output('navigation_container', function($content) {
     $shortcodes = ['colibri_archive_pagination', 'colibri_archive_nav_button', 'colibri_post_nav_button'];
     $should_output = false;
     foreach ($shortcodes as $shortcode) {
-        if (!$should_output && array_get_value($outputs, $shortcode, false)) {
+        if (!$should_output && is_array($outputs) && array_get_value($outputs, $shortcode, false)) {
             $should_output = true;
         }
     }

@@ -22,9 +22,19 @@ class ArchiveLoop extends ComponentBase {
 
             endwhile;
         else:
-            View::partial( 'main', '404', array(
-                "component" => $this,
+            $self = $this;
+            /** ROW START */
+            View::printIn( View::ROW_ELEMENT, function () use ( $self ) {
+                /** COLUMN START */
+                View::printIn( View::COLUMN_ELEMENT, function () use ( $self ) {
+                    View::partial( 'main', '404', array(
+                        "component" => $this,
+                    ) );
+                } );
+            }, array(
+                'outer_class' => array( 'w-100' ),
             ) );
+
         endif;
     }
 }

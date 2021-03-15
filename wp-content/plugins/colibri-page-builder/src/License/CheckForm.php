@@ -54,6 +54,9 @@ class CheckForm {
 		?>
         <script type="text/javascript">
             jQuery(function ($) {
+                if(!window.wp || !window.wp.ajax){
+                  return;
+                }
                 var notice = $("#colibri-page-builder-check-license"),
                     message = $("#colibri-page-builder-check-license-message");
 

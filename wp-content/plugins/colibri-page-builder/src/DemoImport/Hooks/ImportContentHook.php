@@ -22,7 +22,7 @@ class ImportContentHook extends ImportHook {
 	}
 
 	public function run() {
-		add_action( 'pt-ocdi/before_content_import', array( $this, 'beforeImport' ) );
+		add_action( 'extendthemes-ocdi/before_content_import', array( $this, 'beforeImport' ) );
 		add_filter( 'wxr_importer.pre_process.post', array( $this, 'setMappingTransients' ), 10, 4 );
 		add_filter( 'wxr_importer.pre_process.term', array( $this, 'setTermMappingTransients' ), 10, 2 );
 		add_filter( 'wp_import_post_data_processed', array( $this, 'slashJSONPostContent' ) );

@@ -285,7 +285,7 @@ return array(
 	"admin_sidebar_review_action"             => __( 'Leave a review', 'colibri-wp' ),
     "contact_form_plugin_description"         => sprintf(
         __( '%1$s plugin is recommended for the %2$s contact section.', 'colibri-wp' ),
-        'Contact Form 7',
+        'Forminator',
         'Colibri Page Builder'
     ),
     "page_builder_plugin_description"         => sprintf(
@@ -303,5 +303,8 @@ return array(
     'change_footer_design'                    => __( 'Choose footer design', 'colibri-wp' ),
     'add_section'                             => __( 'Add Predefined Section', 'colibri-wp' ),
     'start_with_a_front_page_plugin_info'     => __( 'These actions will also install Colibri Page Builder plugin.',
+        'colibri-wp' ),
+
+    'undefined_sanitize_function_for_control'     => __( 'Undefined sanitize function for control "%s"',
         'colibri-wp' ),
 );

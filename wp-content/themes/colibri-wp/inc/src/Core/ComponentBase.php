@@ -100,6 +100,10 @@ abstract class ComponentBase implements ConfigurableInterface, PartialComponentI
         return false;
     }
 
+    public function mod_e_esc_attr( $name ) {
+        echo esc_attr( $this->mod( $name ) );
+    }
+
     /**
      * @param      $name
      * @param null $fallback
@@ -113,6 +117,10 @@ abstract class ComponentBase implements ConfigurableInterface, PartialComponentI
     public static function mabyDeserializeModValue( $value ) {
 
         if ( is_string( $value ) ) {
+
+            if ( empty( trim( $value ) ) ) {
+                return $value;
+            }
 
             $new_value = json_decode( urldecode( $value ), true );
 
@@ -144,10 +152,6 @@ abstract class ComponentBase implements ConfigurableInterface, PartialComponentI
         }
 
         return $default;
-    }
-
-    public function mod_e_esc_attr( $name ) {
-        echo esc_attr( $this->mod( $name ) );
     }
 
     /**

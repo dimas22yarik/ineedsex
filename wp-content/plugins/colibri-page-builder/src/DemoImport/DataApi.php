@@ -12,7 +12,7 @@ class DataApi {
 
 		$this->api_endpoint = apply_filters( 'colibri_page_builder/demo_api_endpoint', $this->api_endpoint );
 
-		add_filter( 'pt-ocdi/import_files', array( $this, 'registerImportFiles' ) );
+		add_filter( 'extendthemes-ocdi/import_files', array( $this, 'registerImportFiles' ) );
 
 		if ( is_admin() ) {
 			$this->registerImportFiles();

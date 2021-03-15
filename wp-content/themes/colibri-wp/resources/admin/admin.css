@@ -154,6 +154,37 @@
   font-size: 18px;
 }
 
+.colibri-admin-page .colibri-get-started__section .spinner {
+  float: left;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.colibri-admin-page .colibri-get-started__section .button.updating-message,
+.colibri-admin-page .colibri-get-started__section .button.active-plugin {
+  color: #417505;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  background: none;
+  outline: none;
+  pointer-events: none;
+  padding: 0px;
+}
+
+.colibri-admin-page .colibri-get-started__section .button.updating-message:focus,
+.colibri-admin-page .colibri-get-started__section .button.active-plugin:focus {
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  border: none;
+  outline: none;
+}
+
+.colibri-admin-page .colibri-get-started__section .button.updating-message:before {
+  width: 20px;
+  margin-top: 7px;
+}
+
 .colibri-admin-page .colibri-get-started__content {
   padding-left: 23px;
   margin-top: 25px;

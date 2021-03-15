@@ -31,17 +31,24 @@ function colibri_init_custom_widgets_init() {
 		'after_widget'  => '</div>',
 	);
 
-//	register_sidebar( array_merge( array(
-//		'name'  => 'eCommerce Left Sidebar',
-//		'id'    => "colibri-ecommerce-left",
-//		'title' => "'WooCommerce Left Sidebar",
-//
-//	), $widget_area_html ) );
-
 	register_sidebar( array_merge( array(
-		'name' => esc_html__( 'Page sidebar widget area', 'colibri-page-builder' ),
-		'id'   => 'colibri-sidebar-pages',
+		'name'  => 'eCommerce Left Sidebar',
+		'id'    => "colibri-ecommerce-left",
+		'title' => "WooCommerce Left Sidebar",
+
 	), $widget_area_html ) );
+
+	//    register_sidebar( array_merge( array(
+	//        'name'  => 'eCommerce Right Sidebar',
+	//        'id'    => "colibri-ecommerce-right",
+	//        'title' => "WooCommerce Right Sidebar",
+	//
+	//    ), $widget_area_html ) );
+	//
+	//	register_sidebar( array_merge( array(
+	//		'name' => esc_html__( 'Page sidebar widget area', 'colibri-page-builder' ),
+	//		'id'   => 'colibri-sidebar-page',
+	//	), $widget_area_html ) );
 
 	if ( ! is_registered_sidebar( 'colibri-sidebar-1' ) ) {
 		register_sidebar( array_merge( array(
@@ -49,6 +56,7 @@ function colibri_init_custom_widgets_init() {
 			'id'   => 'colibri-sidebar-1',
 		), $widget_area_html ) );
 	}
+	
 	foreach ( $widget_areas as $id => $data ) {
 		register_sidebar( array_merge( array(
 			'id'   => "colibri-{$id}",

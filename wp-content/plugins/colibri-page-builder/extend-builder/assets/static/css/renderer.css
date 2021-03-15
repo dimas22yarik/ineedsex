@@ -443,7 +443,7 @@ div {
 
 
 
-.shortcode-placeholder[data-v-1b8c25c6] {
+.shortcode-placeholder[data-v-99c26670] {
   background-color: #fafafa;
   text-align: center;
   padding: 20px;
@@ -905,6 +905,8 @@ div {
 
 
 
+
+
 /**
  *  The  <drop-content-area> in the normal content swap has z-index: 3 when the components are dragging so the hover that
  * is over it needs a bigger z-index
@@ -995,6 +997,16 @@ div {
     padding-right: 10px;
 }
 }
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2416,79 +2428,6 @@ div {
   color: #03a9f4 !important;
   font-size: 14px !important;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

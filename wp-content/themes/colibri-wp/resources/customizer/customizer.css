@@ -17356,3 +17356,15 @@ body {
   }
 }
 
+.customize-control .notification-message {
+  line-height: 150%;
+}
+
+.customize-control [data-name="vue-mount-point"] + .customize-control-notifications-container .notification-message {
+  font-size: 12px;
+}
+
+.customize-control [data-name="vue-mount-point"] + .customize-control-notifications-container li.notice {
+  padding: 7px !important;
+}
+

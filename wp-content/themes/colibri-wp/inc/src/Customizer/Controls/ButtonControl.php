@@ -8,6 +8,17 @@ class ButtonControl extends VueControl {
 
     public $type = 'colibri-button';
 
+    /**
+     * @param $value
+     * @param $control_data
+     * @param string $default
+     *
+     * @return mixed|null
+     */
+    public static function sanitize( $value, $control_data, $default = '' ) {
+        return '';
+    }
+
     protected function printVueContent() {
         ?>
         <div class="colibri-fullwidth">

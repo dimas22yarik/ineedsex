@@ -84,7 +84,11 @@ add_shortcode( 'colibri_post_meta_time_content', function () {
 } );
 
 add_shortcode( 'colibri_post_meta_date_content', function ( $atts ) {
-	return get_the_date( $atts['date_format'] );
+
+    $format =  apply_filters( 'colibri_post_meta_date_content', $atts['date_format'] );
+    $date =  get_the_date( $format);
+    $content = apply_filters( 'colibri_post_meta_date_content_output', $date, $format);
+    return $content;
 } );
 
 

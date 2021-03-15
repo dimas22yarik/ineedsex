@@ -4,11 +4,16 @@
 namespace ColibriWP\Theme\Customizer\Controls;
 
 
+use ColibriWP\Theme\Core\Utils;
+
 class ComposedControl extends VueControl {
 
     public $type = 'colibri-composed';
     private $fields = array();
 
+    public static function sanitize( $value, $control_data, $default = '' ) {
+        return Utils::sanitizeEscapedJSON( $value );
+    }
 
     protected function printVueContent() {
         ?>

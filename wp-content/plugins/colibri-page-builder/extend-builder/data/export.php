@@ -312,8 +312,6 @@ class Export {
 		$theme_data = \ExtendBuilder\get_theme_data();
 
 		unset( $theme_data['imported'] );
-		unset( $theme_data['colors'] );
-		unset( $theme_data['typography'] );
 
 		unset( $theme_data['rules'] );
 		unset( $theme_data['cssById'] );
@@ -374,8 +372,6 @@ class Export {
 		}
 
 		unset( $theme_data['imported'] );
-		unset( $theme_data['colors'] );
-		unset( $theme_data['typography'] );
 
 		$export = array(
 			"theme"    => $theme_data,

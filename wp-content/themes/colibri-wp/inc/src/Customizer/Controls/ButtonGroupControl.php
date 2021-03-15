@@ -4,34 +4,47 @@
 namespace ColibriWP\Theme\Customizer\Controls;
 
 
+use ColibriWP\Theme\Core\Utils;
 use ColibriWP\Theme\Translations;
 use WP_Customize_Manager;
 
 class ButtonGroupControl extends VueControl {
 
-	public $type = 'colibri-button-group';
+    public $type = 'colibri-button-group';
 
-	public function __construct( WP_Customize_Manager $manager, $id, array $args = array() ) {
-		parent::__construct( $manager, $id, $args );
-	}
+    public function __construct( WP_Customize_Manager $manager, $id, array $args = array() ) {
+        parent::__construct( $manager, $id, $args );
+    }
 
-	/**
-	 * @return bool|mixed
-	 */
-	public function getNoneValue() {
-		return $this->getParam( 'none_value' );
-	}
+    public static function sanitize( $value, $control_data, $default = '' ) {
+        $list_value = Utils::sanitizeSelectControl( $control_data, $value );
+        $none_value = Utils::pathGet( $control_data, 'none_value', null );
 
-	protected function content_template() {
-		$this->printVueMountPoint();
+        if ( ! $list_value && $none_value !== null && $none_value === $value ) {
+            $list_value = $none_value;
+        }
 
-		?>
+
+        return $list_value;
+    }
+
+    /**
+     * @return bool|mixed
+     */
+    public function getNoneValue() {
+        return $this->getParam( 'none_value' );
+    }
+
+    protected function content_template() {
+        $this->printVueMountPoint();
+
+        ?>
         <div class="customize-control-notifications-container"></div>
-		<?php
-	}
+        <?php
+    }
 
-	protected function printVueContent() {
-		?>
+    protected function printVueContent() {
+        ?>
         <div class="colibri-fullwidth">
             <div class="inline-elements-container">
                 <div class="inline-element">
@@ -53,6 +66,6 @@ class ButtonGroupControl extends VueControl {
                     :size="size"
                     @change="handleButtonClicked"></colibri-group-control>
         </div>
-		<?php
-	}
+        <?php
+    }
 }

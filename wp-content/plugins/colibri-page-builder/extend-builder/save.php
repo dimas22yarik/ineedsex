@@ -61,10 +61,10 @@ add_action('_wp_put_post_revision', function ($revision_id) {
 register_shutdown_function(function () {
     global $extb_post_revisions, $post;
 
-    if (!$post) {
+    if (!$extb_post_revisions) {
         return;
     }
-    if ($extb_post_revisions && is_admin()) {
+    if ($extb_post_revisions && colibri_user_can_customize()) {
 
         foreach ($extb_post_revisions as $post_id => $data) {
             if (isset($data['json']) && $data['json'] !== false) {
@@ -105,19 +105,27 @@ function save_post_data($post_id, $data, $type)
 {
 
     if ($type != "content") {
-        $save_lang = isset($data['lang']) ? $data['lang'] : "default";
+        $save_lang = (isset($data['lang']) && $data['lang']) ? $data['lang'] : "default";
         $post_lang = get_post_language($post_id, get_default_language());
 
         if ($save_lang != "default" && $save_lang !== $post_lang) {
 
             $lang_post_id = get_post_in_language($post_id, $save_lang, false);
 
-            if (!$lang_post_id) {
-                $lang_post_id = create_partial($type, $data);
-                link_post_translations(array("lang" => $post_lang, "id" => $post_id), array(
+            if (!$lang_post_id || $post_id === $lang_post_id) {
+                $source_post = get_post($post_id);
+                $title = $source_post->post_title . ' - ' . $save_lang;
+                $lang_post_id = create_partial($type, $data, $title);
+                link_post_translations(
+                    array(
+                        "lang" => $post_lang,
+                        "id" => $post_id
+                    ),
+                    array(
                     "lang" => $save_lang,
                     "id" => $lang_post_id
-                ));
+                    )
+                );
 
                 $new_post = new \ExtendBuilder\PostData($lang_post_id, $save_lang);
 
@@ -132,17 +140,23 @@ function save_post_data($post_id, $data, $type)
         if (!empty($data)) {
             $post = get_post($post_id);
             if ($post->post_type === "page") {
-                $template = get_post_meta($post_id, '_wp_page_template', true);
-                if (!$template || $template === "default") {
-                    $page_template = apply_filters('colibri_maintainable_default_template', "page-templates/full-width-page.php");
-                    update_post_meta($post_id, '_wp_page_template', $page_template);
-                }
+                maybe_update_page_template($post);
                 wp_publish_post($post_id);
             }
         }
     }
 
     return update_partial($post_id, $data);
+}
+function maybe_update_page_template($post)
+{
+    if ($post && $post->post_type === "page") {
+        $template = get_post_meta($post->ID, '_wp_page_template', true);
+        if (!$template || $template === "default") {
+            $page_template = apply_filters('colibri_page_builder/maintainable_default_template', "page-templates/full-width-page.php");
+            update_post_meta($post->ID, '_wp_page_template', $page_template);
+        }
+    }
 }
 
 function update_menu_data($data)
@@ -233,9 +247,25 @@ function save_partials_html($data)
         }
     }
 }
+function assign_partials($data) {
+	$options = get_key_value($data, 'options', array());
+	$partials_to_assign = get_key_value($options, 'partialsToAssign', array());
+	foreach($partials_to_assign as $page_id => $partials) {
+		if(!is_array($partials)) {
+			continue;
+		}
+		foreach ( $partials as $type => $partial_id ) {
+			if ( ! $partial_id ) {
+				continue;
+			}
+			assign_partial( $type, $page_id, $partial_id );
+		}
+	}
+}
 
 function save_partials_data($data)
 {
+	assign_partials($data);
     $partials = get_key_value($data, 'partials', array());
     foreach ($partials as $partial_id => $partial_value) {
         $partial_type = $partial_value['type'];

@@ -156,8 +156,8 @@ colibriwp_theme()
         ),
 
         array(
-            'name'          => esc_html__( 'Woo Commerce sidebar widget area', 'colibri-wp' ),
-            'id'            => 'colibri-sidebar-woo-1',
+            'name'          => esc_html__( 'Woo Commerce left sidebar widget area', 'colibri-wp' ),
+            'id'            => 'colibri-ecommerce-left',
             'before_widget' => '<div id="%1$s" class="widget %2$s">',
             'before_title'  => '<h5 class="widgettitle">',
             'after_title'   => '</h5>',
@@ -234,8 +234,7 @@ function colibriwp_blog_sidebar_enabled_setting_filter( $value ) {
 
 Hooks::colibri_add_filter( 'blog_sidebar_enabled', 'colibriwp_blog_sidebar_enabled_setting_filter' );
 
-
-add_filter( 'colibriwp_override_with_thumbnail_image', function ( $value ) {
+function colibriwp_override_with_thumbnail_image( $value ) {
     global $post;
 
     if ( isset( $post ) && $post->post_type === 'post' ) {
@@ -245,26 +244,9 @@ add_filter( 'colibriwp_override_with_thumbnail_image', function ( $value ) {
     }
 
     return $value;
-} );
-
-
-function colibriwp_is_wporg_preview() {
-
-    if ( defined( 'COLIBRIWP_IS_WPORG_PREVIEW' ) && COLIBRIWP_IS_WPORG_PREVIEW ) {
-        return COLIBRIWP_IS_WPORG_PREVIEW;
-    }
-
-    $url    = site_url();
-    $parse  = parse_url( $url );
-    $wp_org = 'wp-themes.com';
-    $result = false;
-
-    if ( isset( $parse['host'] ) && $parse['host'] === $wp_org ) {
-        $result = true;
-    }
-
-    return $result;
 }
+
+add_filter( 'colibriwp_override_with_thumbnail_image', 'colibriwp_override_with_thumbnail_image' );
 
 function colibriwp_print_archive_entry_class( $class = "" ) {
 
@@ -274,7 +256,9 @@ function colibriwp_print_archive_entry_class( $class = "" ) {
 
     $default     = get_theme_mod( 'blog_posts_per_row', Defaults::get( 'blog_posts_per_row' ) );
     $postsPerRow = max( 1, apply_filters( 'colibriwp_posts_per_row', $default ) );
-    $classes[]   = "h-col-sm-12 h-col-md-" . ( 12 / intval( $postsPerRow ) );
+
+
+    $classes[] = "h-col-sm-12 h-col-md-" . ( 12 / intval( $postsPerRow ) );
 
     $classes = apply_filters( 'colibriwp_archive_entry_class', $classes );
 
@@ -296,20 +280,23 @@ function colibriwp_print_masonry_col_class( $echo = false ) {
     } else {
         $default     = get_theme_mod( 'blog_posts_per_row', Defaults::get( 'blog_posts_per_row' ) );
         $postsPerRow = max( 1, apply_filters( 'colibriwp_posts_per_row', $default ) );
-        $class       = "col-sm-12.col-md-" . ( 12 / intval( $postsPerRow ) );
+
+        $class = "col-sm-12.col-md-" . ( 12 / intval( $postsPerRow ) );
     }
 
     if ( $echo ) {
         echo esc_attr( $class );
-
-        return;
+    } else {
+        return esc_attr( $class );
     }
 
-    return esc_attr( $class );
+
 }
 
 
-Hooks::colibri_add_filter( 'info_page_tabs', function ( $tabs ) {
+Hooks::colibri_add_filter( 'info_page_tabs', 'colibriwp_get_started_info_page_tab' );
+
+function colibriwp_get_started_info_page_tab( $tabs ) {
 
     $tabs['get-started'] = array(
         'title'       => \ColibriWP\Theme\Translations::translate( 'get_started' ),
@@ -317,23 +304,38 @@ Hooks::colibri_add_filter( 'info_page_tabs', function ( $tabs ) {
     );
 
     return $tabs;
-} );
+}
 
-Hooks::colibri_add_filter( 'theme_plugins', function ( $plugins ) {
-    $theme_plugins = array(
-        'contact-form-7' => array(
-            'name'        => 'Contact Form 7',
-            'description' => \ColibriWP\Theme\Translations::translate( 'contact_form_plugin_description' )
-        ),
-    );
+
+function colibriwp_theme_plugins( $plugins ) {
+    $theme_plugins = array();
 
     if ( ! function_exists( 'get_plugins' ) ) {
         require_once ABSPATH . 'wp-admin/includes/plugin.php';
     }
 
+    $installed_plugins = get_plugins();
+    $is_cf_7_installed = false;
+
+    foreach ( array_keys( $installed_plugins ) as $plugin_path ) {
+        if ( strpos( $plugin_path, 'contact-form-7' ) === 0 ) {
+            $is_cf_7_installed = true;
+            break;
+        }
+    }
+
+    if ( ! $is_cf_7_installed ) {
+        $theme_plugins = array_merge( $theme_plugins, array(
+            'forminator' => array(
+                'name'        => 'Forminator',
+                'description' => \ColibriWP\Theme\Translations::translate( 'contact_form_plugin_description' )
+            )
+        ) );
+    }
+
     $builder_plugin = 'colibri-page-builder';
 
-    foreach ( get_plugins() as $key => $plugin_data ) {
+    foreach ( $installed_plugins as $key => $plugin_data ) {
         if ( strpos( $key, 'colibri-page-builder-pro/' ) !== false ) {
             $builder_plugin = 'colibri-page-builder-pro';
 
@@ -362,7 +364,9 @@ Hooks::colibri_add_filter( 'theme_plugins', function ( $plugins ) {
     ), $theme_plugins );
 
     return array_merge( $plugins, $theme_plugins );
-} );
+}
+
+Hooks::colibri_add_filter( 'theme_plugins', 'colibriwp_theme_plugins' );
 
 
 add_filter( 'http_request_host_is_external', 'colibriwp_allow_internal_host', 10, 3 );

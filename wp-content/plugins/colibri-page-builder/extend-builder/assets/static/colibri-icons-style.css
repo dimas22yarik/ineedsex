@@ -1,17 +1,16 @@
 @font-face {
   font-family: 'colibri';
-  src:  url('fonts/colibri.eot?ukmpum');
-  src:  url('fonts/colibri.eot?ukmpum#iefix') format('embedded-opentype'),
-  url('fonts/colibri.ttf?ukmpum') format('truetype'),
-  url('fonts/colibri.woff?ukmpum') format('woff'),
-  url('fonts/colibri.svg?ukmpum#colibri') format('svg');
+  src:  url('fonts/colibri.eot?p3tp68');
+  src:  url('fonts/colibri.eot?p3tp68#iefix') format('embedded-opentype'),
+  url('fonts/colibri.ttf?p3tp68') format('truetype'),
+  url('fonts/colibri.woff?p3tp68') format('woff'),
+  url('fonts/colibri.svg?p3tp68#colibri') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
 }
 
-
-.colibri-icon-default {
+.colibri-icon-default.colibri-icon-default {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'colibri' !important;
   speak: none;
@@ -26,6 +25,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.colibri-icon-default.colibri-list:before {
+  content: "\e93e";
+}
 .colibri-icon-default.colibri-grab-x3:before {
   content: "\e93c";
 }
@@ -211,4 +213,7 @@
 }
 .colibri-icon-default.colibri-widgets:before {
   content: "\e91a";
+}
+.colibri-icon-default.colibri-page-top:before {
+  content: "\ea41";
 }

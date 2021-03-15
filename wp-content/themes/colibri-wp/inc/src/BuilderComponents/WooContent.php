@@ -25,6 +25,8 @@ class WooContent extends BuilderComponentBase {
                 /** ROW START */
                 View::printIn( View::ROW_ELEMENT, function () use ( $self ) {
 
+                    $self->printSidebarColumn('left');
+
                     /** COLUMN START */
                     View::printIn( View::COLUMN_ELEMENT, function () use ( $self ) {
 
@@ -33,7 +35,7 @@ class WooContent extends BuilderComponentBase {
                         }
                     } );
 
-                    $self->printRightSidebarColumn();
+//                    $self->printRightSidebarColumn();
 
                 }, $self->getMainRowClass() );
                 /** ROW END */
@@ -44,20 +46,23 @@ class WooContent extends BuilderComponentBase {
         ) );
     }
 
-    public function printRightSidebarColumn() {
+    public function printSidebarColumn($side = 'right') {
         $self = $this;
 
-        $display_sidebar = Hooks::colibri_apply_filters( 'woocommerce_sidebar_enabled', true, 'right' );
+        $sidebar_id = 'ecommerce-'.$side;
+        $is_active = is_active_sidebar("colibri-${sidebar_id}");
+        $in_customizer = isset ( $GLOBALS['wp_customize'] );
+        $is_active = $is_active || $in_customizer;
+        $display_sidebar = Hooks::colibri_apply_filters( 'colibri_sidebar_enabled', $is_active, $sidebar_id );
 
         if ( $display_sidebar ) {
-            View::printIn( View::COLUMN_ELEMENT, function () use ( $self ) {
-                get_sidebar();
+            View::printIn( View::COLUMN_ELEMENT, function () use ( $self,$sidebar_id ) {
+                get_sidebar($sidebar_id);
             }, array(
                 'data-colibri-main-sidebar-col' => 1,
-                'class'                         => $self->getSidebarColumnClass( 'right' )
+                'class'                         => $self->getSidebarColumnClass( $side )
             ) );
         }
-
     }
 
     private function getSidebarColumnClass( $side ) {
@@ -66,7 +71,7 @@ class WooContent extends BuilderComponentBase {
             array( 'h-col-12','h-col-lg-3', 'h-col-md-4' ), $side
         );
 
-        $classes = array_merge( $classes, array( 'colibri-sidebar', "blog-sidebar-{$side}" ) );
+        $classes = array_merge( $classes, array( 'colibri-sidebar' ,"woo-sidebar-{$side}" ) );
 
         return array_unique( $classes );
     }
@@ -107,8 +112,7 @@ class WooContent extends BuilderComponentBase {
             $class = (array) $class;
         }
 
-        array_push( $class, 'colibri-main-content-archive' );
-
+        array_push( $class, 'colibri-woo-main-content-archive' );
         return $class;
     }
 

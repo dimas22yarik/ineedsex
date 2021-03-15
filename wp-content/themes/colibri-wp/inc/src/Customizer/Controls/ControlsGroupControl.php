@@ -7,32 +7,33 @@ namespace ColibriWP\Theme\Customizer\Controls;
 use WP_Customize_Manager;
 
 class ControlsGroupControl extends VueControl {
-	public $type = "colibri-controls-group";
+    public $type = "colibri-controls-group";
+    protected $inline_content_template = true;
+    protected $active_color = "#1989fa";
+    protected $inactive_color = "#949596";
 
-	protected $inline_content_template = true;
+    public function __construct( WP_Customize_Manager $manager, $id, array $args = array() ) {
 
-	protected $active_color = "#1989fa";
-	protected $inactive_color = "#949596";
+        if ( isset( $args['default'] ) ) {
+            $args['default'] = ! ! intval( $args['default'] );
+        }
 
-	public function __construct( WP_Customize_Manager $manager, $id, array $args = array() ) {
+        parent::__construct( $manager, $id, $args );
+    }
 
-		if ( isset( $args['default'] ) ) {
-			$args['default'] = ! ! intval( $args['default'] );
-		}
+    public static function sanitize( $value, $control_data, $default = '' ) {
+        return 1;
+    }
 
-		parent::__construct( $manager, $id, $args );
-	}
+    public function json() {
+        $json        = parent::json();
+        $json['key'] = $this->id . "-controls-holder";
 
+        return $json;
+    }
 
-	public function json() {
-		$json        = parent::json();
-		$json['key'] = $this->id . "-controls-holder";
-
-		return $json;
-	}
-
-	protected function printVueContent() {
-		?>
+    protected function printVueContent() {
+        ?>
         <el-switch
 
                 v-if="show_toggle"
@@ -64,6 +65,6 @@ class ControlsGroupControl extends VueControl {
         </el-popover>
 
 
-		<?php
-	}
+        <?php
+    }
 }

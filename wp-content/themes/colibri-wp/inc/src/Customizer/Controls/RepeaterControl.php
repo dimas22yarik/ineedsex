@@ -4,16 +4,22 @@
 namespace ColibriWP\Theme\Customizer\Controls;
 
 
+use ColibriWP\Theme\Core\Utils;
 use ColibriWP\Theme\Translations;
 
 class RepeaterControl extends VueControl {
 
-	public $type = 'colibri-repeater';
-	private $fields = array();
+    public $type = 'colibri-repeater';
+    private $fields = array();
 
 
-	protected function printVueContent() {
-		?>
+    public static function sanitize( $value, $control_data, $default = '' ) {
+        return Utils::sanitizeEscapedJSON( $value );
+    }
+
+
+    protected function printVueContent() {
+        ?>
 
         <div class="colibri-fullwidth">
             <div class="colibri-fullwidth">
@@ -22,7 +28,7 @@ class RepeaterControl extends VueControl {
                     <el-collapse-item v-for="(item,index) in items" :name="index" :key="item.index">
 
                         <template slot="title">
-							<?php $this->vueEcho( "itemsLabels[index]" ); ?>
+                            <?php $this->vueEcho( "itemsLabels[index]" ); ?>
                         </template>
 
                         <ul class="field-data">
@@ -49,7 +55,7 @@ class RepeaterControl extends VueControl {
                            @click="addItem()"><?php $this->vueEcho( 'item_add_label' ); ?></el-button>
             </div>
         </div>
-		<?php
-	}
+        <?php
+    }
 
 }

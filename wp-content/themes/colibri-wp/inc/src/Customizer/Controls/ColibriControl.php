@@ -4,8 +4,10 @@
 namespace ColibriWP\Theme\Customizer\Controls;
 
 
+use ColibriWP\Theme\Translations;
 use WP_Customize_Control;
 use WP_Customize_Manager;
+use WP_Error;
 
 class ColibriControl extends WP_Customize_Control {
 
@@ -40,24 +42,30 @@ class ColibriControl extends WP_Customize_Control {
 
     }
 
+    /**
+     * Default sanitization function for Colibri Controls.
+     * This is added to force a sanitization implementation for each Colibri Control
+     *
+     * @param $value
+     * @param $control_data
+     *
+     * @param string $default
+     *
+     * @return mixed
+     */
+    public static function sanitize( $value, $control_data, $default = '' ) {
+        return new WP_Error( 'colibri_undefined_sanitize_function_for_control',
+            Translations::get( 'undefined_sanitize_function_for_control', array( $control_data['type'] ) ) );
+    }
+
     public function json() {
         $json      = parent::json();
         $json_data = $this->extra_json_params;
-
-//		print_r( $json_data );
 
         $json['choices']     = $this->choices;
         $json['colibri_tab'] = $this->colibri_tab;
 
         return array_merge( $json, $json_data );
-    }
-
-
-    /**
-     * @return array
-     */
-    public function getExtraJsonParams() {
-        return $this->extra_json_params;
     }
 
     protected function hasParam( $name, $in_extra = true ) {
@@ -81,7 +89,14 @@ class ColibriControl extends WP_Customize_Control {
             return $this->getExtraJsonParams()[ $name ];
         }
 
-        return $default;
+        return null;
+    }
+
+    /**
+     * @return array
+     */
+    public function getExtraJsonParams() {
+        return $this->extra_json_params;
     }
 
     protected function getProps( $props = array() ) {
@@ -97,17 +112,5 @@ class ColibriControl extends WP_Customize_Control {
         }
 
         return $props;
-    }
-
-    /**
-     * @param $value
-     * @param $control_data
-     *
-     * @param string $default
-     *
-     * @return mixed
-     */
-    public static function sanitize( $value, $control_data, $default = '' ) {
-        return $value;
     }
 }

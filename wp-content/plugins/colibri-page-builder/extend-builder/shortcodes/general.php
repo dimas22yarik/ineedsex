@@ -8,6 +8,9 @@ add_shortcode('colibri_fake_loop', '\ExtendBuilder\colibri_fake_loop');
 function colibri_fake_loop($attrs, $content = null)
 {
     ob_start();
+    if (!have_posts()) {
+        echo do_shortcode($content);
+    }
     while (have_posts()) :
         the_post();
         ?>

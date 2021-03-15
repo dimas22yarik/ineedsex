@@ -413,8 +413,9 @@ a.button.button-primary.demo-link {
 
 #TB_window.colibri-demo-import-popup .image-container {
     overflow: hidden;
-    max-height: 263px;
+    min-height: 300px;
     margin: 0px;
+    padding: 0;
 }
 
 #TB_window.colibri-demo-import-popup .demo-container .demo-name {
@@ -465,6 +466,7 @@ a.button.button-primary.demo-link {
     position: relative;
 }
 
+
 #TB_window.colibri-demo-import-popup .info ul li::before {
     color: #03A9F4;
     /* color of bullet or square */
@@ -485,6 +487,14 @@ a.button.button-primary.demo-link {
     top: 0
     /* use em or % */
 
+}
+
+#TB_window.colibri-demo-import-popup .info ul li.danger {
+    color: red;
+}
+
+#TB_window.colibri-demo-import-popup .info ul li.danger::before {
+    color: red;
 }
 
 #TB_window.colibri-demo-import-popup .plugins {

@@ -3,7 +3,7 @@
 
 /*
  Theme Name:   Colibri WP
- Version:      1.0.61
+ Version:      1.0.82
  Theme URI:    https://colibriwp.com/go/colibri-theme/
  Description:  Colibri is a beautiful, extremely customizable, multipurpose theme that you can use to create an amazing website by drag and drop. It comes with a predesigned home page, 5 header designs and over 35 ready to use content blocks that you can easily customize. You can also design your own custom blocks by combining over 25 drag and drop components. Colibri has lots of customization options (video background, slideshow background, header content types, etc) that will help you create a website that stands out in no time. It is also responsive so it works on mobile devices out of the box. Colibri is the only theme you will ever need! CHECK OUT THE DEMOS: https://colibriwp.com/go/demos
  Author:       Extend Themes
@@ -12,6 +12,10 @@
  License URI:  http://www.opensource.org/licenses/gpl-license.php GPL v3.0 (or later)
  Tags:         entertainment, food-and-drink, portfolio, one-column, two-columns, right-sidebar, grid-layout, custom-header, custom-menu, custom-logo, full-width-template, theme-options, translation-ready, featured-images, threaded-comments
  Text Domain:  colibri-wp
+
+ Tested up to: 5.7
+ Requires PHP: 5.6
+ 
 */
 
 html.colibri-wp-theme body {
@@ -4317,6 +4321,28 @@ html.colibri-wp-theme .aligncenter {
   margin-right: auto;
 }
 
+html.colibri-wp-theme #wpadminbar {
+  text-align: initial;
+}
+
+html.colibri-wp-theme #wpadminbar:before,
+html.colibri-wp-theme #wpadminbar *:before {
+  display: block;
+  width: unset;
+  height: unset;
+  -webkit-box-sizing: content-box;
+          box-sizing: content-box;
+}
+
+html.colibri-wp-theme #wpadminbar .admin-bar-search .ab-item:before,
+html.colibri-wp-theme #wpadminbar form:before {
+  content: initial;
+}
+
+html.colibri-wp-theme #wpadminbar .ab-sub-wrapper ul {
+  display: block;
+}
+
 html.colibri-wp-theme #wp-toolbar ul {
   display: inline-block;
 }
@@ -4438,6 +4464,836 @@ html.colibri-wp-theme .wp-block-embed__wrapper * {
 
 html.colibri-wp-theme pre {
   white-space: pre-line;
+}
+
+html.colibri-wp-theme .page-comments .post-comments .comment-metadata * {
+  color: inherit;
+}
+
+html.colibri-wp-theme .page-comments .post-comments .comment-author img {
+  -webkit-box-sizing: initial;
+          box-sizing: initial;
+}
+
+html.colibri-wp-theme .page-comments .post-comments .comment-author cite a {
+  color: inherit;
+  font: inherit;
+  line-height: inherit;
+}
+
+html.colibri-wp-theme .page-comments .post-comments .comment-body .reply a {
+  display: block;
+}
+
+html.colibri-wp-theme .page-comments .post-comments .comment-body .comment-content * {
+  color: inherit;
+}
+
+html.colibri-wp-theme .page-comments .post-comments .comment-body ul,
+html.colibri-wp-theme .page-comments .post-comments .comment-body ol {
+  /** din mesmerize */
+  margin: auto 1.5em 1em 1.5em;
+}
+
+html.colibri-wp-theme .page-comments .post-comments .comment-body ul ul,
+html.colibri-wp-theme .page-comments .post-comments .comment-body ul ol,
+html.colibri-wp-theme .page-comments .post-comments .comment-body ol ul,
+html.colibri-wp-theme .page-comments .post-comments .comment-body ol ol {
+  margin: 0 0 0 1.5em;
+}
+
+html.colibri-wp-theme .page-comments .post-comments .comment-list,
+html.colibri-wp-theme .page-comments .post-comments .comment-list .children {
+  list-style-type: none;
+}
+
+html.colibri-wp-theme .page-comments .post-comments .comments-disabled {
+  text-align: center;
+  margin-bottom: 0;
+}
+
+html.colibri-wp-theme .page-comments .blog-post-comments-not-allow {
+  border-radius: 3px;
+  background-color: rgba(3, 169, 244, 0.05);
+  border: solid 1px rgba(3, 169, 244, 0.1);
+  padding-bottom: 20px;
+  padding-top: 20px;
+  text-align: center;
+}
+
+html.colibri-wp-theme .page-comments .blog-post-comments-not-allow .blog-comments-not-allow-message {
+  font-weight: 800;
+  font-size: 16px;
+}
+
+html.colibri-wp-theme .page-comments .comment-respond .comment-form-comment label {
+  display: block;
+}
+
+html.colibri-wp-theme .page-comments .comment-respond .comment-form-author label {
+  display: block;
+}
+
+html.colibri-wp-theme .page-comments .comment-respond .comment-form-url label {
+  display: block;
+}
+
+html.colibri-wp-theme .page-comments .comment-respond .comment-form-email label {
+  display: block;
+}
+
+html.colibri-wp-theme .page-comments .comment-respond input,
+html.colibri-wp-theme .page-comments .comment-respond textarea {
+  max-width: 100%;
+}
+
+html.colibri-wp-theme .page-comments .comment-respond textarea {
+  width: 100%;
+  min-height: 200px;
+  resize: vertical;
+}
+
+html.colibri-wp-theme .page-comments .comment-respond input[type=submit] {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  cursor: pointer;
+}
+
+html.colibri-wp-theme #colibri .page-comments .blog-post-comments {
+  border-top-width: 1px;
+  border-top-color: #eeeeee;
+  border-top-style: solid;
+  border-right-width: 0px;
+  border-right-color: #eeeeee;
+  border-right-style: solid;
+  border-bottom-width: 0px;
+  border-bottom-color: #eeeeee;
+  border-bottom-style: solid;
+  border-left-width: 0px;
+  border-left-color: #eeeeee;
+  border-left-style: solid;
+  padding-top: 15px;
+}
+
+html.colibri-wp-theme #colibri .page-comments .comment.even {
+  background-color: #FFFFFF;
+  background-image: none;
+  border-top-width: 0px;
+  border-top-style: none;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-right-width: 0px;
+  border-right-style: none;
+  border-bottom-width: 0px;
+  border-bottom-style: none;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border-left-width: 0px;
+  border-left-style: none;
+  padding-top: 12px;
+  padding-right: 12px;
+  padding-bottom: 12px;
+  padding-left: 12px;
+}
+
+html.colibri-wp-theme #colibri .page-comments .comment.odd {
+  background-color: rgba(166, 220, 244, 0.1);
+  background-image: none;
+  border-top-width: 0px;
+  border-top-style: none;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-right-width: 0px;
+  border-right-style: none;
+  border-bottom-width: 0px;
+  border-bottom-style: none;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border-left-width: 0px;
+  border-left-style: none;
+  padding-top: 12px;
+  padding-right: 12px;
+  padding-bottom: 12px;
+  padding-left: 12px;
+}
+
+html.colibri-wp-theme #colibri .page-comments .comments-title {
+  font-family: Open Sans;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 1.25em;
+  color: black;
+}
+
+html.colibri-wp-theme #colibri .page-comments .comment-meta {
+  color: #999999;
+  margin-bottom: 16px;
+}
+
+html.colibri-wp-theme #colibri .page-comments .comment-author img {
+  width: 30px;
+  height: 30px;
+  background-color: unset;
+  background-image: none;
+  border-top-width: 0px;
+  border-top-style: none;
+  border-top-left-radius: 300px;
+  border-top-right-radius: 300px;
+  border-right-width: 0px;
+  border-right-style: none;
+  border-bottom-width: 0px;
+  border-bottom-style: none;
+  border-bottom-left-radius: 300px;
+  border-bottom-right-radius: 300px;
+  border-left-width: 0px;
+  border-left-style: none;
+}
+
+html.colibri-wp-theme #colibri .page-comments .comment-author .url {
+  font-weight: 600;
+  font-style: normal;
+  text-decoration: none;
+  color: #333333;
+  background-color: unset;
+  background-image: none;
+  margin-left: 5px;
+}
+
+html.colibri-wp-theme #colibri .page-comments .comment-metadata {
+  text-decoration: none;
+  font-size: 14px;
+  color: #999999;
+  background-color: unset;
+  background-image: none;
+  -webkit-transition-duration: 0.5s;
+          transition-duration: 0.5s;
+}
+
+html.colibri-wp-theme #colibri .page-comments .comment-metadata:hover {
+  color: black;
+}
+
+html.colibri-wp-theme #colibri .page-comments .comment-metadata:hover {
+  color: black;
+}
+
+html.colibri-wp-theme #colibri .page-comments .comment-content {
+  text-decoration: none;
+  font-size: 16px;
+  color: #666666;
+}
+
+html.colibri-wp-theme #colibri .page-comments .comment-content p {
+  color: #666666;
+}
+
+html.colibri-wp-theme #colibri .page-comments .comment-content a:hover {
+  color: #026e9f;
+}
+
+html.colibri-wp-theme #colibri .page-comments .comment-body .reply a {
+  margin-bottom: 10px;
+  font-weight: 400;
+  text-transform: lowercase;
+  font-size: 1em;
+  line-height: 1.5;
+  color: #03a9f4;
+}
+
+html.colibri-wp-theme #colibri .page-comments .comment-body .reply a:hover {
+  color: #026e9f;
+}
+
+html.colibri-wp-theme #colibri .page-comments .comment-body .reply a:hover {
+  color: #026e9f;
+}
+
+html.colibri-wp-theme #colibri .page-comments .children {
+  margin-left: 12px;
+}
+
+html.colibri-wp-theme #colibri .page-comments .comments-disabled {
+  text-align: center;
+  margin-bottom: 0px;
+  text-decoration: none;
+  color: #666666;
+}
+
+html.colibri-wp-theme #colibri .comment-respond {
+  border-top-width: 1px;
+  border-top-color: #eeeeee;
+  border-top-style: solid;
+  border-right-width: 0px;
+  border-right-color: #eeeeee;
+  border-right-style: solid;
+  border-bottom-width: 0px;
+  border-bottom-color: #eeeeee;
+  border-bottom-style: solid;
+  border-left-width: 0px;
+  border-left-color: #eeeeee;
+  border-left-style: solid;
+  padding-top: 15px;
+}
+
+html.colibri-wp-theme #colibri .comment-respond .comment-reply-title {
+  font-family: Open Sans;
+  font-weight: 600;
+  font-size: 1.25em;
+  color: black;
+}
+
+html.colibri-wp-theme #colibri .comment-respond label {
+  color: #666666;
+  border-top-width: 0px;
+  border-top-style: none;
+  border-right-width: 0px;
+  border-right-style: none;
+  border-bottom-width: 0px;
+  border-bottom-style: none;
+  border-left-width: 0px;
+  border-left-style: none;
+}
+
+html.colibri-wp-theme #colibri .comment-respond input:not([type="submit"]),
+html.colibri-wp-theme #colibri .comment-respond textarea {
+  border-top-width: 1px;
+  border-top-color: #eeeeee;
+  border-top-style: solid;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-right-width: 1px;
+  border-right-color: #eeeeee;
+  border-right-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: #eeeeee;
+  border-bottom-style: solid;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border-left-width: 1px;
+  border-left-color: #eeeeee;
+  border-left-style: solid;
+  font-family: Open Sans;
+  font-weight: 400;
+  font-size: 16px;
+  color: #666666;
+  background-color: rgba(0, 0, 0, 0);
+  background-image: none;
+  padding-top: 5px;
+  padding-right: 5px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+}
+
+html.colibri-wp-theme #colibri .comment-respond .comment-form [type="submit"] {
+  background-color: #03a9f4;
+  background-image: none;
+  border-top-width: 2px;
+  border-top-color: #03a9f4;
+  border-top-style: solid;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-right-width: 2px;
+  border-right-color: #03a9f4;
+  border-right-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #03a9f4;
+  border-bottom-style: solid;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border-left-width: 2px;
+  border-left-color: #03a9f4;
+  border-left-style: solid;
+  padding-top: 12px;
+  padding-right: 24px;
+  padding-bottom: 12px;
+  padding-left: 24px;
+  font-family: Open Sans;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 12px;
+  line-height: 1;
+  letter-spacing: 1px;
+  color: #FFFFFF;
+}
+
+html.colibri-wp-theme #colibri .comment-respond .comment-form [type="submit"]:hover {
+  background-color: #026e9f;
+  border-top-color: #026e9f;
+  border-right-color: #026e9f;
+  border-bottom-color: #026e9f;
+  border-left-color: #026e9f;
+}
+
+html.colibri-wp-theme #colibri .comment-respond .comment-form [type="submit"]:hover {
+  background-color: #026e9f;
+  border-top-color: #026e9f;
+  border-right-color: #026e9f;
+  border-bottom-color: #026e9f;
+  border-left-color: #026e9f;
+}
+
+html.colibri-wp-theme #colibri .comment-respond .comment-form [type="submit"]:active {
+  background-color: #03a9f4;
+  background-image: none;
+  border-top-width: 2px;
+  border-top-color: #03a9f4;
+  border-top-style: solid;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-right-width: 2px;
+  border-right-color: #03a9f4;
+  border-right-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #03a9f4;
+  border-bottom-style: solid;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border-left-width: 2px;
+  border-left-color: #03a9f4;
+  border-left-style: solid;
+  padding-top: 12px;
+  padding-right: 24px;
+  padding-bottom: 12px;
+  padding-left: 24px;
+  font-family: Open Sans;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 12px;
+  line-height: 1;
+  letter-spacing: 1px;
+  color: #FFFFFF;
+}
+
+html.colibri-wp-theme #colibri .comment-respond .comment-notes {
+  font-family: Open Sans;
+  font-weight: 400;
+  font-size: 14px;
+  color: #999999;
+}
+
+html.colibri-wp-theme .colibri-hidden {
+  display: none !important;
+}
+
+html.colibri-wp-theme .colibri-visible {
+  display: block !important;
+}
+
+html.colibri-wp-theme .colibri-stop-animation {
+  -webkit-animation-duration: 0s !important;
+          animation-duration: 0s !important;
+}
+
+html.colibri-wp-theme [class*=style-],
+html.colibri-wp-theme [class*=local-style-],
+html.colibri-wp-theme .h-global-transition,
+html.colibri-wp-theme .h-global-transition-all * {
+  -webkit-transition-property: background, padding, margin, border, opacity, color, fill, font, border-radius, max-height, max-width, -webkit-transform, -webkit-box-shadow;
+  transition-property: background, padding, margin, border, opacity, color, fill, font, border-radius, max-height, max-width, -webkit-transform, -webkit-box-shadow;
+  transition-property: background, padding, margin, border, transform, box-shadow, opacity, color, fill, font, border-radius, max-height, max-width;
+  transition-property: background, padding, margin, border, transform, box-shadow, opacity, color, fill, font, border-radius, max-height, max-width, -webkit-transform, -webkit-box-shadow;
+}
+
+html.colibri-wp-theme .h-global-transition-disable,
+html.colibri-wp-theme .h-global-transition-disable * {
+  -webkit-transition-property: none !important;
+  transition-property: none !important;
+  -webkit-transition: none !important;
+  transition: none !important;
+}
+
+html.colibri-wp-theme .h-svg-icon:not(.h-icon__icon) {
+  -webkit-transition-duration: 0s;
+          transition-duration: 0s;
+}
+
+html.colibri-wp-theme .white-space-nowrap {
+  white-space: nowrap;
+}
+
+html.colibri-wp-theme .colibri-word-wrap {
+  word-break: break-word;
+}
+
+html.colibri-wp-theme .new-stacking-context {
+  position: relative;
+  z-index: 1;
+}
+
+html.colibri-wp-theme .mesmerize-language-switcher.after-menu {
+  background-color: #fff;
+  border-radius: 4px 0 0 4px;
+  right: 0;
+  position: fixed;
+  top: 80px;
+  display: inline-block;
+  z-index: 10000;
+  list-style: none;
+  margin-left: 0;
+  padding: 0;
+  -webkit-box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.1);
+  margin-bottom: 0;
+}
+
+html.colibri-wp-theme .mesmerize-language-switcher.after-menu select {
+  display: block;
+  margin: 10px;
+}
+
+html.colibri-wp-theme ul.mesmerize-language-switcher.after-menu > li {
+  display: none;
+  float: left;
+  padding: 14px 8px;
+  font-size: 0;
+  line-height: 0;
+}
+
+html.colibri-wp-theme ul.mesmerize-language-switcher.after-menu.hover > li,
+html.colibri-wp-theme ul.mesmerize-language-switcher.after-menu:hover > li,
+html.colibri-wp-theme ul.mesmerize-language-switcher.after-menu > li.current-lang {
+  display: block;
+}
+
+html.colibri-wp-theme ul.mesmerize-language-switcher.after-menu span {
+  display: none;
+}
+
+html.colibri-wp-theme ul.ope-language-switcher {
+  display: inline-block;
+  list-style: none;
+  margin-left: 0px;
+  padding: 0px;
+  -webkit-box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+html.colibri-wp-theme div.ope-language-switcher li {
+  display: none;
+}
+
+html.colibri-wp-theme ul.ope-language-switcher img {
+  width: 18px;
+}
+
+html.colibri-wp-theme .ope-language-switcher {
+  display: none;
+}
+
+html.colibri-wp-theme .ope-language-switcher.after-menu {
+  background-color: #ffffff;
+  border-radius: 4px 0px 0px 4px;
+  right: 0px;
+  position: fixed;
+  top: 80px;
+  display: inline-block;
+  z-index: 10000;
+}
+
+html.colibri-wp-theme .ope-language-switcher.after-menu select {
+  display: block;
+  margin: 10px 10px;
+}
+
+html.colibri-wp-theme ul.ope-language-switcher.after-menu > li {
+  display: none;
+  float: left;
+  padding: 14px 8px;
+  font-size: 0px;
+  line-height: 0px;
+}
+
+html.colibri-wp-theme ul.ope-language-switcher.after-menu > li.current-lang {
+  display: block;
+}
+
+html.colibri-wp-theme ul.ope-language-switcher.after-menu.hover > li,
+html.colibri-wp-theme ul.ope-language-switcher.after-menu:hover > li {
+  display: block;
+}
+
+html.colibri-wp-theme ul.ope-language-switcher.after-menu span {
+  display: none;
+}
+
+html.colibri-wp-theme .h-svg-icon {
+  line-height: 0;
+  display: inline-block;
+  fill: currentColor;
+  -webkit-box-sizing: content-box;
+          box-sizing: content-box;
+}
+
+html.colibri-wp-theme .hide {
+  display: none;
+}
+
+html.colibri-wp-theme .colibri-force-hide {
+  display: none !important;
+}
+
+html.colibri-wp-theme .mw-100 {
+  max-width: 100%;
+}
+
+html.colibri-wp-theme .mh-100 {
+  max-height: 100%;
+}
+
+html.colibri-wp-theme .w-100 {
+  width: 100%;
+}
+
+html.colibri-wp-theme .h-100 {
+  height: 100%;
+}
+
+html.colibri-wp-theme .position-relative {
+  position: relative;
+}
+
+html.colibri-wp-theme .z-index-zero {
+  z-index: 0;
+}
+
+/** background wrapper layers START*/
+
+html.colibri-wp-theme .background-layer-media-container-lg {
+  display: block;
+}
+
+html.colibri-wp-theme .background-layer-media-container-md {
+  display: none;
+}
+
+html.colibri-wp-theme .background-layer-media-container {
+  display: none;
+}
+
+html.colibri-wp-theme .height-auto-forced {
+  height: auto !important;
+  min-height: unset !important;
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  html.colibri-wp-theme .background-layer-media-container-md {
+    display: block;
+  }
+
+  html.colibri-wp-theme .background-layer-media-container-lg {
+    display: none;
+  }
+
+  html.colibri-wp-theme .background-layer-media-container {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  html.colibri-wp-theme .background-layer-media-container {
+    display: block;
+  }
+
+  html.colibri-wp-theme .background-layer-media-container-lg {
+    display: none;
+  }
+
+  html.colibri-wp-theme .background-layer-media-container-md {
+    display: none;
+  }
+}
+
+/** background wrapper layers END*/
+
+/** background video css start*/
+
+html.colibri-wp-theme div.cp-video-bg {
+  background-color: #000000;
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: absolute;
+  z-index: -3;
+  width: 100%;
+  margin-top: 0;
+  top: 0;
+  -webkit-transform: translate3d(0, 0, -2px);
+}
+
+html.colibri-wp-theme .cp-video-bg {
+  background-color: transparent !important;
+  overflow: hidden;
+  line-height: 0;
+  font-size: 0;
+  height: 100%;
+  max-height: 100%;
+  max-width: 100%;
+}
+
+html.colibri-wp-theme .cp-video-bg iframe,
+html.colibri-wp-theme .cp-video-bg video {
+  visibility: hidden;
+  display: block;
+}
+
+@media (min-width: 767px) {
+  html.colibri-wp-theme .cp-video-bg.visible iframe,
+  html.colibri-wp-theme .cp-video-bg.visible video {
+    visibility: visible;
+  }
+}
+
+html.colibri-wp-theme div.cp-video-bg .wp-custom-header-video {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  -webkit-transition: opacity 0.4s cubic-bezier(0.44, 0.94, 0.25, 0.34);
+  transition: opacity 0.4s cubic-bezier(0.44, 0.94, 0.25, 0.34);
+}
+
+html.colibri-wp-theme div.cp-video-bg button.wp-custom-header-video-button {
+  display: none;
+}
+
+html.colibri-wp-theme .background-video-youtube-blocker {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  z-index: 9999;
+}
+
+/** background video css end */
+
+/** responsive css start*/
+
+@media (min-width: 1024px) {
+  html.colibri-wp-theme .h-hide-lg {
+    display: none;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  html.colibri-wp-theme .h-hide-md {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  html.colibri-wp-theme .h-hide-sm {
+    display: none;
+  }
+
+  html.colibri-wp-theme .h-hide-sm-force {
+    display: none !important;
+  }
+}
+
+/** responsive css end */
+
+/** manage styles css start*/
+
+html.colibri-wp-theme .h-overflow-visible {
+  overflow: visible;
+}
+
+html.colibri-wp-theme .h-overflow-hidden {
+  overflow: hidden;
+}
+
+/** manage styles css end*/
+
+html.colibri-wp-theme .section-option-submenu-hidden {
+  display: none;
+}
+
+html.colibri-wp-theme .h-ignore-global-body-typography {
+  font-size: initial;
+  line-height: initial;
+  color: initial;
+  letter-spacing: initial;
+  font-style: initial;
+}
+
+html.colibri-wp-theme .display-none {
+  display: none;
+}
+
+html.colibri-wp-theme .shortcode-placeholder-preview {
+  text-align: center;
+  padding: 10px;
+  border: 1px solid #dadada;
+  color: #919191;
+  background-color: #f7f7f7;
+}
+
+html.colibri-wp-theme .pointer-event-none {
+  pointer-events: none;
+}
+
+html.colibri-wp-theme .text-success {
+  color: #28a745 !important;
+}
+
+html.colibri-wp-theme .text-danger {
+  color: #dc3545 !important;
+}
+
+html.colibri-wp-theme .cursor-pointer {
+  cursor: pointer;
+}
+
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  html.colibri-wp-theme .page-header,
+  html.colibri-wp-theme .page-content,
+  html.colibri-wp-theme .page-footer {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+}
+
+html.colibri-wp-theme [class*="type-"].post ul,
+html.colibri-wp-theme [class*="type-"].post ol,
+html.colibri-wp-theme [class*="type-"].page ul,
+html.colibri-wp-theme [class*="type-"].page ol {
+  /** din mesmerize */
+  margin: auto 1.5em 1em 1.5em;
+}
+
+html.colibri-wp-theme [class*="type-"].post ul ul,
+html.colibri-wp-theme [class*="type-"].post ul ol,
+html.colibri-wp-theme [class*="type-"].post ol ul,
+html.colibri-wp-theme [class*="type-"].post ol ol,
+html.colibri-wp-theme [class*="type-"].page ul ul,
+html.colibri-wp-theme [class*="type-"].page ul ol,
+html.colibri-wp-theme [class*="type-"].page ol ul,
+html.colibri-wp-theme [class*="type-"].page ol ol {
+  margin: 0 0 0 1.5em;
+}
+
+html.colibri-wp-theme #page-top {
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
+html.colibri-wp-theme h1,
+html.colibri-wp-theme h2,
+html.colibri-wp-theme h3,
+html.colibri-wp-theme h4,
+html.colibri-wp-theme h5,
+html.colibri-wp-theme h6 {
+  -ms-word-wrap: break-word;
+  word-wrap: break-word;
+}
+
+html.colibri-wp-theme .main-row-inner > .h-col:first-child {
+  width: 0;
 }
 
 html.colibri-wp-theme [class*=style-],
@@ -4904,6 +5760,10 @@ html.colibri-wp-theme .dummy-column {
   flex-grow: 1;
   max-width: 100%;
   min-width: 50px;
+}
+
+html.colibri-wp-theme .h-column {
+  min-width: 0;
 }
 
 html.colibri-wp-theme .h-column.masonry-item {
@@ -5570,6 +6430,12 @@ html.colibri-wp-theme .wp-block-categories ul > li > a::before {
   counter-increment: submenu;
 }
 
+@media screen and (min-width: 601px) and (max-width: 1024px) {
+  html.colibri-wp-theme ul.wp-block-latest-posts.columns-5 li {
+    width: calc(50% - 16px);
+  }
+}
+
 html.colibri-wp-theme .wp-block-latest-posts.is-grid li {
   border-top: 2px solid #ccc;
   padding-top: 1rem;
@@ -5971,6 +6837,11 @@ html.colibri-wp-theme .wp-block-gallery .blocks-gallery-item figcaption {
   padding: 0.5rem;
   text-align: center;
   top: auto;
+}
+
+html.colibri-wp-theme .wp-block-gallery .blocks-gallery-image figcaption,
+html.colibri-wp-theme .wp-block-gallery .blocks-gallery-item figcaption {
+  position: absolute;
 }
 
 html.colibri-wp-theme .wp-block-separator,
@@ -6452,6 +7323,88 @@ html.colibri-wp-theme .comment-respond input[type=submit] {
   cursor: pointer;
 }
 
+html.colibri-wp-theme .widget_price_filter .price_slider_amount {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+html.colibri-wp-theme .widget_price_filter .price_slider_amount .price_label {
+  margin-bottom: 0.75rem !important;
+}
+
+html.colibri-wp-theme .widget_price_filter .price_slider_amount button {
+  -webkit-box-ordinal-group: 3;
+      -ms-flex-order: 2;
+          order: 2;
+  margin-bottom: 0.75rem !important;
+  min-width: 0 !important;
+}
+
+html.colibri-wp-theme .woocommerce-page .content .h-section .widget_price_filter .price_slider_amount button.button {
+  padding: 0.35rem 1.2rem !important;
+}
+
+html.colibri-wp-theme .widget.widget_product_search button[type="submit"] {
+  display: none;
+}
+
+@media screen and (max-width: 767px) {
+  html.colibri-wp-theme #colibri .widget_top_rated_products .product_list_widget li {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    position: relative;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    width: 100%;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    padding-right: 52px;
+    margin-bottom: 10px;
+  }
+
+  html.colibri-wp-theme #colibri .widget_top_rated_products .product_list_widget li a {
+    max-width: 60%;
+    -webkit-box-ordinal-group: 3;
+        -ms-flex-order: 2;
+            order: 2;
+    margin-left: 60px;
+  }
+
+  html.colibri-wp-theme #colibri .widget_top_rated_products .product_list_widget li a img {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+  }
+
+  html.colibri-wp-theme #colibri .widget_top_rated_products .product_list_widget li .star-rating {
+    -webkit-box-ordinal-group: 2;
+        -ms-flex-order: 1;
+            order: 1;
+    position: absolute;
+    left: 0;
+  }
+
+  html.colibri-wp-theme #colibri .widget_top_rated_products .product_list_widget li .woocommerce-Price-amount {
+    -webkit-box-ordinal-group: 4;
+        -ms-flex-order: 3;
+            order: 3;
+  }
+}
+
 html.colibri-wp-theme .h-widget-area .widget_rss h1 a,
 html.colibri-wp-theme .h-widget-area .widget_rss h2 a,
 html.colibri-wp-theme .h-widget-area .widget_rss h3 a,
@@ -6606,7 +7559,6 @@ html.colibri-wp-theme .colibri_search_container .h-component-overlay.h-ui-select
 
 html.colibri-wp-theme #colibri .colibri_search_container .colibri_search_input::-webkit-input-placeholder {
   font-size: inherit;
-  line-height: normal;
   text-transform: inherit;
   font-family: inherit;
   text-decoration: none;
@@ -6618,7 +7570,6 @@ html.colibri-wp-theme #colibri .colibri_search_container .colibri_search_input::
 
 html.colibri-wp-theme #colibri .colibri_search_container .colibri_search_input::-ms-input-placeholder {
   font-size: inherit;
-  line-height: normal;
   text-transform: inherit;
   font-family: inherit;
   text-decoration: none;
@@ -6630,7 +7581,6 @@ html.colibri-wp-theme #colibri .colibri_search_container .colibri_search_input::
 
 html.colibri-wp-theme #colibri .colibri_search_container .colibri_search_input::placeholder {
   font-size: inherit;
-  line-height: normal;
   text-transform: inherit;
   font-family: inherit;
   text-decoration: none;
@@ -6755,6 +7705,7 @@ html.colibri-wp-theme .min-height-100 {
 
 html.colibri-wp-theme .h-offscreen-panel {
   height: 100%;
+  max-width: 100%;
 }
 
 html.colibri-wp-theme .offscreen-overlay {
@@ -6832,8 +7783,8 @@ html.colibri-wp-theme ul.colibri-menu.bordered-active-item > li {
   position: relative;
 }
 
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item > li:before,
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item > li:after {
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item > li::before,
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item > li::after {
   content: " ";
   display: block;
   width: 100%;
@@ -6844,16 +7795,16 @@ html.colibri-wp-theme ul.colibri-menu.bordered-active-item > li:after {
   opacity: 0;
 }
 
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item > li:before {
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item > li::before {
   top: 0.5em;
 }
 
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item > li:after {
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item > li::after {
   bottom: 0.5em;
 }
 
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-borders-in > li:not(.current_page_item):not(current-menu-item):before,
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-borders-in > li:not(.current_page_item):not(current-menu-item):after {
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-borders-in > li:not(.current_page_item):not(current-menu-item)::before,
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-borders-in > li:not(.current_page_item):not(current-menu-item)::after {
   width: 100%;
   content: "";
   opacity: 0;
@@ -6861,53 +7812,49 @@ html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-borders-in > l
   transition: all 0.3s;
 }
 
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-borders-in > li:not(.current_page_item):not(current-menu-item):before {
-  -webkit-transform: translateY(-10px);
-  transform: translateY(-10px);
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-borders-in > li:not(.current_page_item):not(current-menu-item)::before {
+  margin-top: -10px;
 }
 
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-borders-in > li:not(.current_page_item):not(current-menu-item):after {
-  -webkit-transform: translateY(10px);
-  transform: translateY(10px);
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-borders-in > li:not(.current_page_item):not(current-menu-item)::after {
+  margin-bottom: -10px;
 }
 
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-borders-in > li:not(.current_page_item):not(current-menu-item).hover:before,
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-borders-in > li:not(.current_page_item):not(current-menu-item).hover:after,
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-borders-in > li:not(.current_page_item):not(current-menu-item):hover:before,
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-borders-in > li:not(.current_page_item):not(current-menu-item):hover:after {
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-borders-in > li:not(.current_page_item):not(current-menu-item).hover::before,
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-borders-in > li:not(.current_page_item):not(current-menu-item).hover::after,
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-borders-in > li:not(.current_page_item):not(current-menu-item):hover::before,
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-borders-in > li:not(.current_page_item):not(current-menu-item):hover::after {
   opacity: 1;
-  -webkit-transform: translateY(0px);
-  transform: translateY(0px);
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-borders-out > li:not(.current_page_item):not(current-menu-item):before,
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-borders-out > li:not(.current_page_item):not(current-menu-item):after {
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-borders-out > li:not(.current_page_item):not(current-menu-item)::before,
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-borders-out > li:not(.current_page_item):not(current-menu-item)::after {
   opacity: 0;
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
 }
 
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-borders-out > li:not(.current_page_item):not(current-menu-item):before {
-  -webkit-transform: translateY(10px);
-  transform: translateY(10px);
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-borders-out > li:not(.current_page_item):not(current-menu-item)::before {
+  margin-top: 10px;
 }
 
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-borders-out > li:not(.current_page_item):not(current-menu-item):after {
-  -webkit-transform: translateY(-10px);
-  transform: translateY(-10px);
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-borders-out > li:not(.current_page_item):not(current-menu-item)::after {
+  margin-bottom: 10px;
 }
 
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-borders-out > li:not(.current_page_item):not(current-menu-item).hover:before,
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-borders-out > li:not(.current_page_item):not(current-menu-item).hover:after,
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-borders-out > li:not(.current_page_item):not(current-menu-item):hover:before,
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-borders-out > li:not(.current_page_item):not(current-menu-item):hover:after {
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-borders-out > li:not(.current_page_item):not(current-menu-item).hover::before,
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-borders-out > li:not(.current_page_item):not(current-menu-item).hover::after,
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-borders-out > li:not(.current_page_item):not(current-menu-item):hover::before,
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-borders-out > li:not(.current_page_item):not(current-menu-item):hover::after {
   opacity: 1;
-  -webkit-transform: translateY(0px);
-  transform: translateY(0px);
+  margin-bottom: 0;
+  margin-top: 0;
 }
 
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-borders-grow > li:not(.current_page_item):not(current-menu-item):before,
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-borders-grow > li:not(.current_page_item):not(current-menu-item):after {
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-borders-grow > li:not(.current_page_item):not(current-menu-item)::before,
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-borders-grow > li:not(.current_page_item):not(current-menu-item)::after {
   opacity: 0;
   width: 0;
   content: '';
@@ -6915,133 +7862,133 @@ html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-borders-grow >
   transition: all 0.3s;
 }
 
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-borders-grow > li:not(.current_page_item):not(current-menu-item):before {
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-borders-grow > li:not(.current_page_item):not(current-menu-item)::before {
   left: 0em;
   right: auto;
 }
 
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-borders-grow > li:not(.current_page_item):not(current-menu-item):after {
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-borders-grow > li:not(.current_page_item):not(current-menu-item)::after {
   right: 0em;
   left: auto;
 }
 
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-borders-grow > li:not(.current_page_item):not(current-menu-item).hover:before,
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-borders-grow > li:not(.current_page_item):not(current-menu-item).hover:after,
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-borders-grow > li:not(.current_page_item):not(current-menu-item):hover:before,
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-borders-grow > li:not(.current_page_item):not(current-menu-item):hover:after {
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-borders-grow > li:not(.current_page_item):not(current-menu-item).hover::before,
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-borders-grow > li:not(.current_page_item):not(current-menu-item).hover::after,
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-borders-grow > li:not(.current_page_item):not(current-menu-item):hover::before,
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-borders-grow > li:not(.current_page_item):not(current-menu-item):hover::after {
   opacity: 1;
   width: 100%;
 }
 
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-none > li:not(.current_page_item):not(current-menu-item):before,
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-none > li:not(.current_page_item):not(current-menu-item):after {
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-none > li:not(.current_page_item):not(current-menu-item)::before,
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-none > li:not(.current_page_item):not(current-menu-item)::after {
   opacity: 0;
   -webkit-transition: none;
   transition: none;
 }
 
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-none > li:not(.current_page_item):not(current-menu-item).hover:before,
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-none > li:not(.current_page_item):not(current-menu-item).hover:after,
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-none > li:not(.current_page_item):not(current-menu-item):hover:before,
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-none > li:not(.current_page_item):not(current-menu-item):hover:after {
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-none > li:not(.current_page_item):not(current-menu-item).hover::before,
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-none > li:not(.current_page_item):not(current-menu-item).hover::after,
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-none > li:not(.current_page_item):not(current-menu-item):hover::before,
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item.effect-none > li:not(.current_page_item):not(current-menu-item):hover::after {
   opacity: 1;
 }
 
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item.grow-from-left > li:not(.current_page_item):not(current-menu-item):before,
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item.grow-from-left > li:not(.current_page_item):not(current-menu-item):after {
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item.grow-from-left > li:not(.current_page_item):not(current-menu-item)::before,
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item.grow-from-left > li:not(.current_page_item):not(current-menu-item)::after {
   left: 0 !important;
   right: auto !important;
 }
 
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item.grow-from-right > li:not(.current_page_item):not(current-menu-item):before,
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item.grow-from-right > li:not(.current_page_item):not(current-menu-item):after {
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item.grow-from-right > li:not(.current_page_item):not(current-menu-item)::before,
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item.grow-from-right > li:not(.current_page_item):not(current-menu-item)::after {
   right: 0 !important;
   left: auto !important;
 }
 
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item.grow-from-center > li:not(.current_page_item):not(current-menu-item):before,
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item.grow-from-center > li:not(.current_page_item):not(current-menu-item):after {
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item.grow-from-center > li:not(.current_page_item):not(current-menu-item)::before,
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item.grow-from-center > li:not(.current_page_item):not(current-menu-item)::after {
   left: 50% !important;
   right: auto !important;
 }
 
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item.grow-from-center > li:not(.current_page_item):not(current-menu-item).hover:before,
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item.grow-from-center > li:not(.current_page_item):not(current-menu-item).hover:after,
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item.grow-from-center > li:not(.current_page_item):not(current-menu-item):hover:before,
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item.grow-from-center > li:not(.current_page_item):not(current-menu-item):hover:after {
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item.grow-from-center > li:not(.current_page_item):not(current-menu-item).hover::before,
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item.grow-from-center > li:not(.current_page_item):not(current-menu-item).hover::after,
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item.grow-from-center > li:not(.current_page_item):not(current-menu-item):hover::before,
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item.grow-from-center > li:not(.current_page_item):not(current-menu-item):hover::after {
   left: 0 !important;
   right: auto !important;
 }
 
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item--top > li:after {
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item--top > li::after {
   visibility: hidden;
 }
 
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item--top > .current_page_item:before,
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item--top > .current-menu-item:before {
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item--top > .current_page_item::before,
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item--top > .current-menu-item::before {
   opacity: 1;
 }
 
 /** border active item */
 
-html.colibri-wp-theme .coloured-nav ul.colibri-menu.bordered-active-item--top > .current_page_item:before,
-html.colibri-wp-theme .coloured-nav ul.colibri-menu.bordered-active-item--top > .current-menu-item:before {
+html.colibri-wp-theme .coloured-nav ul.colibri-menu.bordered-active-item--top > .current_page_item::before,
+html.colibri-wp-theme .coloured-nav ul.colibri-menu.bordered-active-item--top > .current-menu-item::before {
   opacity: 1;
 }
 
-html.colibri-wp-theme .h-navigation_sticky ul.colibri-menu.bordered-active-item--top > .current_page_item:before,
-html.colibri-wp-theme .h-navigation_sticky ul.colibri-menu.bordered-active-item--top > .current-menu-item:before {
+html.colibri-wp-theme .h-navigation_sticky ul.colibri-menu.bordered-active-item--top > .current_page_item::before,
+html.colibri-wp-theme .h-navigation_sticky ul.colibri-menu.bordered-active-item--top > .current-menu-item::before {
   opacity: 1;
 }
 
 /** border active item */
 
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item--bottom > li:before {
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item--bottom > li::before {
   visibility: hidden;
 }
 
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item--bottom > .current_page_item:after,
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item--bottom > .current-menu-item:after {
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item--bottom > .current_page_item::after,
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item--bottom > .current-menu-item::after {
   opacity: 1;
 }
 
-html.colibri-wp-theme .coloured-nav ul.colibri-menu.bordered-active-item--bottom > .current_page_item:after,
-html.colibri-wp-theme .coloured-nav ul.colibri-menu.bordered-active-item--bottom > .current-menu-item:after {
+html.colibri-wp-theme .coloured-nav ul.colibri-menu.bordered-active-item--bottom > .current_page_item::after,
+html.colibri-wp-theme .coloured-nav ul.colibri-menu.bordered-active-item--bottom > .current-menu-item::after {
   opacity: 1;
 }
 
-html.colibri-wp-theme .h-navigation_sticky ul.colibri-menu.bordered-active-item--bottom > .current_page_item:after,
-html.colibri-wp-theme .h-navigation_sticky ul.colibri-menu.bordered-active-item--bottom > .current-menu-item:after {
+html.colibri-wp-theme .h-navigation_sticky ul.colibri-menu.bordered-active-item--bottom > .current_page_item::after,
+html.colibri-wp-theme .h-navigation_sticky ul.colibri-menu.bordered-active-item--bottom > .current-menu-item::after {
   opacity: 1;
 }
 
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item--top-and-bottom > .current_page_item:before,
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item--top-and-bottom > .current_page_item:after {
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item--top-and-bottom > .current_page_item::before,
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item--top-and-bottom > .current_page_item::after {
   opacity: 1;
 }
 
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item--top-and-bottom > .current-menu-item:before,
-html.colibri-wp-theme ul.colibri-menu.bordered-active-item--top-and-bottom > .current-menu-item:after {
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item--top-and-bottom > .current-menu-item::before,
+html.colibri-wp-theme ul.colibri-menu.bordered-active-item--top-and-bottom > .current-menu-item::after {
   opacity: 1;
 }
 
-html.colibri-wp-theme .coloured-nav ul.colibri-menu.bordered-active-item--top-and-bottom > .current_page_item:before,
-html.colibri-wp-theme .coloured-nav ul.colibri-menu.bordered-active-item--top-and-bottom > .current_page_item:after {
+html.colibri-wp-theme .coloured-nav ul.colibri-menu.bordered-active-item--top-and-bottom > .current_page_item::before,
+html.colibri-wp-theme .coloured-nav ul.colibri-menu.bordered-active-item--top-and-bottom > .current_page_item::after {
   opacity: 1;
 }
 
-html.colibri-wp-theme .coloured-nav ul.colibri-menu.bordered-active-item--top-and-bottom > .current-menu-item:before,
-html.colibri-wp-theme .coloured-nav ul.colibri-menu.bordered-active-item--top-and-bottom > .current-menu-item:after {
+html.colibri-wp-theme .coloured-nav ul.colibri-menu.bordered-active-item--top-and-bottom > .current-menu-item::before,
+html.colibri-wp-theme .coloured-nav ul.colibri-menu.bordered-active-item--top-and-bottom > .current-menu-item::after {
   opacity: 1;
 }
 
-html.colibri-wp-theme .h-navigation_sticky ul.colibri-menu.bordered-active-item--top-and-bottom > .current_page_item:before,
-html.colibri-wp-theme .h-navigation_sticky ul.colibri-menu.bordered-active-item--top-and-bottom > .current_page_item:after {
+html.colibri-wp-theme .h-navigation_sticky ul.colibri-menu.bordered-active-item--top-and-bottom > .current_page_item::before,
+html.colibri-wp-theme .h-navigation_sticky ul.colibri-menu.bordered-active-item--top-and-bottom > .current_page_item::after {
   opacity: 1;
 }
 
-html.colibri-wp-theme .h-navigation_sticky ul.colibri-menu.bordered-active-item--top-and-bottom > .current-menu-item:before,
-html.colibri-wp-theme .h-navigation_sticky ul.colibri-menu.bordered-active-item--top-and-bottom > .current-menu-item:after {
+html.colibri-wp-theme .h-navigation_sticky ul.colibri-menu.bordered-active-item--top-and-bottom > .current-menu-item::before,
+html.colibri-wp-theme .h-navigation_sticky ul.colibri-menu.bordered-active-item--top-and-bottom > .current-menu-item::after {
   opacity: 1;
 }
 
@@ -7454,7 +8401,12 @@ html.colibri-wp-theme ul.colibri-menu li {
 }
 
 html.colibri-wp-theme ul.colibri-menu li a {
-  display: block;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   text-decoration: none;
   white-space: nowrap;
   color: inherit;
@@ -7887,6 +8839,10 @@ html.colibri-wp-theme .customizer-text-container a {
 }
 
 html.colibri-wp-theme .h-y-container .h-heading > * {
+  margin-bottom: 0;
+}
+
+html.colibri-wp-theme .h-y-container .h-heading > * > * {
   margin-bottom: 0;
 }
 
@@ -11834,6 +12790,45 @@ html.colibri-wp-theme .slideOutRight {
     transform: translate3d(0, -100%, 0);
     visibility: hidden;
   }
+}
+
+@keyframes headShake {
+  0% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+  }
+
+  6.5% {
+    -webkit-transform: translateX(-6px) rotateY(-9deg);
+            transform: translateX(-6px) rotateY(-9deg);
+  }
+
+  18.5% {
+    -webkit-transform: translateX(5px) rotateY(7deg);
+            transform: translateX(5px) rotateY(7deg);
+  }
+
+  31.5% {
+    -webkit-transform: translateX(-3px) rotateY(-5deg);
+            transform: translateX(-3px) rotateY(-5deg);
+  }
+
+  43.5% {
+    -webkit-transform: translateX(2px) rotateY(3deg);
+            transform: translateX(2px) rotateY(3deg);
+  }
+
+  50% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+  }
+}
+
+html.colibri-wp-theme .headShake {
+  -webkit-animation-timing-function: ease-in-out;
+          animation-timing-function: ease-in-out;
+  -webkit-animation-name: headShake;
+          animation-name: headShake;
 }
 
 html.colibri-wp-theme .slideOutUp {
@@ -16474,6 +17469,10 @@ html.colibri-wp-theme #colibri .style-local-438-s4-outer {
 
 /** CSS BY PARTIALS - END  */
 
+html.colibri-wp-theme *:focus {
+  outline: auto;
+}
+
 html.colibri-wp-theme #colibri .h-navigation_outer:not(.h-navigation_overlap) .text-logo {
   color: #000000;
 }
@@ -16521,5 +17520,37 @@ html.colibri-wp-theme .h-blog-meta-text {
   display: -webkit-inline-box;
   display: -ms-inline-flexbox;
   display: inline-flex;
+}
+
+html.colibri-wp-theme #colibri .style-18 > div > .colibri-menu-container > ul.colibri-menu > li > a > svg,
+html.colibri-wp-theme #colibri .style-18 > div > .colibri-menu-container > ul.colibri-menu > li > a > .arrow-wrapper {
+  color: #ffffff;
+}
+
+html.colibri-wp-theme #colibri .style-18 > div > .colibri-menu-container > ul.colibri-menu li > ul > li > a {
+  padding-right: 54px;
+  white-space: normal;
+}
+
+html.colibri-wp-theme #wpadminbar {
+  text-align: initial;
+}
+
+html.colibri-wp-theme #wpadminbar:before,
+html.colibri-wp-theme #wpadminbar *:before {
+  display: block;
+  width: unset;
+  height: unset;
+  -webkit-box-sizing: content-box;
+          box-sizing: content-box;
+}
+
+html.colibri-wp-theme #wpadminbar .admin-bar-search .ab-item:before,
+html.colibri-wp-theme #wpadminbar form:before {
+  content: initial;
+}
+
+html.colibri-wp-theme #wpadminbar .ab-sub-wrapper ul {
+  display: block;
 }
 

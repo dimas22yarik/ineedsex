@@ -57,9 +57,9 @@ class Import {
 			$full_path = __DIR__ . "/import/$id.php";
 		}
 
-		$value = apply_filters( 'colibri_page_builder/import_file_value', null, $value_key );
+	        $value = apply_filters('colibri_page_builder/import_file_value', null, $id, $value_key, $front_page_design);
 
-		if ( $value !== null ) {
+	        if ($value !== null) {
 			return $value;
 		}
 
@@ -348,6 +348,20 @@ class Import {
 		if ( is_string( $data ) ) {
 			$data = str_replace( "[colibri_theme_url]", get_template_directory_uri(), $data );
 			$data = str_replace( "[colibri_builder_plugin_url]", PageBuilder::instance()->rootURL() . "/extend-builder", $data );
+
+            $remote_import_path = apply_filters('colibri_page_builder/remote_import_slug', get_stylesheet(), null);
+            if ($remote_import_path) {
+                $colibri_integration_assets_url = 'https://content.colibriwp.com/themes/' . $remote_import_path;
+                $data = preg_replace_callback('/\[colibri_import_asset_url\]\/assets\/.*?\.[\w]+/', function($matches) use ($colibri_integration_assets_url) {
+                    $url = $matches[0];
+                    $url = str_replace("[colibri_import_asset_url]", $colibri_integration_assets_url, $url);
+                    $imported = import_colibri_image($url);
+                    if ($imported) {
+                        return $imported['url'];
+                    }
+                    return $url;
+                }, $data);
+            }
 		}
 
 

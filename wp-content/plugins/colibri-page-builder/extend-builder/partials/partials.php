@@ -71,11 +71,11 @@ function assign_partial($type, $post_id, $header_id)
     $default_post = default_partial_post($type);
 
     //TODO @adi :
-    //if ($default_post->ID == $header_id) {
-    //    $post_data->unset_meta_value($type);
-    //} else {
+    if ($default_post->ID == $header_id) {
+        $post_data->unset_meta_value($type);
+    } else {
     $post_data->set_meta_value($type, $header_id);
-    //}
+    }
 }
 
 function default_partial_post($type, $default_for = 'post', $lang = "default")
@@ -83,7 +83,6 @@ function default_partial_post($type, $default_for = 'post', $lang = "default")
     $post_default = get_default_partial_id($type, $default_for);
 
     $template = apply_filters(prefix("default_partial"), -1, $type);
-
 
     if ($template == -1) {
         $template = $post_default;
@@ -97,6 +96,7 @@ function default_partial_post($type, $default_for = 'post', $lang = "default")
 function get_default_partial_id($type, $default_for = "post")
 {
     $path = "defaults.partials.$type.$default_for";
+
     $defaultId = get_current_theme_data($path);
 
 
@@ -110,7 +110,7 @@ function get_default_partial_id($type, $default_for = "post")
 function maybe_set_as_default_partial($type, $id, $default_for = "post", $force = false)
 {
     $path = "defaults.partials.$type.$default_for";
-    if ($force || get_default_partial_id($type, $id, $default_for) == -1) {
+    if ($force || get_default_partial_id($type, $default_for) == -1) {
         set_theme_path($path, $id);
     }
 }
@@ -191,14 +191,20 @@ function create_partial($type, $data, $name = "")
 
 function get_partial_details($post, $type = null)
 {
-    return array(
+    $partial_details =  array(
         'id' => $post->ID,
         'name' => $type ? $type : $post->post_title,
         'type' => $type ? $type : custom_post_type_simple_name($post->post_type),
         'data' => get_partial_data($post->ID),
         'slug' => $post->post_name,
-        'permalink' => get_post_permalink($post->ID)
+        'permalink' => get_post_permalink($post->ID),
+        'is-home' => intval( get_option( 'page_on_front' ) ) ===  $post->ID,
+        'lang' => get_post_language($post->ID)
     );
+
+    $partial_details = apply_filters('colibri_page_builder/get_partial_details', $partial_details);
+
+    return $partial_details;
 }
 
 function get_partial_default_for_key_old($type, $default_for)
@@ -231,13 +237,15 @@ function get_partials_of_type($type = false, $default_for = false)
 
 function post_supports_partial($post_id, $type)
 {
+    $value = true;
     if ($post_id !== -1 && is_page($post_id)) {
         if ($type === "main" || $type === "sidebar") {
-            return false;
+            $value = false;
         }
     }
 
-    return true;
+    $value = apply_filters('colibri_page_builder/post_supports_partial', $value, $post_id, $type);
+    return $value;
 }
 
 function partials_types_list($include_content = false)

@@ -11,11 +11,11 @@ add_action('get_footer', function () {
 add_filter('colibri_page_builder/template',
     function ($page_template, $companion, $post) {
         if (is_customize_preview()) {
-            if ($post && is_page($post->ID)) {
+            if ($post && is_page($post->ID) && show_page_content()) {
                 $post_id = $post->ID;
                 $template = get_post_meta($post_id, '_wp_page_template', true);
                 if (!$template || $template === "default") {
-                    $full_page_template = apply_filters('colibri_maintainable_default_template', "page-templates/full-width-page.php");
+                    $full_page_template = apply_filters('colibri_page_builder/maintainable_default_template', "page-templates/full-width-page.php");
 
                     return get_query_template("page", [$full_page_template]);
                 }

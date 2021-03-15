@@ -36,7 +36,9 @@ add_action( 'colibri_page_builder/customizer/before_render_shortcode', function 
 }, 10 );
 
 add_action( 'colibri_page_builder/customizer/after_render_shortcode', function ( $shortcode ) {
-
+	if(colibri_shortcode_is_colibri_contact_form($shortcode)) {
+		$shortcode = colibri_get_colibri_contact_form_shortcode($shortcode);
+	}
 	if ( shortcode_render_can_apply_wpforms_filters( $shortcode ) ) {
 		ob_start();
 		?>

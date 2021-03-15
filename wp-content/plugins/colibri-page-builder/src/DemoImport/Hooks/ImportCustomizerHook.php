@@ -13,7 +13,7 @@ class ImportCustomizerHook extends ImportHook {
 
 	public function run() {
 		$self = $this;
-		add_action( 'wp_ajax_ocdi_import_customizer_data', function () use ( $self ) {
+		add_action( 'wp_ajax_extendthemes_ocdi_import_customizer_data', function () use ( $self ) {
 			add_filter( 'pre_update_option_active_plugins', array( $self, 'installPlugins' ) );
 		}, 0 );
 	}

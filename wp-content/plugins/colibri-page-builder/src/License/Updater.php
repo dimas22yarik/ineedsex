@@ -9,255 +9,255 @@ use function ExtendBuilder\array_get_value;
 
 class Updater {
 
-	private static $instance = null;
+    private static $instance = null;
 
-	private $product_data = null;
-	private $path         = null;
+    private $product_data = null;
+    private $path         = null;
 
-	public function __construct( $path ) {
-		if ( is_admin() ) {
-			$this->path = $path;
-			if ( $this->canCheckForUpdates() ) {
-				add_filter( 'pre_set_site_transient_update_plugins', array( $this, 'checkForUpdate' ) );
-			}
-			add_filter( 'plugins_api', array( $this, 'pluginsApiHandler' ), 10, 3 );
-		}
-	}
+    public function __construct( $path ) {
+        if ( is_admin() ) {
+            $this->path = $path;
+            if ( $this->canCheckForUpdates() ) {
+                add_filter( 'pre_set_site_transient_update_plugins', array( $this, 'checkForUpdate' ) );
+            }
+            add_filter( 'plugins_api', array( $this, 'pluginsApiHandler' ), 10, 3 );
+        }
+    }
 
-	public static function load( $path ) {
+    public function canCheckForUpdates() {
+        if ( PageBuilder::instance()->isPRO() ) {
+            return true;
+        }
 
-		if ( ! self::$instance ) {
-			self::$instance = new static( $path );
-		}
+        $data = apply_filters( 'colibri_page_builder/companion/update_remote_data', array(
+            'url'  => '',
+            'args' => [
+                'product' => 'colibri-page-builder'
+            ],
+        ), $this );
 
-		return static::getInstance();
-	}
+        if ( $plugin = array_get_value( $data, 'args.product', false ) ) {
+            if ( $plugin === 'colibri-page-builder-pro' ) {
+                return true;
+            }
+        }
+    }
 
-	/**
-	 * @return Updater|null
-	 */
-	public static function getInstance() {
+    public static function load( $path ) {
 
+        if ( ! self::$instance ) {
+            self::$instance = new static( $path );
+        }
 
-		return self::$instance;
-	}
+        return static::getInstance();
+    }
 
-	public function checkForUpdate( $transient ) {
-		$has_custom_update_endpoint = apply_filters( 'colibri_page_builder/custom_update_endpoint', false );
-
-		if ( empty( $transient->checked ) ) {
-			return $transient;
-		}
-
-		if ( ! $has_custom_update_endpoint ) {
-			return $transient;
-		}
-
-		$info = $this->isUpdateAvailable();
-
-		if ( $info !== false ) {
-			$transient = $this->addTransientData( $transient, $info );
-		}
+    /**
+     * @return Updater|null
+     */
+    public static function getInstance() {
 
 
-		return $transient;
+        return self::$instance;
+    }
 
-	}
+    public function checkForUpdate( $transient ) {
+        $has_custom_update_endpoint = apply_filters( 'colibri_page_builder/custom_update_endpoint', false );
 
-	public function isUpdateAvailable() {
-		$status = $this->getRemoteInfo();
-		if ( $status ) {
-			if ( version_compare( $status->version, $this->getLocalVersion(), '>' ) ) {
-				return $status;
-			}
-		}
+        if ( empty( $transient->checked ) ) {
+            return $transient;
+        }
 
-		return false;
-	}
+        if ( ! $has_custom_update_endpoint ) {
+            return $transient;
+        }
 
-	public function canCheckForUpdates() {
-		if ( PageBuilder::instance()->isPRO() ) {
-			return true;
-		}
+        $info = $this->isUpdateAvailable();
 
-		$data = apply_filters( 'colibri_page_builder/companion/update_remote_data', array(
-			'url'  => '',
-			'args' => [
-				'product' => 'colibri-page-builder'
-			],
-		), $this );
+        if ( $info !== false ) {
+            $transient = $this->addTransientData( $transient, $info );
+        }
 
-		if ( $plugin = array_get_value( $data, 'args.product', false ) ) {
-			if ( $plugin === 'colibri-page-builder-pro' ) {
-				return true;
-			}
-		}
-	}
 
-	public function getRemoteInfo() {
-		$data = apply_filters( 'colibri_page_builder/companion/update_remote_data', array(
-			'url'  => '',
-			'args' => [
-				'product' => 'colibri-page-builder'
-			]
-		), $this );
+        return $transient;
 
-		$data = array_merge( array(
-			'url'  => '',
-			'args' => []
-		), (array) $data );
+    }
 
-		$url  = $data['url'];
-		$args = $data['args'];
+    public function isUpdateAvailable() {
+        $status = $this->getRemoteInfo();
+        if ( $status ) {
+            if ( version_compare( $status->version, $this->getLocalVersion(), '>' ) ) {
+                return $status;
+            }
+        }
 
-		if ( ! $url ) {
-			return false;
-		}
+        return false;
+    }
 
-		$url = add_query_arg( $args, $url );
+    public function getRemoteInfo() {
+        $data = apply_filters( 'colibri_page_builder/companion/update_remote_data', array(
+            'url'  => '',
+            'args' => [
+                'product' => 'colibri-page-builder'
+            ]
+        ), $this );
 
-		$response = wp_remote_get( $url, array(
-			'timeout'    => 10,
-			'user-agent' => 'WordPress/' . get_bloginfo( 'version' ) . '; ' . get_bloginfo( 'url' ),
-			'sslverify'  => false,
-		) );
+        $data = array_merge( array(
+            'url'  => '',
+            'args' => []
+        ), (array) $data );
 
-		if ( is_wp_error( $response ) ) {
-			return false;
-		}
+        $url  = $data['url'];
+        $args = apply_filters( 'colibri_page_builder/endpoints/request_body', $data['args'] );
 
-		$response_body = wp_remote_retrieve_body( $response );
-		$result        = json_decode( $response_body );
+        if ( ! $url ) {
+            return false;
+        }
 
-		if ( ! $result || ! $result->status || $result->status !== "success" ) {
-			return false;
-		}
+        $url = add_query_arg( $args, $url );
 
-		$result = array_merge( array(
-			'name'            => '',
-			'description'     => '',
-			'version'         => '',
-			'tested'          => '',
-			'author'          => '',
-			'last_updated'    => '',
-			'banner_low'      => '',
-			'banner_high'     => '',
-			'package_url'     => '',
-			'description_url' => '',
-			'icons'           => [],
-			'requires'        => ''
-		), (array) $result->body );
+        $response = wp_remote_get( $url, array(
+            'timeout'    => 10,
+            'user-agent' => 'WordPress/' . get_bloginfo( 'version' ) . '; ' . get_bloginfo( 'url' ),
+            'sslverify'  => false,
+        ) );
 
-		$product_data = $this->getProductData();
+        if ( is_wp_error( $response ) ) {
+            return false;
+        }
 
-		if ( ! $result['description'] ) {
-			$result['description'] = array_get_value( $product_data, 'Description', '' );
-		}
+        $response_body = wp_remote_retrieve_body( $response );
+        $result        = json_decode( $response_body );
 
-		if ( ! $result['author'] ) {
-			$result['author'] = array_get_value( $product_data, 'Author', '' );
-		}
+        if ( ! $result || ! $result->status || $result->status !== "success" ) {
+            return false;
+        }
 
-		return (object) $result;
-	}
+        $result = array_merge( array(
+            'name'            => '',
+            'description'     => '',
+            'version'         => '',
+            'tested'          => '',
+            'author'          => '',
+            'last_updated'    => '',
+            'banner_low'      => '',
+            'banner_high'     => '',
+            'package_url'     => '',
+            'description_url' => '',
+            'icons'           => [],
+            'requires'        => ''
+        ), (array) $result->body );
 
-	public function getLocalVersion() {
-		$data = $this->getProductData();
+        $product_data = $this->getProductData();
 
-		return $data['Version'];
-	}
+        if ( ! $result['description'] ) {
+            $result['description'] = array_get_value( $product_data, 'Description', '' );
+        }
 
-	public function getProductData() {
-		if ( ! $this->product_data ) {
+        if ( ! $result['author'] ) {
+            $result['author'] = array_get_value( $product_data, 'Author', '' );
+        }
 
-			$path = $this->path;
+        return (object) $result;
+    }
 
-			$data = apply_filters( 'colibri_page_builder/companion/update_remote_data', array(
-				'url'  => '',
-				'args' => [
-					'product' => 'colibri-page-builder'
-				]
-			), $this );
+    public function getProductData() {
+        if ( ! $this->product_data ) {
 
-			$path = array_get_value( $data, 'plugin_path', $path );
+            $path = $this->path;
 
-			$this->product_data = get_plugin_data( $path, false );
-		}
+            $data = apply_filters( 'colibri_page_builder/companion/update_remote_data', array(
+                'url'  => '',
+                'args' => [
+                    'product' => 'colibri-page-builder'
+                ]
+            ), $this );
 
-		return $this->product_data;
-	}
+            $path = array_get_value( $data, 'plugin_path', $path );
 
-	public function addTransientData( $transient, $info ) {
-		$plugin_slug = plugin_basename( $this->path );
+            $this->product_data = get_plugin_data( $path, false );
+        }
 
-		$transient->response[ $plugin_slug ] = (object) array(
-			'new_version' => $info->version,
-			'package'     => $info->package_url,
-			'icons'       => (array) $info->icons,
-			'slug'        => $plugin_slug,
-			'tested'      => $info->tested
-		);
+        return $this->product_data;
+    }
 
-		return $transient;
-	}
+    public function getLocalVersion() {
+        $data = $this->getProductData();
 
-	/**
-	 * A function for the WordPress "plugins_api" filter. Checks if
-	 * the user is requesting information about the current plugin and returns
-	 * its details if needed.
-	 *
-	 * This function is called before the Plugins API checks
-	 * for plugin information on WordPress.org.
-	 *
-	 * @param $res      bool|object The result object, or false (= default value).
-	 * @param $action   string      The Plugins API action. We're interested in 'plugin_information'.
-	 * @param $args     array       The Plugins API parameters.
-	 *
-	 * @return bool|object
-	 */
-	public function pluginsApiHandler( $res, $action, $args ) {
-		if ( $action == 'plugin_information' ) {
-			if ( isset( $args->slug ) && $args->slug == plugin_basename( $this->path ) ) {
-				$info = $this->getRemoteInfo();
+        return $data['Version'];
+    }
 
-				if ( ! $info ) {
-					return $res;
-				}
+    public function addTransientData( $transient, $info ) {
+        $plugin_slug = plugin_basename( $this->path );
 
-				$res = (object) array(
-					'name'          => $info->name,
-					'version'       => $info->version,
-					'slug'          => $args->slug,
-					'download_link' => $info->package_url,
+        $transient->response[ $plugin_slug ] = (object) array(
+            'new_version' => $info->version,
+            'package'     => $info->package_url,
+            'icons'       => (array) $info->icons,
+            'slug'        => $plugin_slug,
+            'tested'      => $info->tested
+        );
 
-					'tested'       => $info->tested,
-					'requires'     => $info->requires,
-					'last_updated' => $info->last_updated,
-					'homepage'     => $info->description_url,
+        return $transient;
+    }
 
-					'sections' => array(
-						'description' => $info->description,
-					),
+    /**
+     * A function for the WordPress "plugins_api" filter. Checks if
+     * the user is requesting information about the current plugin and returns
+     * its details if needed.
+     *
+     * This function is called before the Plugins API checks
+     * for plugin information on WordPress.org.
+     *
+     * @param $res      bool|object The result object, or false (= default value).
+     * @param $action   string      The Plugins API action. We're interested in 'plugin_information'.
+     * @param $args     array       The Plugins API parameters.
+     *
+     * @return bool|object
+     */
+    public function pluginsApiHandler( $res, $action, $args ) {
+        if ( $action == 'plugin_information' ) {
+            if ( isset( $args->slug ) && $args->slug == plugin_basename( $this->path ) ) {
+                $info = $this->getRemoteInfo();
 
-					'banners' => array(
-						'low'  => $info->banner_low,
-						'high' => $info->banner_high,
-					),
+                if ( ! $info ) {
+                    return $res;
+                }
 
-					'external' => true
-				);
+                $res = (object) array(
+                    'name'          => $info->name,
+                    'version'       => $info->version,
+                    'slug'          => $args->slug,
+                    'download_link' => $info->package_url,
 
-				// Add change log tab if the server sent it
-				if ( isset( $info->changelog ) ) {
-					$res['sections']['changelog'] = $info->changelog;
-				}
+                    'tested'       => $info->tested,
+                    'requires'     => $info->requires,
+                    'last_updated' => $info->last_updated,
+                    'homepage'     => $info->description_url,
 
-				return $res;
-			}
-		}
+                    'sections' => array(
+                        'description' => $info->description,
+                    ),
 
-		return false;
-	}
+                    'banners' => array(
+                        'low'  => $info->banner_low,
+                        'high' => $info->banner_high,
+                    ),
+
+                    'external' => true
+                );
+
+                // Add change log tab if the server sent it
+                if ( isset( $info->changelog ) ) {
+                    $res['sections']['changelog'] = $info->changelog;
+                }
+
+                return $res;
+            }
+        }
+
+        return false;
+    }
 
 
 }

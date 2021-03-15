@@ -159,7 +159,6 @@ class HeaderMenu extends ComponentBase {
                 'control'   => array(
                     'label'       => Translations::get( 'button_highlight_type' ),
                     'type'        => 'select',
-                    'linked_to'   => "{$prefix}props.hoverEffect.group.border.transition",
                     'section'     => "{$prefix}section",
                     'colibri_tab' => "style",
                     'choices'     => array(
@@ -282,12 +281,19 @@ class HeaderMenu extends ComponentBase {
     }
 
     public function addFirstLevelIcons( $title, $item ) {
-        $arrow = '';
+        $arrow = $this->getMenuArrows();
 
         if ( is_numeric( $item ) ) {
+
+            if ( wp_get_post_parent_id( $item ) ) {
+                return $title;
+            }
+
             $args = array(
-                'post_parent' => $item, // Current post's ID
-                'numberposts' => 1
+                'post_parent'   => $item, // Current post's ID
+                'post_type__in' => 'post,page',
+                'numberposts'   => 1,
+                'fields'        => 'ids'
             );
 
             if ( ! array_key_exists( $item, $this->has_children ) ) {
@@ -296,28 +302,42 @@ class HeaderMenu extends ComponentBase {
             }
 
             if ( $this->has_children[ $item ] ) {
-                $arrow = $this->getMenuArrows();
+                return $title . $arrow;
             }
-            // TO DO handle page menu here
+
         } else {
-            if ( in_array( 'menu-item-has-children', $item->classes ) && ! $item->menu_item_parent ) {
-                // down arrow
-                $arrow = $this->getMenuArrows();
+
+            if ( $item instanceof \WP_Post && $item->post_type === 'nav_menu_item' ) {
+                if ( intval( $item->post_parent ) ) {
+                    return $title;
+                }
             }
+
         }
 
+        if ( is_object( $item ) && in_array( 'menu-item-has-children', $item->classes ) && ! $item->menu_item_parent ) {
+            return $title . $arrow;
+        }
 
-        return $title . $arrow;
+        return $title;
     }
 
     private function getMenuArrows() {
         $arrow = '';
 
         // down arrow
-        $arrow = '<svg aria-hidden="true" data-prefix="fas" data-icon="angle-down" class="svg-inline--fa fa-angle-down fa-w-10" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M143 352.3L7 216.3c-9.4-9.4-9.4-24.6 0-33.9l22.6-22.6c9.4-9.4 24.6-9.4 33.9 0l96.4 96.4 96.4-96.4c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9l-136 136c-9.2 9.4-24.4 9.4-33.8 0z"></path></svg>';
+        $arrow = '' .
+                 ' <svg aria-hidden="true" data-prefix="fas" data-icon="angle-down" class="svg-inline--fa fa-angle-down fa-w-10" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">' .
+                 '  <path fill="currentColor" d="M143 352.3L7 216.3c-9.4-9.4-9.4-24.6 0-33.9l22.6-22.6c9.4-9.4 24.6-9.4 33.9 0l96.4 96.4 96.4-96.4c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9l-136 136c-9.2 9.4-24.4 9.4-33.8 0z"></path>' .
+                 ' </svg>' .
+                 '';
 
         // right arrow
-        $arrow .= '<svg aria-hidden="true" data-prefix="fas" data-icon="angle-right" class="svg-inline--fa fa-angle-right fa-w-8" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><path fill="currentColor" d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"></path></svg>';
+        $arrow .= '' .
+                  ' <svg aria-hidden="true" data-prefix="fas" data-icon="angle-right" class="svg-inline--fa fa-angle-right fa-w-8" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512">' .
+                  '  <path fill="currentColor" d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"></path>' .
+                  ' </svg>' .
+                  '';
 
 
         return $arrow;
@@ -343,7 +363,6 @@ class HeaderMenu extends ComponentBase {
         $drop_down_menu_classes = array_merge( $drop_down_menu_classes, array( $customClasses ) );
 
         add_filter( 'the_title', array( $this, 'addFirstLevelIcons' ), 10, 2 );
-
 
         $menu = wp_page_menu( array(
             "menu_class" => 'colibri-menu-container',

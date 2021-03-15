@@ -4,11 +4,17 @@
 namespace ColibriWP\Theme\Customizer\Controls;
 
 
-class SelectIconControl extends VueControl {
-	public $type = 'colibri-select-icon';
+use ColibriWP\Theme\Core\Utils;
 
-	protected function printVueContent() {
-		?>
+class SelectIconControl extends VueControl {
+    public $type = 'colibri-select-icon';
+
+    public static function sanitize( $value, $control_data, $default = '' ) {
+        return Utils::sanitizeSelectControl( $control_data, $value );
+    }
+
+    protected function printVueContent() {
+        ?>
 
         <select-with-icon
                 slot="control"
@@ -17,6 +23,6 @@ class SelectIconControl extends VueControl {
                 :items="options"
         />
 
-		<?php
-	}
+        <?php
+    }
 }
