@@ -45,9 +45,8 @@ class FilemanagerController {
 	$dir = $this->model->get_from_session('dir', '');
     $search = $this->model->get_from_session('search', '');
     $page_num = $this->model->get_from_session('paged', 0);
-    $extensions = $this->model->get_from_session('extensions', '*');
     $callback = $this->model->get_from_session('callback', '');
-    $valid_types = explode( ',', strtolower($extensions) );
+    $valid_types = explode( ',', strtolower('jpg,jpeg,png,gif,svg') );
 
 	// set session data.
 	$session_data = array();
@@ -78,7 +77,7 @@ class FilemanagerController {
 		'width' => '850',
 		'height' => '550',
 		'task' => 'pagination',
-		'extensions' => '',
+		'extensions' => 'jpg,jpeg,png,gif,svg',
 		'callback' => '',
 		'dir' => $dir,
 		'TB_iframe' => '1',
@@ -209,7 +208,7 @@ class FilemanagerController {
       'bwg_width' => '850',
       'bwg_height' => '550',
       'task' => 'display',
-      'extensions' => WDWLibrary::get('extensions'),
+      'extensions' => 'jpg,jpeg,png,gif,svg',
       'callback' => WDWLibrary::get('callback'),
       'dir' => $input_dir,
       'TB_iframe' => '1',
@@ -224,7 +223,7 @@ class FilemanagerController {
 		$dir = $this->model->get_from_session('dir', '');
 		$dir = ($dir == '' || $dir == '/') ? '/' : $dir .'/';
 		$input_dir = (isset($_REQUEST['dir']) ? str_replace('\\', '', WDWLibrary::get('dir','','sanitize_text_field','REQUEST')) : '');
-		$valid_types = explode(',', isset($_REQUEST['extensions']) ? strtolower(WDWLibrary::get('extensions','','sanitize_text_field','REQUEST')) : '*');
+		$valid_types = explode(',', 'jpg,jpeg,png,gif,svg');
 		$parsing = $this->model->files_parsing_db(array(
 			'refresh' => true,
 			'dir' => BWG()->upload_dir . $dir,
@@ -238,7 +237,7 @@ class FilemanagerController {
 			'width' => '850',
 			'height' => '550',
 			'task' => 'display',
-			'extensions' => WDWLibrary::get('extensions'),
+			'extensions' => 'jpg,jpeg,png,gif,svg',
 			'callback' => WDWLibrary::get('callback'),
 			'dir' => $input_dir,
 			'TB_iframe' => '1',
@@ -385,7 +384,7 @@ class FilemanagerController {
       'bwg_width' => '850',
       'bwg_height' => '550',
       'task' => 'display',
-      'extensions' => WDWLibrary::get('extensions'),
+      'extensions' => 'jpg,jpeg,png,gif,svg',
       'callback' => WDWLibrary::get('callback'),
       'dir' => $input_dir,
       'TB_iframe' => '1',
@@ -446,7 +445,7 @@ class FilemanagerController {
       'bwg_width' => '850',
       'bwg_height' => '550',
       'task' => 'show_file_manager',
-      'extensions' => WDWLibrary::get('extensions'),
+      'extensions' => 'jpg,jpeg,png,gif,svg',
       'callback' => WDWLibrary::get('callback'),
       'dir' => $input_dir,
       'TB_iframe' => '1',
@@ -670,7 +669,7 @@ class FilemanagerController {
       'bwg_width' => '850',
       'bwg_height' => '550',
       'task' => 'show_file_manager',
-      'extensions' => WDWLibrary::get('extensions','','sanitize_text_field','REQUEST'),
+      'extensions' => 'jpg,jpeg,png,gif,svg',
       'callback' => WDWLibrary::get('callback','','sanitize_text_field','REQUEST'),
       'dir' => $input_dir,
       'TB_iframe' => '1',

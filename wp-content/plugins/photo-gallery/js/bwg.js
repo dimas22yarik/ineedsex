@@ -188,14 +188,16 @@ jQuery( function () {
       if ( jQuery( window ).scrollTop() >= jQuery( 'div.wd-list-view-header' ).offset().top + 150 ) {
         jQuery( '#search_in_tablet' ).addClass( 'fixed' );
         jQuery( '#search_in_options_container' ).addClass( 'fixed' );
-        jQuery( '#search_in_options_container' ).css( "width", +jQuery( '#search_in_options_container' ).parent().width() - jQuery( '#search_in_options_container' ).css( 'marginLeft' ).replace( 'px', '' ) - jQuery( '#search_in_options_container' ).css( 'marginRight' ).replace( 'px', '' ) );
-        jQuery( '#search_in_tablet' ).css( "width", +jQuery( '#search_in_tablet' ).parent().width() - jQuery( '#search_in_tablet' ).css( 'marginLeft' ).replace( 'px', '' ) - jQuery( '#search_in_tablet' ).css( 'marginRight' ).replace( 'px', '' ) );
       }
       else {
         jQuery( '#search_in_options_container' ).removeClass( 'fixed' );
         jQuery( '#search_in_tablet' ).removeClass( 'fixed' );
       }
-    } );
+    });
+    jQuery( window ).on('resize load', function () {
+      jQuery( '#search_in_options_container' ).css( "width", +jQuery( '#search_in_tablet' ).parent().width() - jQuery( '#search_in_tablet' ).css( 'marginLeft' ).replace( 'px', '' ) - jQuery( '#search_in_tablet' ).css( 'marginRight' ).replace( 'px', '' ) );
+      jQuery( '#search_in_tablet' ).css( "width", +jQuery( '#search_in_tablet' ).parent().width() - jQuery( '#search_in_tablet' ).css( 'marginLeft' ).replace( 'px', '' ) - jQuery( '#search_in_tablet' ).css( 'marginRight' ).replace( 'px', '' ) );
+    });
   }
   jQuery( '.tabs' ).click( function () {
     search_options();

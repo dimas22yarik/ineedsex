@@ -1983,6 +1983,7 @@ class WDWLibrary {
     $defaults['autohide_lightbox_navigation'] = (bool) self::get_option_value('autohide_lightbox_navigation', 'autohide_lightbox_navigation', 'autohide_lightbox_navigation', $from || $use_option_defaults, $params);
     $defaults['popup_hit_counter'] = (bool) self::get_option_value('popup_hit_counter', 'popup_hit_counter', 'popup_hit_counter', $from || $use_option_defaults, $params);
     $defaults['popup_enable_rate'] = (bool) self::get_option_value('popup_enable_rate', 'popup_enable_rate', 'popup_enable_rate', $from || $use_option_defaults, $params);
+    $defaults['popup_enable_zoom'] = (bool) self::get_option_value('popup_enable_zoom', 'popup_enable_zoom', 'popup_enable_zoom', $from || $use_option_defaults, $params);
     $defaults['popup_enable_fullsize_image'] = (bool) self::get_option_value('popup_enable_fullsize_image', 'popup_enable_fullsize_image', 'popup_enable_fullsize_image', $from || $use_option_defaults, $params);
     $defaults['popup_enable_download'] = (bool) self::get_option_value('popup_enable_download', 'popup_enable_download', 'popup_enable_download', $from || $use_option_defaults, $params);
     $defaults['show_image_counts'] = (bool) self::get_option_value('show_image_counts', 'show_image_counts', 'show_image_counts', $from || $use_option_defaults, $params);

@@ -3,7 +3,7 @@ Contributors: webdorado,wdsupport,photogallerysupport,10web
 Tags: gallery, photo gallery, image gallery, responsive gallery, wordpress gallery plugin, photo albums, gallery slider, gallery lightbox, wordpress photo gallery plugin, fullscreen gallery, watermarking, video gallery
 Requires at least: 4.6
 Tested up to: 5.7
-Stable tag: 1.5.69
+Stable tag: 1.5.70
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -281,6 +281,22 @@ Choose whether to display random or the first/last specific number of images.
 **Theme.** Choose the theme, which will be applied to the gallery/album.
 
 == Changelog ==
+
+= 1.5.70 =
+* Added: Zoom in/out for images in lightbox.
+* Changed: Reset only the current tag options on themes reset.
+* Changed: Make items clickable on editing Gallery groups.
+* Fixed: Removed hash after closing lightbox.
+* Fixed: Video causes a JS error while trying to close full screen in Slideshow view.
+* Fixed: Uploader issue in some cases.
+* Fixed: Scrolling down in options page.
+* Fixed: Date and Title filters as a default.
+* Fixed: Blog Style view alignment.
+* Fixed: Importing Gallery groups.
+* Fixed: Disable Elementor lightbox for gallery images.
+* Fixed: Preview in Elementor.
+* Fixed: Spacing between images in masonry view.
+* Fixed: Images description in gallery groups.
 
 = 1.5.69 =
 * Added: Possibility to set Embed YouTube video starting time and to show related videos from your channel.

@@ -1,3 +1,18 @@
+figure.zoom {
+  background-position: 50% 50%;
+  background-size: 200%;
+  position: relative;
+  width: auto;
+  overflow: hidden;
+  cursor: zoom-in;
+}
+figure.zoom img:hover {
+  opacity: 0;
+}
+figure.zoom img {
+  transition: opacity 0.5s;
+  display: block;
+}
 div[id^="bwg_container"] p {
   padding: 0 !important;
   margin: 0 !important;

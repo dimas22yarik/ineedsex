@@ -153,11 +153,17 @@ class BWGViewSite {
       </div>
     </div>
     <script>
+      if (document.readyState === 'complete') {
+        if( typeof bwg_main_ready == 'function' ) {
+          bwg_main_ready();
+        }
+      } else {
       document.addEventListener('DOMContentLoaded', function() {
         if( typeof bwg_main_ready == 'function' ) {
           bwg_main_ready();
         }
       });
+      }
     </script>
     <?php
   }

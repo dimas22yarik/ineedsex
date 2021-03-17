@@ -16,8 +16,6 @@ jQuery(function () {
     bwg_slideshow_blur(isAll);
     if (jQuery('.bwg_play_pause').length > 0) {
       window.clearInterval(bwg_playInterval);
-      jQuery(".bwg_play_pause").attr("title", bwg_objectsL10n.bwg_play);
-      jQuery(".bwg_play_pause").attr("class", "bwg-icon-play bwg_ctrl_btn bwg_play_pause");
     }
   }
 
@@ -25,8 +23,6 @@ jQuery(function () {
     bwg_slideshow_focus();
     if (jQuery(".bwg_play_pause").length && jQuery(".bwg_play_pause").hasClass("bwg-icon-play") && !jQuery(".bwg_comment_container").hasClass("bwg_open")) {
       bwg_play(gallery_box_data['data']);
-      jQuery(".bwg_play_pause").attr("title", bwg_objectsL10n.bwg_pause);
-      jQuery(".bwg_play_pause").attr("class", "bwg-icon-pause bwg_ctrl_btn bwg_play_pause");
     }
   }
 
@@ -1045,7 +1041,7 @@ function bwg_thumbnail_masonry(that) {
         scaleHeight = jQuery( this ).width()/scale;
         /* calculating height of image title and description */
         /* finding title/description with 'a>' selector to avoid calculating heights for 'Show on hover' option. */
-        title_h = this.querySelector("a .bwg-title2") ? this.querySelector("a .bwg-title2").getClientRects()[0].height : 0;
+        title_h = this.querySelector("a .bwg-zoom-effect-overlay .bwg-title2") || !this.querySelector("a .bwg-title2") ? 0 : this.querySelector("a .bwg-title2").getClientRects()[0].height;
         desc_h = this.querySelector("a .bwg-masonry-thumb-description") ? this.querySelector("a .bwg-masonry-thumb-description").getClientRects()[0].height : 0;
         var k = title_h + desc_h;
         jQuery(this).height( scaleHeight + k );
@@ -2522,7 +2518,7 @@ function bwg_change_image_slideshow(current_key, key, data, from_effect, bwg) {
         var argument = '';
         if (bwg_params[bwg]['thumb_click_action'] == 'open_lightbox')
         {
-          argument += ' class="bwg_lightbox" data-image-id="' + data[key]["id"] + '"';
+          argument += ' class="bwg_lightbox" data-image-id="' + data[key]["id"] + '" data-elementor-open-lightbox="no"';
         } else {
           if ( bwg_params[bwg]["thumb_click_action"] == "redirect_to_url" && data[key]["redirect_url"] ) {
             argument += 'href="' + data[key]["redirect_url"] + '"' + ( (bwg_params[bwg]['thumb_link_target'] && bwg_params[bwg]['thumb_link_target'] == 1) ? ' target="_blank"' : '' );

@@ -29,7 +29,7 @@ class BWGControllerSite {
       if ($sort_by == 'random') {
         $params['sort_by'] = 'RAND()';
       } else {
-        if (in_array($sort_by, array('default', 'filename', 'size'))) {
+        if (in_array($sort_by, array('default', 'alt', 'date', 'filename', 'size'))) {
           $params['sort_by'] = $sort_by;
         }
       }
@@ -273,6 +273,7 @@ class BWGControllerSite {
         $params['container_id'] = 'bwg_' . $params['gallery_type'] . '_' . $bwg;
         $params['masonry_hor_ver'] = BWG()->options->masonry;
         $params['show_masonry_thumb_description'] = BWG()->options->show_masonry_thumb_description;
+        $params['show_thumb_description'] = BWG()->options->show_thumb_description;
 
         $gallery_row = $this->model->get_gallery_row_data($params['gallery_id']);
 

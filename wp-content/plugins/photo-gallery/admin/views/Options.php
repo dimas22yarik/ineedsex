@@ -562,7 +562,7 @@ class OptionsView_bwg extends AdminView_bwg {
       </div>
       <div id="bwg_tab_gallery_group_content" class="search-div bwg-section wd-box-content">
         <div class="bwg-section bwg-flex-wrap">
-          <div class="wd-box-content bwg-flex-wrap">
+          <div class="wd-box-content wd-width-100 bwg-flex-wrap">
             <div id="bwg_tab_albums_content">
               <div class="bwg_change_gallery_type">
                     <span class="gallery_type" onClick="bwg_album_type_options('album_compact_preview')">
@@ -866,7 +866,12 @@ class OptionsView_bwg extends AdminView_bwg {
                       <label class="wd-label" for="watermark_url"><?php _e('Advertisement URL', BWG()->prefix); ?></label>
                       <div>
                         <?php
-                        $query_url = add_query_arg(array('action' => 'addImages', 'width' => '800', 'height' => '550', 'extensions' => 'jpg,jpeg,png,gif,svg', 'callback' => 'bwg_add_watermark_image'), admin_url('admin-ajax.php'));
+                        $query_url = add_query_arg(array(
+                                                     'action' => 'addImages',
+                                                     'width' => '800',
+                                                     'height' => '550',
+                                                     'callback' => 'bwg_add_watermark_image'
+                                                   ), admin_url('admin-ajax.php'));
                         $query_url = wp_nonce_url( $query_url, 'addImages', 'bwg_nonce' );
                         $query_url = add_query_arg(array('TB_iframe' => '1'), $query_url );
                         ?>
@@ -3783,6 +3788,17 @@ class OptionsView_bwg extends AdminView_bwg {
               <input <?php echo BWG()->is_pro ? '' : 'disabled="disabled"'; ?> type="radio" name="popup_enable_rate" id="popup_enable_rate_0" value="0" <?php if (!$row->popup_enable_rate) echo 'checked="checked"'; ?> /><label for="popup_enable_rate_0" class="wd-radio-label"><?php _e('No', BWG()->prefix); ?></label>
             </div>
             <p class="description"><?php _e('Allow users to rate your images by adding rating feature to Photo Gallery lightbox.', BWG()->prefix) ?></p>
+            <?php if ( !BWG()->is_pro ) { ?><p class="description spider_free_version"><?php echo BWG()->free_msg; ?></p><?php } ?>
+          </div>
+        </div>
+        <div class="wd-box-content wd-width-100 bwg-lightbox bwg-lightbox-lightbox <?php echo BWG()->is_pro ? '' : ' bwg-disabled-option'; ?>" id="tr_popup_zoom">
+          <div class="wd-group">
+            <label class="wd-label"><?php _e('Enable zoom', BWG()->prefix); ?></label>
+            <div class="bwg-flex">
+              <input <?php echo BWG()->is_pro ? '' : 'disabled="disabled"'; ?> type="radio" name="popup_enable_zoom" id="popup_enable_zoom_1" value="1" <?php if ($row->popup_enable_zoom) echo 'checked="checked"'; ?> /><label for="popup_enable_zoom_1" class="wd-radio-label"><?php _e('Yes', BWG()->prefix); ?></label>
+              <input <?php echo BWG()->is_pro ? '' : 'disabled="disabled"'; ?> type="radio" name="popup_enable_zoom" id="popup_enable_zoom_0" value="0" <?php if (!$row->popup_enable_zoom) echo 'checked="checked"'; ?> /><label for="popup_enable_zoom_0" class="wd-radio-label"><?php _e('No', BWG()->prefix); ?></label>
+            </div>
+            <p class="description"><?php _e('Allow users to zoom images in Photo Gallery lightbox.', BWG()->prefix) ?></p>
             <?php if ( !BWG()->is_pro ) { ?><p class="description spider_free_version"><?php echo BWG()->free_msg; ?></p><?php } ?>
           </div>
         </div>

@@ -281,6 +281,7 @@ class WD_BWG_Options {
   public $autohide_lightbox_navigation = 0;
   public $popup_hit_counter = 0;
   public $popup_enable_rate = 0;
+  public $popup_enable_zoom = 0;
   public $popup_enable_fullsize_image = 0;
   public $popup_enable_download = 0;
   public $show_image_counts = 0;
